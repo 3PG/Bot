@@ -56,7 +56,7 @@ export class XPCardGenerator extends ImageGenerator {
         context.fillText(rank, canvas.width / 2.5, canvas.height / 2.5);
 
         context.fillStyle = card.primary || this.colors.primary;
-        context.font = super.applyText(canvas, this.discordUser.username);        
+        context.font = super.applyText(canvas, this.discordUser.username);
         context.fillText(this.discordUser.username, canvas.width / 2.7, canvas.height / 1.6);
 
         context.fillStyle = card.tertiary || this.colors.tertiary;

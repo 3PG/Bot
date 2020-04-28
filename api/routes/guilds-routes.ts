@@ -87,7 +87,7 @@ router.get('/:id/log', async(req, res) => {
         const guild = bot.guilds.cache.get(req.params.id);
         const log = await logs.get(guild);
         res.send(log);
-    } catch { res.status(400).send('Bad Request'); }
+    } catch (error) { res.status(400).send(error); }
 });
 
 router.get('/:id/public', (req, res) => {

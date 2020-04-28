@@ -4,13 +4,21 @@ import { BadWordValidator } from './validators/bad-word.validator';
 import { BadLinkValidator } from './validators/bad-link.validator';
 import Deps from '../../utils/deps';
 import Members from '../../data/members';
+import { EmojiValidator } from './validators/emoji.validator';
+import { MassMentionValidator } from './validators/mass-mention.validator';
+import { MassCapsValidator } from './validators/mass-caps.validator';
+import { ZalgoValidator } from './validators/zalgo.validator';
 
 export default class AutoMod {
     constructor(private members = Deps.get<Members>(Members)) {}
 
     readonly validators = new Map([
         [MessageFilter.Words, BadWordValidator],
-        [MessageFilter.Links, BadLinkValidator]
+        [MessageFilter.Links, BadLinkValidator],
+        [MessageFilter.Emoji, EmojiValidator],
+        [MessageFilter.MassMention, MassMentionValidator],
+        [MessageFilter.MassCaps, MassCapsValidator],
+        [MessageFilter.Zalgo, ZalgoValidator]
     ]);
     
     async validateMsg(msg: Message, guild: GuildDocument) {
@@ -18,16 +26,13 @@ export default class AutoMod {
         for (const filter of activeFilters) {
             try {
                 const Validator = this.validators.get(filter);
-
-                Validator && new Validator().validate(msg.content, guild);
+                if (Validator)
+                    new Validator().validate(msg.content, guild);
             } catch (validation) {
-                if (guild.autoMod.autoDeleteMessages) {
+                if (guild.autoMod.autoDeleteMessages)
                     await msg.delete({ reason: validation });
-                }
-                if (guild.autoMod.autoWarnUsers && msg.member && msg.client.user) {
+                if (guild.autoMod.autoWarnUsers && msg.member && msg.client.user)
                     await this.warnMember(msg.member, msg.client.user, validation?.message);
-                }
-                throw validation;
             }
         }
     }

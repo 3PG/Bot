@@ -2,13 +2,12 @@ import { Command, CommandContext } from './Command';
 import Deps from '../utils/deps';
 import { GuildMember } from 'discord.js';
 import Music from '../modules/music/music';
-import { ModuleString } from '../models/guild';
 
 export default class PlayCommand implements Command {
     name = 'play';
     summary = 'Join and play a youtube result.';
     cooldown = 2;
-    module: ModuleString = 'Music';
+    module = 'Music';
 
     constructor(private music = Deps.get<Music>(Music)) {}
     

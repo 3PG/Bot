@@ -1,7 +1,5 @@
 import { model, Schema, Document } from 'mongoose';
 
-export type ModuleString = 'Auto-mod' | 'Announce' | 'General' | 'Music' | 'XP';
-
 export class Module {
     enabled = true;
 }
@@ -24,6 +22,7 @@ export class AutoModModule extends Module {
     filters: MessageFilter[] = [];
     banWords: string[] = [];
     banLinks: string[] = [];
+    filterThreshold = 5;
     autoWarnUsers = true;
 }
 
@@ -31,7 +30,7 @@ export class CommandsModule extends Module {
     configs: CommandConfig[] = [];
 }
 
-export enum MessageFilter { Words, Links }
+export enum MessageFilter { Words, Links, Emoji, MassMention, MassCaps, Zalgo }
 
 export class GeneralModule extends Module {
     prefix = '.';

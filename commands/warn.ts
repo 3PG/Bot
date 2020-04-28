@@ -2,13 +2,12 @@ import { Command, CommandContext } from './Command';
 import AutoMod from '../modules/auto-mod/auto-mod';
 import Deps from '../utils/deps';
 import CommandUtils from '../utils/command-utils';
-import { ModuleString } from '../models/guild';
 
 export default class WarnCommand implements Command {
     name = 'warn';
     summary = 'Warn a user and add a warning to their account.';
     cooldown = 5;
-    module: ModuleString = 'Auto-mod';
+    module = 'Auto-mod';
     
     constructor(private autoMod = Deps.get<AutoMod>(AutoMod)) {}
     

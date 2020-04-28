@@ -369,3 +369,354 @@
 2020-04-28 16:34:11.312  INFO 10328 --- [XNIO-1 I/O-3] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring disabled.
 2020-04-28 16:34:13.585  INFO 10328 --- [XNIO-1 task-4] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:64801
 2020-04-28 16:34:13.603  INFO 10328 --- [XNIO-1 task-4] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring enabled, reporting results every 2 minutes.
+2020-04-28 16:34:13.612  INFO 10328 --- [XNIO-1 task-4] lavalink.server.io.SocketServer          : Connection successfully established from /127.0.0.1:64801
+2020-04-28 16:39:32.333  INFO 10328 --- [XNIO-1 I/O-5] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:64801 -- CloseStatus[code=1006, reason=]
+2020-04-28 16:39:32.333  INFO 10328 --- [XNIO-1 I/O-5] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
+2020-04-28 16:39:32.334  INFO 10328 --- [XNIO-1 I/O-5] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring disabled.
+2020-04-28 16:39:36.589  INFO 10328 --- [XNIO-1 task-5] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:65027
+2020-04-28 16:39:36.593  INFO 10328 --- [XNIO-1 task-5] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring enabled, reporting results every 2 minutes.
+2020-04-28 16:39:36.600  INFO 10328 --- [XNIO-1 task-5] lavalink.server.io.SocketServer          : Connection successfully established from /127.0.0.1:65027
+2020-04-28 16:54:07.818  INFO 10328 --- [XNIO-1 I/O-7] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:65027 -- CloseStatus[code=1006, reason=]
+2020-04-28 16:54:07.818  INFO 10328 --- [XNIO-1 I/O-7] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
+2020-04-28 16:54:07.819  INFO 10328 --- [XNIO-1 I/O-7] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring disabled.
+2020-04-28 16:54:13.631  INFO 10328 --- [XNIO-1 task-6] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:49508
+2020-04-28 16:54:13.635  INFO 10328 --- [XNIO-1 task-6] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring enabled, reporting results every 2 minutes.
+2020-04-28 16:54:13.641  INFO 10328 --- [XNIO-1 task-6] lavalink.server.io.SocketServer          : Connection successfully established from /127.0.0.1:49508
+2020-04-28 16:54:35.054  INFO 10328 --- [XNIO-1 I/O-16] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:49508 -- CloseStatus[code=1006, reason=]
+2020-04-28 16:54:35.054  INFO 10328 --- [XNIO-1 I/O-16] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
+2020-04-28 16:54:35.055  INFO 10328 --- [XNIO-1 I/O-16] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring disabled.
+2020-04-28 16:54:39.020  INFO 10328 --- [XNIO-1 task-7] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:49537
+2020-04-28 16:54:39.024  INFO 10328 --- [XNIO-1 task-7] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring enabled, reporting results every 2 minutes.
+2020-04-28 16:54:39.030  INFO 10328 --- [XNIO-1 task-7] lavalink.server.io.SocketServer          : Connection successfully established from /127.0.0.1:49537
+2020-04-28 16:55:17.913  INFO 10328 --- [XNIO-1 I/O-5] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:49537 -- CloseStatus[code=1006, reason=]
+2020-04-28 16:55:17.913  INFO 10328 --- [XNIO-1 I/O-5] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
+2020-04-28 16:55:17.914  INFO 10328 --- [XNIO-1 I/O-5] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring disabled.
+2020-04-28 16:55:21.900  INFO 10328 --- [XNIO-1 task-8] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:49559
+2020-04-28 16:55:21.904  INFO 10328 --- [XNIO-1 task-8] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring enabled, reporting results every 2 minutes.
+2020-04-28 16:55:21.912  INFO 10328 --- [XNIO-1 task-8] lavalink.server.io.SocketServer          : Connection successfully established from /127.0.0.1:49559
+2020-04-28 16:55:42.159  INFO 10328 --- [XNIO-1 I/O-11] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:49559 -- CloseStatus[code=1006, reason=]
+2020-04-28 16:55:42.159  INFO 10328 --- [XNIO-1 I/O-11] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
+2020-04-28 16:55:42.159  INFO 10328 --- [XNIO-1 I/O-11] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring disabled.
+2020-04-28 16:55:44.303  INFO 10328 --- [XNIO-1 task-9] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:49581
+2020-04-28 16:55:44.306  INFO 10328 --- [XNIO-1 task-9] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring enabled, reporting results every 2 minutes.
+2020-04-28 16:55:44.312  INFO 10328 --- [XNIO-1 task-9] lavalink.server.io.SocketServer          : Connection successfully established from /127.0.0.1:49581
+2020-04-28 16:55:44.876  INFO 10328 --- [XNIO-1 I/O-1] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:49581 -- CloseStatus[code=1006, reason=]
+2020-04-28 16:55:44.877  INFO 10328 --- [XNIO-1 I/O-1] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
+2020-04-28 16:55:44.877  INFO 10328 --- [XNIO-1 I/O-1] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring disabled.
+2020-04-28 16:55:54.658  INFO 10328 --- [XNIO-1 task-10] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:49595
+2020-04-28 16:55:54.661  INFO 10328 --- [XNIO-1 task-10] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring enabled, reporting results every 2 minutes.
+2020-04-28 16:55:54.667  INFO 10328 --- [XNIO-1 task-10] lavalink.server.io.SocketServer          : Connection successfully established from /127.0.0.1:49595
+2020-04-28 17:08:07.230  INFO 10328 --- [XNIO-1 I/O-15] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:49595 -- CloseStatus[code=1006, reason=]
+2020-04-28 17:08:07.230  INFO 10328 --- [XNIO-1 I/O-15] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
+2020-04-28 17:08:07.231  INFO 10328 --- [XNIO-1 I/O-15] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring disabled.
+2020-04-28 17:08:09.478  INFO 10328 --- [XNIO-1 task-11] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:49751
+2020-04-28 17:08:09.481  INFO 10328 --- [XNIO-1 task-11] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring enabled, reporting results every 2 minutes.
+2020-04-28 17:08:09.487  INFO 10328 --- [XNIO-1 task-11] lavalink.server.io.SocketServer          : Connection successfully established from /127.0.0.1:49751
+2020-04-28 17:08:11.936  INFO 10328 --- [XNIO-1 I/O-11] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:49751 -- CloseStatus[code=1006, reason=]
+2020-04-28 17:08:11.937  INFO 10328 --- [XNIO-1 I/O-11] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
+2020-04-28 17:08:11.937  INFO 10328 --- [XNIO-1 I/O-11] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring disabled.
+2020-04-28 17:08:19.664  INFO 10328 --- [XNIO-1 task-12] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:49763
+2020-04-28 17:08:19.666  INFO 10328 --- [XNIO-1 task-12] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring enabled, reporting results every 2 minutes.
+2020-04-28 17:08:19.674  INFO 10328 --- [XNIO-1 task-12] lavalink.server.io.SocketServer          : Connection successfully established from /127.0.0.1:49763
+2020-04-28 17:09:43.495  INFO 10328 --- [XNIO-1 I/O-7] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:49763 -- CloseStatus[code=1006, reason=]
+2020-04-28 17:09:43.496  INFO 10328 --- [XNIO-1 I/O-7] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
+2020-04-28 17:09:43.496  INFO 10328 --- [XNIO-1 I/O-7] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring disabled.
+2020-04-28 17:09:47.174  INFO 10328 --- [XNIO-1 task-13] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:49783
+2020-04-28 17:09:47.178  INFO 10328 --- [XNIO-1 task-13] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring enabled, reporting results every 2 minutes.
+2020-04-28 17:09:47.186  INFO 10328 --- [XNIO-1 task-13] lavalink.server.io.SocketServer          : Connection successfully established from /127.0.0.1:49783
+2020-04-28 17:09:47.685  INFO 10328 --- [XNIO-1 I/O-11] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:49783 -- CloseStatus[code=1006, reason=]
+2020-04-28 17:09:47.685  INFO 10328 --- [XNIO-1 I/O-11] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
+2020-04-28 17:09:47.686  INFO 10328 --- [XNIO-1 I/O-11] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring disabled.
+2020-04-28 17:09:57.414  INFO 10328 --- [XNIO-1 task-14] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:49795
+2020-04-28 17:09:57.418  INFO 10328 --- [XNIO-1 task-14] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring enabled, reporting results every 2 minutes.
+2020-04-28 17:09:57.426  INFO 10328 --- [XNIO-1 task-14] lavalink.server.io.SocketServer          : Connection successfully established from /127.0.0.1:49795
+2020-04-28 17:14:58.475  INFO 10328 --- [XNIO-1 I/O-7] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:49795 -- CloseStatus[code=1006, reason=]
+2020-04-28 17:14:58.475  INFO 10328 --- [XNIO-1 I/O-7] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
+2020-04-28 17:14:58.476  INFO 10328 --- [XNIO-1 I/O-7] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring disabled.
+2020-04-28 17:15:00.781  INFO 10328 --- [XNIO-1 task-15] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:49854
+2020-04-28 17:15:00.784  INFO 10328 --- [XNIO-1 task-15] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring enabled, reporting results every 2 minutes.
+2020-04-28 17:15:00.790  INFO 10328 --- [XNIO-1 task-15] lavalink.server.io.SocketServer          : Connection successfully established from /127.0.0.1:49854
+2020-04-28 17:15:04.740  INFO 10328 --- [XNIO-1 I/O-10] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:49854 -- CloseStatus[code=1006, reason=]
+2020-04-28 17:15:04.741  INFO 10328 --- [XNIO-1 I/O-10] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
+2020-04-28 17:15:04.741  INFO 10328 --- [XNIO-1 I/O-10] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring disabled.
+2020-04-28 17:15:06.841  INFO 10328 --- [XNIO-1 task-16] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:49866
+2020-04-28 17:15:06.844  INFO 10328 --- [XNIO-1 task-16] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring enabled, reporting results every 2 minutes.
+2020-04-28 17:15:06.852  INFO 10328 --- [XNIO-1 task-16] lavalink.server.io.SocketServer          : Connection successfully established from /127.0.0.1:49866
+2020-04-28 17:16:30.586  INFO 10328 --- [XNIO-1 I/O-6] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:49866 -- CloseStatus[code=1006, reason=]
+2020-04-28 17:16:30.586  INFO 10328 --- [XNIO-1 I/O-6] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
+2020-04-28 17:16:30.587  INFO 10328 --- [XNIO-1 I/O-6] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring disabled.
+2020-04-28 17:16:32.701  INFO 10328 --- [XNIO-1 task-17] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:49891
+2020-04-28 17:16:32.705  INFO 10328 --- [XNIO-1 task-17] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring enabled, reporting results every 2 minutes.
+2020-04-28 17:16:32.712  INFO 10328 --- [XNIO-1 task-17] lavalink.server.io.SocketServer          : Connection successfully established from /127.0.0.1:49891
+2020-04-28 17:25:29.735  INFO 10328 --- [XNIO-1 I/O-7] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:49891 -- CloseStatus[code=1006, reason=]
+2020-04-28 17:25:29.735  INFO 10328 --- [XNIO-1 I/O-7] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
+2020-04-28 17:25:29.736  INFO 10328 --- [XNIO-1 I/O-7] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring disabled.
+2020-04-28 17:35:21.598  INFO 10328 --- [XNIO-1 task-18] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:50342
+2020-04-28 17:35:21.601  INFO 10328 --- [XNIO-1 task-18] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring enabled, reporting results every 2 minutes.
+2020-04-28 17:35:21.607  INFO 10328 --- [XNIO-1 task-18] lavalink.server.io.SocketServer          : Connection successfully established from /127.0.0.1:50342
+2020-04-28 17:36:11.002  INFO 10328 --- [XNIO-1 I/O-2] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:50342 -- CloseStatus[code=1006, reason=]
+2020-04-28 17:36:11.002  INFO 10328 --- [XNIO-1 I/O-2] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
+2020-04-28 17:36:11.003  INFO 10328 --- [XNIO-1 I/O-2] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring disabled.
+2020-04-28 17:36:14.407  INFO 10328 --- [XNIO-1 task-19] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:50359
+2020-04-28 17:36:14.411  INFO 10328 --- [XNIO-1 task-19] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring enabled, reporting results every 2 minutes.
+2020-04-28 17:36:14.419  INFO 10328 --- [XNIO-1 task-19] lavalink.server.io.SocketServer          : Connection successfully established from /127.0.0.1:50359
+2020-04-28 17:36:46.173  INFO 10328 --- [XNIO-1 I/O-11] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:50359 -- CloseStatus[code=1006, reason=]
+2020-04-28 17:36:46.173  INFO 10328 --- [XNIO-1 I/O-11] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
+2020-04-28 17:36:46.174  INFO 10328 --- [XNIO-1 I/O-11] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring disabled.
+2020-04-28 17:36:48.381  INFO 10328 --- [XNIO-1 task-20] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:50374
+2020-04-28 17:36:48.384  INFO 10328 --- [XNIO-1 task-20] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring enabled, reporting results every 2 minutes.
+2020-04-28 17:36:48.392  INFO 10328 --- [XNIO-1 task-20] lavalink.server.io.SocketServer          : Connection successfully established from /127.0.0.1:50374
+2020-04-28 17:53:24.673  INFO 10328 --- [XNIO-1 I/O-2] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:50374 -- CloseStatus[code=1006, reason=]
+2020-04-28 17:53:24.673  INFO 10328 --- [XNIO-1 I/O-2] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
+2020-04-28 17:53:24.674  INFO 10328 --- [XNIO-1 I/O-2] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring disabled.
+2020-04-28 17:53:26.959  INFO 10328 --- [XNIO-1 task-21] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:50696
+2020-04-28 17:53:26.963  INFO 10328 --- [XNIO-1 task-21] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring enabled, reporting results every 2 minutes.
+2020-04-28 17:53:26.973  INFO 10328 --- [XNIO-1 task-21] lavalink.server.io.SocketServer          : Connection successfully established from /127.0.0.1:50696
+2020-04-28 17:54:21.712  INFO 10328 --- [XNIO-1 I/O-4] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:50696 -- CloseStatus[code=1006, reason=]
+2020-04-28 17:54:21.713  INFO 10328 --- [XNIO-1 I/O-4] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
+2020-04-28 17:54:21.713  INFO 10328 --- [XNIO-1 I/O-4] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring disabled.
+2020-04-28 17:54:25.221  INFO 10328 --- [XNIO-1 task-22] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:50717
+2020-04-28 17:54:25.224  INFO 10328 --- [XNIO-1 task-22] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring enabled, reporting results every 2 minutes.
+2020-04-28 17:54:25.231  INFO 10328 --- [XNIO-1 task-22] lavalink.server.io.SocketServer          : Connection successfully established from /127.0.0.1:50717
+2020-04-28 17:54:42.788  INFO 10328 --- [XNIO-1 I/O-1] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:50717 -- CloseStatus[code=1006, reason=]
+2020-04-28 17:54:42.788  INFO 10328 --- [XNIO-1 I/O-1] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
+2020-04-28 17:54:42.789  INFO 10328 --- [XNIO-1 I/O-1] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring disabled.
+2020-04-28 17:54:46.161  INFO 10328 --- [XNIO-1 task-23] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:50729
+2020-04-28 17:54:46.162  INFO 10328 --- [XNIO-1 task-23] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring enabled, reporting results every 2 minutes.
+2020-04-28 17:54:46.169  INFO 10328 --- [XNIO-1 task-23] lavalink.server.io.SocketServer          : Connection successfully established from /127.0.0.1:50729
+2020-04-28 17:56:16.246  INFO 10328 --- [XNIO-1 I/O-13] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:50729 -- CloseStatus[code=1006, reason=]
+2020-04-28 17:56:16.247  INFO 10328 --- [XNIO-1 I/O-13] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
+2020-04-28 17:56:16.247  INFO 10328 --- [XNIO-1 I/O-13] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring disabled.
+2020-04-28 17:56:19.737  INFO 10328 --- [XNIO-1 task-24] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:50771
+2020-04-28 17:56:19.740  INFO 10328 --- [XNIO-1 task-24] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring enabled, reporting results every 2 minutes.
+2020-04-28 17:56:19.748  INFO 10328 --- [XNIO-1 task-24] lavalink.server.io.SocketServer          : Connection successfully established from /127.0.0.1:50771
+2020-04-28 17:56:36.689  INFO 10328 --- [XNIO-1 I/O-7] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:50771 -- CloseStatus[code=1006, reason=]
+2020-04-28 17:56:36.689  INFO 10328 --- [XNIO-1 I/O-7] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
+2020-04-28 17:56:36.690  INFO 10328 --- [XNIO-1 I/O-7] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring disabled.
+2020-04-28 17:58:50.086  INFO 10328 --- [XNIO-1 task-25] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:50816
+2020-04-28 17:58:50.090  INFO 10328 --- [XNIO-1 task-25] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring enabled, reporting results every 2 minutes.
+2020-04-28 17:58:50.097  INFO 10328 --- [XNIO-1 task-25] lavalink.server.io.SocketServer          : Connection successfully established from /127.0.0.1:50816
+2020-04-28 18:00:20.331  INFO 10328 --- [XNIO-1 I/O-12] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:50816 -- CloseStatus[code=1006, reason=]
+2020-04-28 18:00:20.332  INFO 10328 --- [XNIO-1 I/O-12] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
+2020-04-28 18:00:20.332  INFO 10328 --- [XNIO-1 I/O-12] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring disabled.
+2020-04-28 18:00:23.870  INFO 10328 --- [XNIO-1 task-26] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:50842
+2020-04-28 18:00:23.873  INFO 10328 --- [XNIO-1 task-26] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring enabled, reporting results every 2 minutes.
+2020-04-28 18:00:23.880  INFO 10328 --- [XNIO-1 task-26] lavalink.server.io.SocketServer          : Connection successfully established from /127.0.0.1:50842
+2020-04-28 18:01:26.603  INFO 10328 --- [XNIO-1 I/O-6] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:50842 -- CloseStatus[code=1006, reason=]
+2020-04-28 18:01:26.603  INFO 10328 --- [XNIO-1 I/O-6] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
+2020-04-28 18:01:26.604  INFO 10328 --- [XNIO-1 I/O-6] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring disabled.
+2020-04-28 18:01:30.247  INFO 10328 --- [XNIO-1 task-27] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:50873
+2020-04-28 18:01:30.250  INFO 10328 --- [XNIO-1 task-27] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring enabled, reporting results every 2 minutes.
+2020-04-28 18:01:30.256  INFO 10328 --- [XNIO-1 task-27] lavalink.server.io.SocketServer          : Connection successfully established from /127.0.0.1:50873
+2020-04-28 18:01:59.531  INFO 10328 --- [XNIO-1 I/O-13] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:50873 -- CloseStatus[code=1006, reason=]
+2020-04-28 18:01:59.531  INFO 10328 --- [XNIO-1 I/O-13] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
+2020-04-28 18:01:59.531  INFO 10328 --- [XNIO-1 I/O-13] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring disabled.
+2020-04-28 18:02:01.731  INFO 10328 --- [XNIO-1 task-28] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:50886
+2020-04-28 18:02:01.734  INFO 10328 --- [XNIO-1 task-28] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring enabled, reporting results every 2 minutes.
+2020-04-28 18:02:01.740  INFO 10328 --- [XNIO-1 task-28] lavalink.server.io.SocketServer          : Connection successfully established from /127.0.0.1:50886
+2020-04-28 18:02:04.938  INFO 10328 --- [XNIO-1 I/O-2] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:50886 -- CloseStatus[code=1006, reason=]
+2020-04-28 18:02:04.938  INFO 10328 --- [XNIO-1 I/O-2] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
+2020-04-28 18:02:04.939  INFO 10328 --- [XNIO-1 I/O-2] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring disabled.
+2020-04-28 18:02:07.103  INFO 10328 --- [XNIO-1 task-29] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:50899
+2020-04-28 18:02:07.105  INFO 10328 --- [XNIO-1 task-29] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring enabled, reporting results every 2 minutes.
+2020-04-28 18:02:07.113  INFO 10328 --- [XNIO-1 task-29] lavalink.server.io.SocketServer          : Connection successfully established from /127.0.0.1:50899
+2020-04-28 18:02:19.827  INFO 10328 --- [XNIO-1 I/O-7] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:50899 -- CloseStatus[code=1006, reason=]
+2020-04-28 18:02:19.828  INFO 10328 --- [XNIO-1 I/O-7] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
+2020-04-28 18:02:19.828  INFO 10328 --- [XNIO-1 I/O-7] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring disabled.
+2020-04-28 18:02:22.000  INFO 10328 --- [XNIO-1 task-30] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:50910
+2020-04-28 18:02:22.002  INFO 10328 --- [XNIO-1 task-30] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring enabled, reporting results every 2 minutes.
+2020-04-28 18:02:22.008  INFO 10328 --- [XNIO-1 task-30] lavalink.server.io.SocketServer          : Connection successfully established from /127.0.0.1:50910
+2020-04-28 18:02:33.274  INFO 10328 --- [XNIO-1 I/O-10] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:50910 -- CloseStatus[code=1006, reason=]
+2020-04-28 18:02:33.274  INFO 10328 --- [XNIO-1 I/O-10] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
+2020-04-28 18:02:33.275  INFO 10328 --- [XNIO-1 I/O-10] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring disabled.
+2020-04-28 18:02:42.374  INFO 10328 --- [XNIO-1 task-31] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:50934
+2020-04-28 18:02:42.377  INFO 10328 --- [XNIO-1 task-31] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring enabled, reporting results every 2 minutes.
+2020-04-28 18:02:42.383  INFO 10328 --- [XNIO-1 task-31] lavalink.server.io.SocketServer          : Connection successfully established from /127.0.0.1:50934
+2020-04-28 18:03:24.175  INFO 10328 --- [XNIO-1 I/O-2] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:50934 -- CloseStatus[code=1006, reason=]
+2020-04-28 18:03:24.175  INFO 10328 --- [XNIO-1 I/O-2] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
+2020-04-28 18:03:24.176  INFO 10328 --- [XNIO-1 I/O-2] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring disabled.
+2020-04-28 18:03:27.724  INFO 10328 --- [XNIO-1 task-32] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:50954
+2020-04-28 18:03:27.728  INFO 10328 --- [XNIO-1 task-32] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring enabled, reporting results every 2 minutes.
+2020-04-28 18:03:27.736  INFO 10328 --- [XNIO-1 task-32] lavalink.server.io.SocketServer          : Connection successfully established from /127.0.0.1:50954
+2020-04-28 18:03:40.871  INFO 10328 --- [XNIO-1 I/O-6] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:50954 -- CloseStatus[code=1006, reason=]
+2020-04-28 18:03:40.871  INFO 10328 --- [XNIO-1 I/O-6] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
+2020-04-28 18:03:40.872  INFO 10328 --- [XNIO-1 I/O-6] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring disabled.
+2020-04-28 18:03:42.995  INFO 10328 --- [XNIO-1 task-33] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:50968
+2020-04-28 18:03:42.998  INFO 10328 --- [XNIO-1 task-33] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring enabled, reporting results every 2 minutes.
+2020-04-28 18:03:43.007  INFO 10328 --- [XNIO-1 task-33] lavalink.server.io.SocketServer          : Connection successfully established from /127.0.0.1:50968
+2020-04-28 18:03:46.552  INFO 10328 --- [XNIO-1 I/O-4] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:50968 -- CloseStatus[code=1006, reason=]
+2020-04-28 18:03:46.553  INFO 10328 --- [XNIO-1 I/O-4] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
+2020-04-28 18:03:46.553  INFO 10328 --- [XNIO-1 I/O-4] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring disabled.
+2020-04-28 18:03:48.681  INFO 10328 --- [XNIO-1 task-34] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:50980
+2020-04-28 18:03:48.683  INFO 10328 --- [XNIO-1 task-34] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring enabled, reporting results every 2 minutes.
+2020-04-28 18:03:48.689  INFO 10328 --- [XNIO-1 task-34] lavalink.server.io.SocketServer          : Connection successfully established from /127.0.0.1:50980
+2020-04-28 18:03:48.748  INFO 10328 --- [XNIO-1 I/O-16] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:50980 -- CloseStatus[code=1006, reason=]
+2020-04-28 18:03:48.749  INFO 10328 --- [XNIO-1 I/O-16] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
+2020-04-28 18:03:48.749  INFO 10328 --- [XNIO-1 I/O-16] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring disabled.
+2020-04-28 18:03:59.027  INFO 10328 --- [XNIO-1 task-35] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:50993
+2020-04-28 18:03:59.029  INFO 10328 --- [XNIO-1 task-35] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring enabled, reporting results every 2 minutes.
+2020-04-28 18:03:59.035  INFO 10328 --- [XNIO-1 task-35] lavalink.server.io.SocketServer          : Connection successfully established from /127.0.0.1:50993
+2020-04-28 18:04:29.007  INFO 10328 --- [XNIO-1 I/O-5] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:50993 -- CloseStatus[code=1006, reason=]
+2020-04-28 18:04:29.007  INFO 10328 --- [XNIO-1 I/O-5] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
+2020-04-28 18:04:29.007  INFO 10328 --- [XNIO-1 I/O-5] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring disabled.
+2020-04-28 18:04:31.127  INFO 10328 --- [XNIO-1 task-36] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:51007
+2020-04-28 18:04:31.130  INFO 10328 --- [XNIO-1 task-36] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring enabled, reporting results every 2 minutes.
+2020-04-28 18:04:31.136  INFO 10328 --- [XNIO-1 task-36] lavalink.server.io.SocketServer          : Connection successfully established from /127.0.0.1:51007
+2020-04-28 18:05:16.244  INFO 10328 --- [XNIO-1 I/O-3] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:51007 -- CloseStatus[code=1006, reason=]
+2020-04-28 18:05:16.244  INFO 10328 --- [XNIO-1 I/O-3] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
+2020-04-28 18:05:16.244  INFO 10328 --- [XNIO-1 I/O-3] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring disabled.
+2020-04-28 18:05:18.773  INFO 10328 --- [XNIO-1 task-37] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:51024
+2020-04-28 18:05:18.777  INFO 10328 --- [XNIO-1 task-37] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring enabled, reporting results every 2 minutes.
+2020-04-28 18:05:18.784  INFO 10328 --- [XNIO-1 task-37] lavalink.server.io.SocketServer          : Connection successfully established from /127.0.0.1:51024
+2020-04-28 18:05:41.833  INFO 10328 --- [XNIO-1 I/O-12] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:51024 -- CloseStatus[code=1006, reason=]
+2020-04-28 18:05:41.834  INFO 10328 --- [XNIO-1 I/O-12] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
+2020-04-28 18:05:41.834  INFO 10328 --- [XNIO-1 I/O-12] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring disabled.
+2020-04-28 18:05:43.955  INFO 10328 --- [XNIO-1 task-38] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:51046
+2020-04-28 18:05:43.957  INFO 10328 --- [XNIO-1 task-38] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring enabled, reporting results every 2 minutes.
+2020-04-28 18:05:43.963  INFO 10328 --- [XNIO-1 task-38] lavalink.server.io.SocketServer          : Connection successfully established from /127.0.0.1:51046
+2020-04-28 18:05:50.660  INFO 10328 --- [XNIO-1 I/O-2] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:51046 -- CloseStatus[code=1006, reason=]
+2020-04-28 18:05:50.661  INFO 10328 --- [XNIO-1 I/O-2] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
+2020-04-28 18:05:50.661  INFO 10328 --- [XNIO-1 I/O-2] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring disabled.
+2020-04-28 18:05:52.839  INFO 10328 --- [XNIO-1 task-39] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:51059
+2020-04-28 18:05:52.842  INFO 10328 --- [XNIO-1 task-39] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring enabled, reporting results every 2 minutes.
+2020-04-28 18:05:52.849  INFO 10328 --- [XNIO-1 task-39] lavalink.server.io.SocketServer          : Connection successfully established from /127.0.0.1:51059
+2020-04-28 18:06:00.843  INFO 10328 --- [XNIO-1 I/O-7] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:51059 -- CloseStatus[code=1006, reason=]
+2020-04-28 18:06:00.844  INFO 10328 --- [XNIO-1 I/O-7] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
+2020-04-28 18:06:00.844  INFO 10328 --- [XNIO-1 I/O-7] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring disabled.
+2020-04-28 18:06:04.331  INFO 10328 --- [XNIO-1 task-40] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:51088
+2020-04-28 18:06:04.333  INFO 10328 --- [XNIO-1 task-40] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring enabled, reporting results every 2 minutes.
+2020-04-28 18:06:04.339  INFO 10328 --- [XNIO-1 task-40] lavalink.server.io.SocketServer          : Connection successfully established from /127.0.0.1:51088
+2020-04-28 18:06:36.643  INFO 10328 --- [XNIO-1 I/O-12] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:51088 -- CloseStatus[code=1006, reason=]
+2020-04-28 18:06:36.643  INFO 10328 --- [XNIO-1 I/O-12] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
+2020-04-28 18:06:36.644  INFO 10328 --- [XNIO-1 I/O-12] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring disabled.
+2020-04-28 18:06:38.798  INFO 10328 --- [XNIO-1 task-41] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:51103
+2020-04-28 18:06:38.800  INFO 10328 --- [XNIO-1 task-41] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring enabled, reporting results every 2 minutes.
+2020-04-28 18:06:38.806  INFO 10328 --- [XNIO-1 task-41] lavalink.server.io.SocketServer          : Connection successfully established from /127.0.0.1:51103
+2020-04-28 18:06:41.269  INFO 10328 --- [XNIO-1 I/O-3] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:51103 -- CloseStatus[code=1006, reason=]
+2020-04-28 18:06:41.269  INFO 10328 --- [XNIO-1 I/O-3] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
+2020-04-28 18:06:41.269  INFO 10328 --- [XNIO-1 I/O-3] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring disabled.
+2020-04-28 18:06:46.298  INFO 10328 --- [XNIO-1 task-42] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:51121
+2020-04-28 18:06:46.301  INFO 10328 --- [XNIO-1 task-42] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring enabled, reporting results every 2 minutes.
+2020-04-28 18:06:46.306  INFO 10328 --- [XNIO-1 task-42] lavalink.server.io.SocketServer          : Connection successfully established from /127.0.0.1:51121
+2020-04-28 18:07:27.504  INFO 10328 --- [XNIO-1 I/O-5] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:51121 -- CloseStatus[code=1006, reason=]
+2020-04-28 18:07:27.504  INFO 10328 --- [XNIO-1 I/O-5] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
+2020-04-28 18:07:27.505  INFO 10328 --- [XNIO-1 I/O-5] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring disabled.
+2020-04-28 18:07:31.271  INFO 10328 --- [XNIO-1 task-43] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:51139
+2020-04-28 18:07:31.274  INFO 10328 --- [XNIO-1 task-43] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring enabled, reporting results every 2 minutes.
+2020-04-28 18:07:31.282  INFO 10328 --- [XNIO-1 task-43] lavalink.server.io.SocketServer          : Connection successfully established from /127.0.0.1:51139
+2020-04-28 18:08:55.356  INFO 10328 --- [XNIO-1 I/O-7] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:51139 -- CloseStatus[code=1006, reason=]
+2020-04-28 18:08:55.357  INFO 10328 --- [XNIO-1 I/O-7] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
+2020-04-28 18:08:55.357  INFO 10328 --- [XNIO-1 I/O-7] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring disabled.
+2020-04-28 18:08:57.418  INFO 10328 --- [XNIO-1 task-44] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:51162
+2020-04-28 18:08:57.421  INFO 10328 --- [XNIO-1 task-44] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring enabled, reporting results every 2 minutes.
+2020-04-28 18:08:57.427  INFO 10328 --- [XNIO-1 task-44] lavalink.server.io.SocketServer          : Connection successfully established from /127.0.0.1:51162
+2020-04-28 18:09:05.277  INFO 10328 --- [XNIO-1 I/O-6] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:51162 -- CloseStatus[code=1006, reason=]
+2020-04-28 18:09:05.277  INFO 10328 --- [XNIO-1 I/O-6] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
+2020-04-28 18:09:05.277  INFO 10328 --- [XNIO-1 I/O-6] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring disabled.
+2020-04-28 18:09:07.480  INFO 10328 --- [XNIO-1 task-45] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:51173
+2020-04-28 18:09:07.482  INFO 10328 --- [XNIO-1 task-45] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring enabled, reporting results every 2 minutes.
+2020-04-28 18:09:07.489  INFO 10328 --- [XNIO-1 task-45] lavalink.server.io.SocketServer          : Connection successfully established from /127.0.0.1:51173
+2020-04-28 18:09:25.083  INFO 10328 --- [XNIO-1 I/O-9] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:51173 -- CloseStatus[code=1006, reason=]
+2020-04-28 18:09:25.084  INFO 10328 --- [XNIO-1 I/O-9] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
+2020-04-28 18:09:25.084  INFO 10328 --- [XNIO-1 I/O-9] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring disabled.
+2020-04-28 18:09:27.248  INFO 10328 --- [XNIO-1 task-46] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:51186
+2020-04-28 18:09:27.250  INFO 10328 --- [XNIO-1 task-46] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring enabled, reporting results every 2 minutes.
+2020-04-28 18:09:27.256  INFO 10328 --- [XNIO-1 task-46] lavalink.server.io.SocketServer          : Connection successfully established from /127.0.0.1:51186
+2020-04-28 18:10:08.554  INFO 10328 --- [XNIO-1 I/O-14] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:51186 -- CloseStatus[code=1006, reason=]
+2020-04-28 18:10:08.555  INFO 10328 --- [XNIO-1 I/O-14] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
+2020-04-28 18:10:08.555  INFO 10328 --- [XNIO-1 I/O-14] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring disabled.
+2020-04-28 18:10:10.706  INFO 10328 --- [XNIO-1 task-47] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:51201
+2020-04-28 18:10:10.709  INFO 10328 --- [XNIO-1 task-47] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring enabled, reporting results every 2 minutes.
+2020-04-28 18:10:10.715  INFO 10328 --- [XNIO-1 task-47] lavalink.server.io.SocketServer          : Connection successfully established from /127.0.0.1:51201
+2020-04-28 18:15:18.390  INFO 10328 --- [XNIO-1 I/O-5] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:51201 -- CloseStatus[code=1006, reason=]
+2020-04-28 18:15:18.390  INFO 10328 --- [XNIO-1 I/O-5] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
+2020-04-28 18:15:18.391  INFO 10328 --- [XNIO-1 I/O-5] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring disabled.
+2020-04-28 18:15:20.547  INFO 10328 --- [XNIO-1 task-48] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:51404
+2020-04-28 18:15:20.550  INFO 10328 --- [XNIO-1 task-48] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring enabled, reporting results every 2 minutes.
+2020-04-28 18:15:20.555  INFO 10328 --- [XNIO-1 task-48] lavalink.server.io.SocketServer          : Connection successfully established from /127.0.0.1:51404
+2020-04-28 18:15:37.502  INFO 10328 --- [XNIO-1 I/O-8] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:51404 -- CloseStatus[code=1006, reason=]
+2020-04-28 18:15:37.503  INFO 10328 --- [XNIO-1 I/O-8] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
+2020-04-28 18:15:37.503  INFO 10328 --- [XNIO-1 I/O-8] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring disabled.
+2020-04-28 18:15:39.658  INFO 10328 --- [XNIO-1 task-49] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:51427
+2020-04-28 18:15:39.660  INFO 10328 --- [XNIO-1 task-49] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring enabled, reporting results every 2 minutes.
+2020-04-28 18:15:39.668  INFO 10328 --- [XNIO-1 task-49] lavalink.server.io.SocketServer          : Connection successfully established from /127.0.0.1:51427
+2020-04-28 18:15:43.851  INFO 10328 --- [XNIO-1 I/O-7] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:51427 -- CloseStatus[code=1006, reason=]
+2020-04-28 18:15:43.851  INFO 10328 --- [XNIO-1 I/O-7] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
+2020-04-28 18:15:43.852  INFO 10328 --- [XNIO-1 I/O-7] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring disabled.
+2020-04-28 18:15:45.976  INFO 10328 --- [XNIO-1 task-50] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:51442
+2020-04-28 18:15:45.978  INFO 10328 --- [XNIO-1 task-50] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring enabled, reporting results every 2 minutes.
+2020-04-28 18:15:45.985  INFO 10328 --- [XNIO-1 task-50] lavalink.server.io.SocketServer          : Connection successfully established from /127.0.0.1:51442
+2020-04-28 18:15:50.284  INFO 10328 --- [XNIO-1 I/O-14] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:51442 -- CloseStatus[code=1006, reason=]
+2020-04-28 18:15:50.284  INFO 10328 --- [XNIO-1 I/O-14] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
+2020-04-28 18:15:50.285  INFO 10328 --- [XNIO-1 I/O-14] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring disabled.
+2020-04-28 18:15:52.470  INFO 10328 --- [XNIO-1 task-51] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:51456
+2020-04-28 18:15:52.472  INFO 10328 --- [XNIO-1 task-51] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring enabled, reporting results every 2 minutes.
+2020-04-28 18:15:52.478  INFO 10328 --- [XNIO-1 task-51] lavalink.server.io.SocketServer          : Connection successfully established from /127.0.0.1:51456
+2020-04-28 18:15:57.340  INFO 10328 --- [XNIO-1 I/O-12] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:51456 -- CloseStatus[code=1006, reason=]
+2020-04-28 18:15:57.341  INFO 10328 --- [XNIO-1 I/O-12] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
+2020-04-28 18:15:57.341  INFO 10328 --- [XNIO-1 I/O-12] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring disabled.
+2020-04-28 18:21:22.666  INFO 10328 --- [XNIO-1 task-52] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:51716
+2020-04-28 18:21:22.669  INFO 10328 --- [XNIO-1 task-52] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring enabled, reporting results every 2 minutes.
+2020-04-28 18:21:22.676  INFO 10328 --- [XNIO-1 task-52] lavalink.server.io.SocketServer          : Connection successfully established from /127.0.0.1:51716
+2020-04-28 18:21:35.168  INFO 10328 --- [XNIO-1 I/O-16] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:51716 -- CloseStatus[code=1006, reason=]
+2020-04-28 18:21:35.168  INFO 10328 --- [XNIO-1 I/O-16] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
+2020-04-28 18:21:35.169  INFO 10328 --- [XNIO-1 I/O-16] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring disabled.
+2020-04-28 18:21:38.553  INFO 10328 --- [XNIO-1 task-53] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:51737
+2020-04-28 18:21:38.555  INFO 10328 --- [XNIO-1 task-53] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring enabled, reporting results every 2 minutes.
+2020-04-28 18:21:38.560  INFO 10328 --- [XNIO-1 task-53] lavalink.server.io.SocketServer          : Connection successfully established from /127.0.0.1:51737
+2020-04-28 18:21:58.182  INFO 10328 --- [XNIO-1 I/O-13] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:51737 -- CloseStatus[code=1006, reason=]
+2020-04-28 18:21:58.182  INFO 10328 --- [XNIO-1 I/O-13] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
+2020-04-28 18:21:58.183  INFO 10328 --- [XNIO-1 I/O-13] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring disabled.
+2020-04-28 18:22:01.537  INFO 10328 --- [XNIO-1 task-54] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:51766
+2020-04-28 18:22:01.541  INFO 10328 --- [XNIO-1 task-54] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring enabled, reporting results every 2 minutes.
+2020-04-28 18:22:01.549  INFO 10328 --- [XNIO-1 task-54] lavalink.server.io.SocketServer          : Connection successfully established from /127.0.0.1:51766
+2020-04-28 18:22:19.368  INFO 10328 --- [XNIO-1 I/O-2] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:51766 -- CloseStatus[code=1006, reason=]
+2020-04-28 18:22:19.368  INFO 10328 --- [XNIO-1 I/O-2] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
+2020-04-28 18:22:19.369  INFO 10328 --- [XNIO-1 I/O-2] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring disabled.
+2020-04-28 18:22:22.751  INFO 10328 --- [XNIO-1 task-55] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:51788
+2020-04-28 18:22:22.753  INFO 10328 --- [XNIO-1 task-55] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring enabled, reporting results every 2 minutes.
+2020-04-28 18:22:22.766  INFO 10328 --- [XNIO-1 task-55] lavalink.server.io.SocketServer          : Connection successfully established from /127.0.0.1:51788
+2020-04-28 18:22:24.229  INFO 10328 --- [XNIO-1 I/O-8] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:51788 -- CloseStatus[code=1006, reason=]
+2020-04-28 18:22:24.229  INFO 10328 --- [XNIO-1 I/O-8] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
+2020-04-28 18:22:24.229  INFO 10328 --- [XNIO-1 I/O-8] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring disabled.
+2020-04-28 18:22:33.001  INFO 10328 --- [XNIO-1 task-56] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:51804
+2020-04-28 18:22:33.005  INFO 10328 --- [XNIO-1 task-56] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring enabled, reporting results every 2 minutes.
+2020-04-28 18:22:33.013  INFO 10328 --- [XNIO-1 task-56] lavalink.server.io.SocketServer          : Connection successfully established from /127.0.0.1:51804
+2020-04-28 18:22:44.217  INFO 10328 --- [XNIO-1 I/O-8] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:51804 -- CloseStatus[code=1006, reason=]
+2020-04-28 18:22:44.217  INFO 10328 --- [XNIO-1 I/O-8] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
+2020-04-28 18:22:44.218  INFO 10328 --- [XNIO-1 I/O-8] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring disabled.
+2020-04-28 18:22:46.314  INFO 10328 --- [XNIO-1 task-57] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:51825
+2020-04-28 18:22:46.316  INFO 10328 --- [XNIO-1 task-57] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring enabled, reporting results every 2 minutes.
+2020-04-28 18:22:46.324  INFO 10328 --- [XNIO-1 task-57] lavalink.server.io.SocketServer          : Connection successfully established from /127.0.0.1:51825
+2020-04-28 18:23:01.037  INFO 10328 --- [XNIO-1 I/O-5] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:51825 -- CloseStatus[code=1006, reason=]
+2020-04-28 18:23:01.037  INFO 10328 --- [XNIO-1 I/O-5] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
+2020-04-28 18:23:01.038  INFO 10328 --- [XNIO-1 I/O-5] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring disabled.
+2020-04-28 18:23:03.088  INFO 10328 --- [XNIO-1 task-58] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:51847
+2020-04-28 18:23:03.090  INFO 10328 --- [XNIO-1 task-58] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring enabled, reporting results every 2 minutes.
+2020-04-28 18:23:03.098  INFO 10328 --- [XNIO-1 task-58] lavalink.server.io.SocketServer          : Connection successfully established from /127.0.0.1:51847
+2020-04-28 18:23:18.480  INFO 10328 --- [XNIO-1 I/O-11] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:51847 -- CloseStatus[code=1006, reason=]
+2020-04-28 18:23:18.480  INFO 10328 --- [XNIO-1 I/O-11] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
+2020-04-28 18:23:18.481  INFO 10328 --- [XNIO-1 I/O-11] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring disabled.
+2020-04-28 18:23:20.667  INFO 10328 --- [XNIO-1 task-59] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:51884
+2020-04-28 18:23:20.669  INFO 10328 --- [XNIO-1 task-59] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring enabled, reporting results every 2 minutes.
+2020-04-28 18:23:20.675  INFO 10328 --- [XNIO-1 task-59] lavalink.server.io.SocketServer          : Connection successfully established from /127.0.0.1:51884
+2020-04-28 18:23:24.439  INFO 10328 --- [XNIO-1 I/O-8] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:51884 -- CloseStatus[code=1006, reason=]
+2020-04-28 18:23:24.439  INFO 10328 --- [XNIO-1 I/O-8] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
+2020-04-28 18:23:24.459  INFO 10328 --- [XNIO-1 I/O-8] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring disabled.
+2020-04-28 18:23:26.541  INFO 10328 --- [XNIO-1 task-60] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:51895
+2020-04-28 18:23:26.543  INFO 10328 --- [XNIO-1 task-60] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring enabled, reporting results every 2 minutes.
+2020-04-28 18:23:26.551  INFO 10328 --- [XNIO-1 task-60] lavalink.server.io.SocketServer          : Connection successfully established from /127.0.0.1:51895
+2020-04-28 18:23:27.280  INFO 10328 --- [XNIO-1 I/O-11] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:51895 -- CloseStatus[code=1006, reason=]
+2020-04-28 18:23:27.281  INFO 10328 --- [XNIO-1 I/O-11] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
+2020-04-28 18:23:27.281  INFO 10328 --- [XNIO-1 I/O-11] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring disabled.
+2020-04-28 18:23:36.886  INFO 10328 --- [XNIO-1 task-61] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:51909
+2020-04-28 18:23:36.888  INFO 10328 --- [XNIO-1 task-61] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring enabled, reporting results every 2 minutes.
+2020-04-28 18:23:36.894  INFO 10328 --- [XNIO-1 task-61] lavalink.server.io.SocketServer          : Connection successfully established from /127.0.0.1:51909
+2020-04-28 18:28:15.918  INFO 10328 --- [XNIO-1 I/O-9] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:51909 -- CloseStatus[code=1006, reason=]
+2020-04-28 18:28:15.918  INFO 10328 --- [XNIO-1 I/O-9] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
+2020-04-28 18:28:15.919  INFO 10328 --- [XNIO-1 I/O-9] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring disabled.
+2020-04-28 18:28:21.243  INFO 10328 --- [XNIO-1 task-62] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:52115
+2020-04-28 18:28:21.247  INFO 10328 --- [XNIO-1 task-62] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring enabled, reporting results every 2 minutes.
+2020-04-28 18:28:21.256  INFO 10328 --- [XNIO-1 task-62] lavalink.server.io.SocketServer          : Connection successfully established from /127.0.0.1:52115
+2020-04-28 20:06:19.203  WARN 10328 --- [lava-daemon-pool-manager-3-thread-1] c.s.d.l.tools.GarbageCollectionMonitor   : Suspicious GC results for the last 2 minutes: [Bucket 0 = 1] [Bucket 20 = 0] [Bucket 50 = 2] [Bucket 200 = 2] [Bucket 500 = 0] [Bucket 2000 = 0] 
+2020-04-28 20:06:21.009  WARN 10328 --- [lava-daemon-pool-manager-251-thread-1] c.s.d.l.tools.GarbageCollectionMonitor   : Suspicious GC results for the last 2 minutes: [Bucket 0 = 1] [Bucket 20 = 0] [Bucket 50 = 2] [Bucket 200 = 2] [Bucket 500 = 0] [Bucket 2000 = 0] 
