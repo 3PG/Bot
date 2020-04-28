@@ -13,6 +13,6 @@ export default class ReadyHandler implements EventHandler {
         Log.info(`It's live!`, `events`);
         
         this.music.initialize();
-        bot.user?.setActivity('2pg.xyz');
+        bot.user?.setActivity('3PG.xyz');
     }
 }
