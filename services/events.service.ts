@@ -20,9 +20,9 @@ export default class EventsService {
     ];
 
     constructor() {
-        for (const handler of this.handlers) {
+        for (const handler of this.handlers)
             bot.on(handler.on, handler.invoke.bind(handler));
-        }
+            
         Log.info(`Loaded: ${this.handlers.length} handlers`, 'events');
     }
 }

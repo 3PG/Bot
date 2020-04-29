@@ -1,8 +1,9 @@
 import { loadImage, Canvas } from 'canvas';
 import config from '../../../config.json';
 
-export default class ImageGenerator 
-{
+export default abstract class ImageGenerator {
+    abstract generate(): Buffer | Promise<Buffer>;
+
     async addBackgroundToCanvas(context, canvas, backgroundURL: string) {
         if (backgroundURL && backgroundURL.includes('api'))
             throw Error('I don\'t think that\'s a good idea... 🤔');

@@ -8,7 +8,7 @@ export class AnnounceModule extends Module {
     events: AnnounceEvent[] = [];
 }
 
-export enum EventType { MemberJoin, MemberLeave, MessageDeleted }
+export enum EventType { MemberJoin, MemberLeave, MessageDeleted, Ban, Unban, Mute }
 
 export interface AnnounceEvent {
     event: EventType;

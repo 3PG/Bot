@@ -2,7 +2,6 @@ import { Router } from 'express';
 import { SavedCommand, CommandDocument } from '../../models/command';
 import { AuthClient, stripe } from '../server';
 import * as config from '../../config.json';
-import bodyParser from 'body-parser';
 
 import { router as guildsRoutes } from './guilds-routes';
 import { router as userRoutes } from './user-routes';
