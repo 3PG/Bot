@@ -8,7 +8,8 @@ export default class MessageDeleteHandler extends AnnounceHandler {
     event = EventType.MessageDeleted;
 
     async invoke(msg: Message) {
-        await super.announce(msg.guild, [ msg ]);
+        if (!msg.author.bot)
+            await super.announce(msg.guild, [ msg ]);
     }
     
     protected applyEventVariables(content: string, msg: Message) {                

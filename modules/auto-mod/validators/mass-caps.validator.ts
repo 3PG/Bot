@@ -6,8 +6,9 @@ export class MassCapsValidator implements ContentValidator {
         const pattern = /[A-Z]/g;
         const severity = guild.autoMod.filterThreshold;
         
-        const invalid = (content.match(pattern)?.length / content.length) >= (severity / 10);
+        const invalid = content.length > 5 
+            && (content.match(pattern)?.length / content.length) >= (severity / 10);
         if (invalid)
-            throw new TypeError('Message contains too many mentions.');
+            throw new TypeError('Message contains too many capital letters.');
     }
 }

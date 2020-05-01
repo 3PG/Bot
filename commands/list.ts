@@ -2,7 +2,7 @@ import { Command, CommandContext } from './Command';
 import Deps from '../utils/deps';
 import Music from '../modules/music/music';
 
-export default class PlayCommand implements Command {
+export default class ListCommand implements Command {
     name = 'list';
     summary = 'Display the current track list.';
     cooldown = 3;

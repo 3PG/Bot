@@ -86,7 +86,7 @@ describe('auto-mod/validators', () => {
         it('no zalgo, does not throw', () => {
             const validator = new ZalgoValidator();
 
-            const result = () => validator.validate('a', guild);
+            const result = () => validator.validate('a 🤔', guild);
 
             expect(result).to.not.throw();
         });

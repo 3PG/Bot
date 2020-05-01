@@ -44,12 +44,12 @@ export default class CommandService {
     private async handleCommand(msg: Message, guild: GuildDocument) {
         const content = msg.content.toLowerCase();
         try {
-            await this.validators.checkChannel(msg.channel as TextChannel);
+            this.validators.checkChannel(msg.channel as TextChannel, guild);
 
             const command = this.findCommand(content);
             if (!command || this.cooldowns.active(msg.author, command)) return;
 
-            await this.validators.checkCommand(command, guild);
+            this.validators.checkCommand(command, guild, msg);
             this.validators.checkPreconditions(command, msg.member);
             
             await command.execute(new CommandContext(msg), 

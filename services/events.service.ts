@@ -8,6 +8,8 @@ import EventHandler from './handlers/event-handler';
 import ReadyHandler from './handlers/ready.handler';
 import GuildCreateHandler from './handlers/guildCreate.handler';
 import MessageHandler from './handlers/message.handler';
+import MessageReactionAddHandler from './handlers/message-reaction-add.handler';
+import MessageReactionRemoveHandler from './handlers/message-reaction-remove.handler';
 
 export default class EventsService {
     private readonly handlers: EventHandler[] = [
@@ -16,7 +18,9 @@ export default class EventsService {
         new MessageHandler(),
         new MemberJoinHandler(),
         new MemberLeaveHandler(),
-        new MessageDeleteHandler()
+        new MessageDeleteHandler(),
+        new MessageReactionAddHandler(),
+        new MessageReactionRemoveHandler()
     ];
 
     constructor() {

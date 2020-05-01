@@ -8,7 +8,7 @@ export default class XPCommand implements Command {
     cooldown = 3;
     module = 'XP';
 
-    execute = (ctx: CommandContext, userMention: string) =>  {
+    execute = (ctx: CommandContext, userMention: string) => {
         const target = (userMention) ?
             CommandUtils.getMemberFromMention(userMention, ctx.guild) : ctx.member;
         
@@ -16,9 +16,11 @@ export default class XPCommand implements Command {
             throw new Error(`Bot users cannot earn XP`);
 
         const xpCardURL = `${config.api.url}/guilds/${ctx.guild.id}/members/${target.id}/xp-card`;             
-        return ctx.channel.send({ files: [{
-            attachment: xpCardURL,
-            name: 'xp-card.png'
-        }]});
+        return ctx.channel.send({
+            files: [{
+                attachment: xpCardURL,
+                name: 'xp-card.png'
+            }]
+        });
     };
 }

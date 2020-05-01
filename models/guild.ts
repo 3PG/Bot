@@ -36,6 +36,14 @@ export class GeneralModule extends Module {
     prefix = '.';
     ignoredChannels: string[] = [];
     autoRoles: string[] = [];
+    reactionRoles: ReactionRole[] = [];
+}
+
+export interface ReactionRole {
+    channel: string,
+    messageId: string,
+    emote: string,
+    role: string
 }
 
 export class XPModule extends Module {
@@ -56,6 +64,8 @@ export class MusicModule extends Module {
 
 export interface CommandConfig {
     name: string;
+    roles: string[];
+    channels: string[];
     enabled: boolean;
 }
 

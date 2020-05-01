@@ -4,6 +4,7 @@ import CommandService from '../command.service';
 import Guilds from '../../data/guilds';
 import AutoMod from '../../modules/auto-mod/auto-mod';
 import Leveling from '../../modules/xp/leveling';
+import { Message } from 'discord.js';
 
 export default class MessageHandler implements EventHandler {
     on = 'message';
@@ -14,7 +15,7 @@ export default class MessageHandler implements EventHandler {
         private guilds = Deps.get<Guilds>(Guilds),
         private leveling = Deps.get<Leveling>(Leveling)) {}
 
-    async invoke(msg: any) {        
+    async invoke(msg: Message) {        
         if (msg.author.bot) return;
 
         const guild = await this.guilds.get(msg.guild);

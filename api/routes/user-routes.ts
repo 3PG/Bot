@@ -18,11 +18,11 @@ router.get('/', async (req, res) => {
 
 const items = [
     {
-        name: '3PG+',
+        name: '3PG PRO',
         description: 'Support 3PG, and unlock exclusive features!',
-        amount: 500,
+        amount: 499,
         currency: 'usd',
-        quantity: 1,
+        quantity: 1
     }
 ];
 router.get('/pay', async(req, res) => {
@@ -31,7 +31,7 @@ router.get('/pay', async(req, res) => {
 
         const session = await stripe.checkout.sessions.create({
             success_url: `${config.webapp.url}/payment-success`,
-            cancel_url: `${config.webapp.url}/plus`,
+            cancel_url: `${config.webapp.url}/pro`,
             payment_method_types: ['card'],
             metadata: { 'id': user.id },
             line_items: items

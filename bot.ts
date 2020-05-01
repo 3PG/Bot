@@ -13,8 +13,15 @@ import Leveling from './modules/xp/leveling';
 import Music from './modules/music/music';
 import API from './api/server';
 import Cooldowns from './services/cooldowns';
+import Validators from './services/validators';
+import ReactionRoles from './modules/general/reaction-roles';
 
-export const bot = new Client();
+export const bot = new Client({
+    messageCacheLifetime: 60,
+    messageCacheMaxSize: 100,
+    fetchAllMembers: true,
+    partials: ['REACTION', 'MESSAGE', 'GUILD_MEMBER']
+});
 
 bot.login(config.bot.token);
 
@@ -27,10 +34,12 @@ Deps.build(
     Leveling,
     Music,
 
+    API,
     CommandService,
     Cooldowns,
     EventsService,
-    API
+    ReactionRoles,
+    Validators
 );
 
 mongoose.connect(config.mongoURL, { 
