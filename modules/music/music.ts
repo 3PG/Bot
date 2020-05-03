@@ -1,5 +1,5 @@
 import config from '../../config.json';
-import { ErelaClient } from 'erela.js';
+import { ErelaClient, Player } from 'erela.js';
 import { bot } from '../../bot';
 import Log from '../../utils/log';
 import { CommandContext } from '../../commands/command';
@@ -42,5 +42,16 @@ export default class Music {
             voiceChannel: voiceChannel,
             textChannel: ctx.channel,
         });
+    }
+
+    getDurationString(player: Player, trackIndex = 0) {
+        if (!player.playing)
+            throw new TypeError('No track is currently playing.');
+
+        const positionInSeconds = player.position / 1000;
+        const durationInSeconds = player.queue[trackIndex].duration / 1000;
+
+        return `${Math.floor(positionInSeconds / 60)}:${Math.floor(positionInSeconds % 60).toString().padStart(2, '0')} / ` +
+            `${Math.floor(durationInSeconds / 60)}:${Math.floor(durationInSeconds % 60).toString().padStart(2, '0')}`;
     }
 }

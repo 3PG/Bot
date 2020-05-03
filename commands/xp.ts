@@ -13,7 +13,7 @@ export default class XPCommand implements Command {
             CommandUtils.getMemberFromMention(userMention, ctx.guild) : ctx.member;
         
         if (target.user.bot)
-            throw new Error(`Bot users cannot earn XP`);
+            throw new TypeError(`Bot users cannot earn XP`);
 
         const xpCardURL = `${config.api.url}/guilds/${ctx.guild.id}/members/${target.id}/xp-card`;             
         return ctx.channel.send({

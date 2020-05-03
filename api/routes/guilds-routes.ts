@@ -1,9 +1,9 @@
 import { Router } from 'express';
 import config from '../../config.json';
-import { SavedMember, MemberDocument } from '../../models/member';
+import { SavedMember } from '../../models/member';
 import { AuthClient } from '../server';
 import { XPCardGenerator } from '../modules/image/xp-card-generator';
-import { bot } from '../../bot';
+import { bot, emitter } from '../../bot';
 import Deps from '../../utils/deps';
 import Members from '../../data/members';
 import Ranks from '../modules/ranks';
@@ -11,8 +11,9 @@ import Users from '../../data/users';
 import Guilds from '../../data/guilds';
 import Logs from '../../data/logs';
 import AuditLogger from '../modules/audit-logger';
-import { User } from 'discord.js';
+import { User, Guild } from 'discord.js';
 import Leveling from '../../modules/xp/leveling';
+import EventsService from '../../services/events.service';
 import Log from '../../utils/log';
 
 export const router = Router();
@@ -55,13 +56,29 @@ router.put('/:id/:module', async (req, res) => {
         
         log.changes.push(change);
         await log.save();
-            
+
+        emitter.emit('configUpdate', {
+            guild,
+            instigator: user,
+            module: change.module,
+            new: change.changes.new,
+            old: change.changes.old
+        } as ConfigUpdateArgs);
+
         res.json(savedGuild);
     } catch (error) {
-        res.status(400).send(error);        
+        res.status(400).send(error);
         Log.error(error, 'api');
     }
 });
+
+export interface ConfigUpdateArgs {
+    guild: Guild;
+    instigator: User;
+    module: string;
+    new: any;
+    old: any;
+}
 
 router.get('/:id/config', async (req, res) => {
     try {
@@ -80,7 +97,6 @@ router.get('/:id/channels', async (req, res) => {
 
 router.get('/:id/log', async(req, res) => {
     try {
-        const id = req.params.id;
         // TODO: add auth protection
         // await validateGuildManager(req.query.key, id);
 

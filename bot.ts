@@ -1,4 +1,4 @@
-import { Client } from 'discord.js';
+import { Client, Message, TextChannel } from 'discord.js';
 import config from './config.json';
 import CommandService from './services/command.service';
 import mongoose from 'mongoose';
@@ -15,6 +15,7 @@ import API from './api/server';
 import Cooldowns from './services/cooldowns';
 import Validators from './services/validators';
 import ReactionRoles from './modules/general/reaction-roles';
+import { EventEmitter } from 'events';
 
 export const bot = new Client({
     messageCacheLifetime: 60,
@@ -22,6 +23,7 @@ export const bot = new Client({
     fetchAllMembers: true,
     partials: ['REACTION', 'MESSAGE', 'GUILD_MEMBER']
 });
+export const emitter = new EventEmitter();
 
 bot.login(config.bot.token);
 
@@ -33,12 +35,12 @@ Deps.build(
     AutoMod,
     Leveling,
     Music,
+    ReactionRoles,
 
     API,
     CommandService,
     Cooldowns,
     EventsService,
-    ReactionRoles,
     Validators
 );
 

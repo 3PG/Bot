@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { SavedCommand, CommandDocument } from '../../models/command';
-import { AuthClient, stripe } from '../server';
+import { AuthClient } from '../server';
 import * as config from '../../config.json';
 
 import { router as guildsRoutes } from './guilds-routes';

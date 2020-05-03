@@ -22,7 +22,9 @@ export default class MessageHandler implements EventHandler {
         const handled = await this.commands.handle(msg, guild);
         if (handled) return;
         
-        guild.autoMod.enabled && await this.autoMod.validateMsg(msg, guild);
-        guild.xp.enabled && await this.leveling.validateXPMsg(msg, guild);
+        try {
+            guild.autoMod.enabled && await this.autoMod.validateMsg(msg, guild);
+            guild.xp.enabled && await this.leveling.validateXPMsg(msg, guild);
+        } catch {}
     }
 }

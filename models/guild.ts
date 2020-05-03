@@ -5,10 +5,27 @@ export class Module {
 }
 
 export class AnnounceModule extends Module {
-    events: AnnounceEvent[] = [];
+    events: AnnounceEvent[] = [
+        {
+            event: EventType.LevelUp,
+            channel: '',
+            message: `**Level UP** :sparkles:
+            [USER] - **[XP]XP**
+           LVL \`[OLD_LEVEL]\` -> \`[NEW_LEVEL]\``
+        }
+    ];
 }
 
-export enum EventType { MemberJoin, MemberLeave, MessageDeleted, Ban, Unban, Mute }
+export enum EventType {
+    Ban = "BAN", 
+    ConfigUpdate = "CONFIG_UPDATE",
+    LevelUp = "LEVEL_UP",
+    MessageDeleted = "MESSAGE_DELETED",
+    MemberJoin = "MEMBER_JOIN",
+    MemberLeave = "MEMBER_LEAVE",
+    Unban = "UNBAN", 
+    Warn ="WARN"
+  }
 
 export interface AnnounceEvent {
     event: EventType;
@@ -50,7 +67,7 @@ export class XPModule extends Module {
     levelRoles: LevelRole[] = [];
     ignoredRoles: string[] = [];
     xpPerMessage = 50;
-    xpCooldown = 5;
+    maxMessagesPerMinute = 3;
 }
 
 export interface LevelRole {

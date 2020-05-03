@@ -18,16 +18,18 @@ export default abstract class AnnounceHandler implements EventHandler {
     }
 
     protected getChannel(config: AnnounceEvent, guild: Guild) {
-        return guild.channels.cache.get(config?.channel) as TextChannel;        
+        return guild.channels.cache.get(config?.channel) as TextChannel;
     }
 
     protected async announce(guild: Guild, applyEventArgs: any[]) {
-        const config = await this.getEvent(guild);
+        const config = await this.getEvent(guild);        
         if (!config) return;
 
-        const message = this.applyEventVariables(config.message, ...applyEventArgs);
+        const message = await this.applyEventVariables(config.message, ...applyEventArgs);
 
-        const channel = this.getChannel(config, guild);
+        if (message.length <= 0) return;
+        
+        let channel = this.getChannel(config, guild);
         await channel?.send(message);
     }
 

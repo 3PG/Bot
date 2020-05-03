@@ -22,9 +22,9 @@ export class XPCardGenerator extends ImageGenerator {
 
         this.discordUser = bot.users.cache.get(user.id);
         if (!this.discordUser)
-            throw Error('Could not find Discord user!');
+            throw TypeError('Could not find Discord user!');
         if (this.discordUser.bot)
-            throw Error('Bots don\'t have XP cards!');
+            throw TypeError('Bots don\'t have XP cards!');
     }
 
     async generate(savedMember: MemberDocument, preview?: XPCard) {
@@ -32,7 +32,7 @@ export class XPCardGenerator extends ImageGenerator {
             this.user.xpCard = preview;            
         
         if (!savedMember)
-            throw new Error('Guild user cannot be null!');
+            throw new TypeError('Guild user cannot be null!');
 
         const canvas = createCanvas(700, 250);
         const context = canvas.getContext('2d');

@@ -8,6 +8,8 @@ import { EmojiValidator } from './validators/emoji.validator';
 import { MassMentionValidator } from './validators/mass-mention.validator';
 import { MassCapsValidator } from './validators/mass-caps.validator';
 import { ZalgoValidator } from './validators/zalgo.validator';
+import EventsService from '../../services/events.service';
+import { emitter } from '../../bot';
 
 export default class AutoMod {
     constructor(private members = Deps.get<Members>(Members)) {}
@@ -38,20 +40,35 @@ export default class AutoMod {
     }
 
     async warnMember(member: GuildMember, instigator: User, reason = 'No reason specified.') {
-        if (member.id === instigator.id) {
+        if (member.id === instigator.id)
             throw new TypeError('You cannot warn yourself.');
-        }
-        if (member.user.bot) {
+        if (member.user.bot)
             throw new TypeError('Bots cannot be warned.');
-        }
+
         const savedMember = await this.members.get(member);
         const warning = { reason, instigatorId: instigator.id, at: new Date() };
-        
+
         savedMember.warnings.push(warning);        
         await this.members.save(savedMember);
 
-        try { // TODO: add CommandUtils.mention(id: string)
+        emitter.emit('userWarn', {
+            guild: member.guild,
+            instigator,
+            user: member.user,
+            reason,
+            warnings: savedMember.warnings.length
+        } as UserWarnArgs);
+
+        try {
             await member.send(`<@!${instigator}> warned you for \`${reason}\``);
         } catch {}
     }
+}
+
+export interface UserWarnArgs {
+    guild: Guild;
+    user: User;
+    instigator: User;
+    warnings: number;
+    reason: string;
 }

@@ -1,5 +1,5 @@
 import AnnounceHandler from './announce-handler';
-import { Message, Guild, User } from 'discord.js';
+import { Guild, User } from 'discord.js';
 import { EventType } from '../../models/guild';
 import EventVariables from '../../modules/announce/event-variables';
 

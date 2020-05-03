@@ -17,6 +17,6 @@ export default class WarnCommand implements Command {
         
         await this.autoMod.warnMember(target, ctx.user, reason);
 
-        await ctx.channel.send(`${target} was warned for ${reason}`);
+        await ctx.channel.send(`<@!${target}> was warned for \`${reason}\``);
     };
 }

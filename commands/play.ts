@@ -6,7 +6,7 @@ import Music from '../modules/music/music';
 export default class PlayCommand implements Command {
     name = 'play';
     summary = 'Join and play a youtube result.';
-    cooldown = 2;
+    cooldown = 1;
     module = 'Music';
 
     constructor(private music = Deps.get<Music>(Music)) {}

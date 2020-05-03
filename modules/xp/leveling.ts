@@ -1,28 +1,54 @@
-import { Message, GuildMember } from 'discord.js';
+import { Message, GuildMember, User, Guild } from 'discord.js';
 import { GuildDocument } from '../../models/guild';
 import Members from '../../data/members';
 import Deps from '../../utils/deps';
 import { MemberDocument } from '../../models/member';
+import EventsService from '../../services/events.service';
+import { emitter } from '../../bot';
 
 export default class Leveling {
     constructor(private members = Deps.get<Members>(Members)) {}
 
-    async validateXPMsg(msg: Message, guild: GuildDocument) {
-        if (!msg?.member || !guild || this.hasIgnoredXPRole(msg.member, guild))
-            throw new TypeError('Member cannot earn XP');
+    async validateXPMsg(msg: Message, savedGuild: GuildDocument) {
+        if (!msg?.member || !savedGuild 
+            || this.hasIgnoredXPRole(msg.member, savedGuild))
+            throw new TypeError('User cannot earn XP');
 
         const savedMember = await this.members.get(msg.member);
-        if (!savedMember) return;
+
+        this.handleCooldown(savedMember, savedGuild);
 
         const oldLevel = this.getLevel(savedMember.xp);
-        savedMember.xp += guild.xp.xpPerMessage;
+        savedMember.xp += savedGuild.xp.xpPerMessage;
         const newLevel = this.getLevel(savedMember.xp);
 
-        if (newLevel > oldLevel) {
-            this.handleLevelUp(msg, newLevel, guild);
+        if (newLevel > oldLevel) {  
+            emitter.emit('levelUp', {
+                guild: msg.guild,
+                newLevel, 
+                oldLevel, 
+                xp: savedMember.xp,
+                user: msg.member.user
+            } as LevelUpEventArgs);
+            this.checkLevelRoles(msg, newLevel, savedGuild);
         }
-        savedMember.save();
+        await savedMember.save();
     }
+    
+    private handleCooldown(savedMember: MemberDocument, savedGuild: GuildDocument) {
+        const inCooldown = savedMember.recentMessages
+            .filter(m => m.getMinutes() === new Date().getMinutes())
+            .length > savedGuild.xp.maxMessagesPerMinute;
+        if (inCooldown)
+            throw new TypeError('User is in cooldown');
+
+        const lastMessage = savedMember.recentMessages[savedMember.recentMessages.length - 1];
+        if (lastMessage && lastMessage.getMinutes() !== new Date().getMinutes())
+            savedMember.recentMessages = [];
+        
+        savedMember.recentMessages.push(new Date());
+    }
+
     private hasIgnoredXPRole(member: GuildMember, guild: GuildDocument) {
         for (const entry of member.roles.cache) { 
             const role = entry[1];
@@ -32,9 +58,7 @@ export default class Leveling {
         return false;
     }
 
-    private handleLevelUp(msg: Message, newLevel: number, guild: GuildDocument) {
-        msg.channel.send(`Level Up! ⭐\n**New Level**: \`${newLevel}\``);
-
+    private checkLevelRoles(msg: Message, newLevel: number, guild: GuildDocument) {
         const levelRole = this.getLevelRole(newLevel, guild);
         if (levelRole)
             msg.member?.roles.add(levelRole);
@@ -67,4 +91,12 @@ export default class Leveling {
             .sort((a, b) => b.xp - a.xp)
             .findIndex(m => m.id === member.id) + 1;
     }
+}
+
+export interface LevelUpEventArgs {
+    guild: Guild;
+    newLevel: number;
+    oldLevel: number;
+    xp: number;
+    user: User;
 }
