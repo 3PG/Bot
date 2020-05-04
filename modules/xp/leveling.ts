@@ -5,6 +5,7 @@ import Deps from '../../utils/deps';
 import { MemberDocument } from '../../models/member';
 import EventsService from '../../services/events.service';
 import { emitter } from '../../bot';
+import Logs from '../../data/logs';
 
 export default class Leveling {
     constructor(private members = Deps.get<Members>(Members)) {}
@@ -33,6 +34,8 @@ export default class Leveling {
             this.checkLevelRoles(msg, newLevel, savedGuild);
         }
         await savedMember.save();
+
+        await this.logs.logMessage(msg, null);
     }
     
     private handleCooldown(savedMember: MemberDocument, savedGuild: GuildDocument) {

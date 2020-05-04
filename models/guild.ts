@@ -47,7 +47,14 @@ export class CommandsModule extends Module {
     configs: CommandConfig[] = [];
 }
 
-export enum MessageFilter { Words, Links, Emoji, MassMention, MassCaps, Zalgo }
+export enum MessageFilter {
+    Emoji = "EMOJI", 
+    Links = "LINKS",
+    MassCaps = "MASS_CAPS",
+    MassMention = "MASS_MENTION",
+    Words = "WORDS",
+    Zalgo = "ZALGO"
+}
 
 export class GeneralModule extends Module {
     prefix = '.';

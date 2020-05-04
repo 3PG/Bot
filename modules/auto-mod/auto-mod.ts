@@ -8,33 +8,36 @@ import { EmojiValidator } from './validators/emoji.validator';
 import { MassMentionValidator } from './validators/mass-mention.validator';
 import { MassCapsValidator } from './validators/mass-caps.validator';
 import { ZalgoValidator } from './validators/zalgo.validator';
-import EventsService from '../../services/events.service';
 import { emitter } from '../../bot';
+import Logs from '../../data/logs';
+import { ContentValidator } from './validators/content-validator';
 
 export default class AutoMod {
     constructor(private members = Deps.get<Members>(Members)) {}
 
-    readonly validators = new Map([
-        [MessageFilter.Words, BadWordValidator],
-        [MessageFilter.Links, BadLinkValidator],
-        [MessageFilter.Emoji, EmojiValidator],
-        [MessageFilter.MassMention, MassMentionValidator],
-        [MessageFilter.MassCaps, MassCapsValidator],
-        [MessageFilter.Zalgo, ZalgoValidator]
-    ]);
+    readonly validators: ContentValidator[] = [
+        new BadWordValidator(),
+        new BadLinkValidator(),
+        new EmojiValidator(),
+        new MassMentionValidator(),
+        new MassCapsValidator(),
+        new ZalgoValidator()
+    ];
     
     async validateMsg(msg: Message, guild: GuildDocument) {
         const activeFilters = guild.autoMod.filters;
         for (const filter of activeFilters) {
             try {
-                const Validator = this.validators.get(filter);
+                const Validator = this.validators.find(v => v.filter === filter) as any;
                 if (Validator)
                     new Validator().validate(msg.content, guild);
             } catch (validation) {
                 if (guild.autoMod.autoDeleteMessages)
-                    await msg.delete({ reason: validation });
+                    await msg.delete({ reason: validation.message });
                 if (guild.autoMod.autoWarnUsers && msg.member && msg.client.user)
-                    await this.warnMember(msg.member, msg.client.user, validation?.message);
+                    await this.warnMember(msg.member, msg.client.user, validation.message);
+
+                throw validation;
             }
         }
     }
@@ -71,4 +74,10 @@ export interface UserWarnArgs {
     instigator: User;
     warnings: number;
     reason: string;
+}
+
+export class ValidationError extends Error {
+    constructor(message: string, public filter: MessageFilter) {
+        super(message);
+    }
 }

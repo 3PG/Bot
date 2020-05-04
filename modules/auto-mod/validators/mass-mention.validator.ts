@@ -1,7 +1,9 @@
-import { GuildDocument } from '../../../models/guild';
+import { GuildDocument, MessageFilter } from '../../../models/guild';
 import { ContentValidator } from './content-validator';
 
 export class MassMentionValidator implements ContentValidator {
+    filter: MessageFilter.MassMention;
+    
     validate(content: string, guild: GuildDocument) {
         const pattern = /<@![0-9]{18}>/gm;
         const severity = guild.autoMod.filterThreshold;       
