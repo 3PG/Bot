@@ -6,6 +6,7 @@ import { bot } from '../../bot';
 import Deps from '../../utils/deps';
 import Users from '../../data/users';
 import config from '../../config.json';
+import Stripe from 'stripe';
 
 export const router = Router();
 
@@ -33,11 +34,11 @@ router.get('/pay', async(req, res) => {
             success_url: `${config.webapp.url}/payment-success`,
             cancel_url: `${config.webapp.url}/pro`,
             payment_method_types: ['card'],
-            metadata: { 'id': user.id },
+            metadata: { id: user.id },
             line_items: items
         });
         res.send(session);
-    } catch (error) { res.status(400).send(error); }
+    } catch (error) { res.status(400).json(error); }
 });
 
 router.get('/saved', async (req, res) => {

@@ -9,7 +9,6 @@ import { MassMentionValidator } from './validators/mass-mention.validator';
 import { MassCapsValidator } from './validators/mass-caps.validator';
 import { ZalgoValidator } from './validators/zalgo.validator';
 import { emitter } from '../../bot';
-import Logs from '../../data/logs';
 import { ContentValidator } from './validators/content-validator';
 
 export default class AutoMod {
@@ -27,10 +26,9 @@ export default class AutoMod {
     async validateMsg(msg: Message, guild: GuildDocument) {
         const activeFilters = guild.autoMod.filters;
         for (const filter of activeFilters) {
-            try {
-                const Validator = this.validators.find(v => v.filter === filter) as any;
-                if (Validator)
-                    new Validator().validate(msg.content, guild);
+            try {                
+                const validator = this.validators.find(v => v.filter === filter);
+                validator?.validate(msg.content, guild);
             } catch (validation) {
                 if (guild.autoMod.autoDeleteMessages)
                     await msg.delete({ reason: validation.message });

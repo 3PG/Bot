@@ -1,5 +1,5 @@
 import AnnounceHandler from './announce-handler';
-import { Message, TextChannel } from 'discord.js';
+import { Message } from 'discord.js';
 import { EventType } from '../../models/guild';
 import EventVariables from '../../modules/announce/event-variables';
 
@@ -8,7 +8,7 @@ export default class MessageDeleteHandler extends AnnounceHandler {
     event = EventType.MessageDeleted;
 
     async invoke(msg: Message) {
-        if (!msg.author.bot)
+        if (msg?.author && !msg.author.bot)
             await super.announce(msg.guild, [ msg ]);
     }
     

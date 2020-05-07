@@ -11,23 +11,25 @@ import Users from '../../data/users';
 import Guilds from '../../data/guilds';
 import Logs from '../../data/logs';
 import AuditLogger from '../modules/audit-logger';
-import { User, Guild } from 'discord.js';
+import { User, Guild, TextChannel } from 'discord.js';
 import Leveling from '../../modules/xp/leveling';
-import EventsService from '../../services/events.service';
 import Log from '../../utils/log';
+import { Change } from '../../models/log';
+import Timers from '../../modules/timers/timers';
 
 export const router = Router();
 
 const logs = Deps.get<Logs>(Logs),
+      guilds = Deps.get<Guilds>(Guilds),
       members = Deps.get<Members>(Members),
-      users = Deps.get<Users>(Users),
-      guilds = Deps.get<Guilds>(Guilds);
+      timers = Deps.get<Timers>(Timers),
+      users = Deps.get<Users>(Users);
 
 router.get('/', async (req, res) => {
     try {        
         const guilds = await getManagableGuilds(req.query.key);
         res.json(guilds);
-    } catch (error) { res.status(400).send(error); }
+    } catch (error) { res.status(400).json(error); }
 });
 
 router.put('/:id/:module', async (req, res) => {
@@ -51,26 +53,27 @@ router.put('/:id/:module', async (req, res) => {
 
         savedGuild[module] = req.body;
         await guilds.save(savedGuild);
-       
-        const log = await logs.get(guild);
-        
-        log.changes.push(change);
-        await log.save();
 
-        emitter.emit('configUpdate', {
-            guild,
-            instigator: user,
-            module: change.module,
-            new: change.changes.new,
-            old: change.changes.old
-        } as ConfigUpdateArgs);
+        await logs.logChanges(change, guild);
+
+        emitConfigSaved(guild, user, change);
 
         res.json(savedGuild);
     } catch (error) {
-        res.status(400).send(error);
         Log.error(error, 'api');
+        res.status(400).json(error);
     }
 });
+
+function emitConfigSaved(guild: Guild, user: User, change: Change) {
+    emitter.emit('configUpdate', {
+        guild,
+        instigator: user,
+        module: change.module,
+        new: change.changes.new,
+        old: change.changes.old
+    } as ConfigUpdateArgs);
+}
 
 export interface ConfigUpdateArgs {
     guild: Guild;
@@ -85,25 +88,83 @@ router.get('/:id/config', async (req, res) => {
         const guild = bot.guilds.cache.get(req.params.id);
         const savedGuild = await guilds.get(guild);
         res.json(savedGuild);
-    } catch { res.status(400).send('Bad Request'); }
+    } catch (error) { res.status(400).json(error); }
 });
 
 router.get('/:id/channels', async (req, res) => {
     try {
         const guild = bot.guilds.cache.get(req.params.id);
-        res.send(guild.channels.cache);        
-    } catch { res.status(400).send('Bad Request'); }
+        res.json(guild.channels.cache);        
+    } catch (error) { res.status(400).json(error); }
+});
+
+router.get('/:id/channels/:channelId/messages/:messageId', (req, res) => {
+    try {
+        const guild = bot.guilds.cache.get(req.params.id);
+        const channel = guild.channels.cache
+            .get(req.params.channelId) as TextChannel;
+        const message = channel.messages.cache.get(req.params.messageId);
+
+        res.status(200).json(message);
+    } catch (error) { res.status(400).json(error); }
 });
 
 router.get('/:id/log', async(req, res) => {
     try {
-        // TODO: add auth protection
-        // await validateGuildManager(req.query.key, id);
-
         const guild = bot.guilds.cache.get(req.params.id);
         const log = await logs.get(guild);
-        res.send(log);
-    } catch (error) { res.status(400).send(error); }
+        res.json(log);
+    } catch (error) { res.status(400).json(error); }
+});
+
+router.get('/:id/timers', (req, res) => {
+    try {
+        const guildTimers = timers.currentTimers.get(req.params.id);
+        if (!guildTimers || guildTimers?.length <= 0)
+            return res.json([]);
+    
+        for (const timer of guildTimers)
+            delete timer.id;
+    
+        res.json(guildTimers);        
+    } catch (error) { res.status(400).json(error); }
+});
+
+router.get('/:id/timers/start', async(req, res) => {
+    try {
+        await timers.startTimers(req.params.id);
+        res.status(200).json({ success: true });
+    } catch (error) { res.status(400).json(error); } 
+});
+
+router.get('/:id/timers/:timerId/cancel', (req, res) => {
+    try {
+        const guildTimers = timers.currentTimers.get(req.params.id) ?? [];
+        guildTimers.splice(
+            guildTimers.findIndex(t => t.id === req.params.timerId), 1);
+            
+        timers.currentTimers.set(req.params.id, guildTimers);
+    
+        res.status(200).json({ success: true });
+    } catch (error) { res.status(400).json(error); }
+});
+
+router.get('/:id/warnings', async(req, res) => {
+    try {
+        const members = await SavedMember.find({ guildId: req.params.id });      
+
+        let warnings = [];
+        for (const member of members)
+            for (const warning of member.warnings) {
+                const number = member.warnings.indexOf(warning) + 1;
+                warnings.push({
+                    ...warning,
+                    userId: member.userId,
+                    number
+                });
+            }
+        res.json(warnings);        
+    } catch (error) { res.status(400).json(error); }
 });
 
 router.get('/:id/public', (req, res) => {
@@ -114,7 +175,7 @@ router.get('/:id/public', (req, res) => {
 router.get('/:id/roles', async (req, res) => {
     try {
         const guild = bot.guilds.cache.get(req.params.id);
-        res.send(guild.roles.cache.filter(r => r.name !== '@everyone'));        
+        res.json(guild.roles.cache.filter(r => r.name !== '@everyone'));        
     } catch { res.status(404).send('Not Found'); }
 });
 
@@ -147,7 +208,7 @@ function leaderboardMember(user: User, xpInfo: any) {
 
 async function getManagableGuilds(key: string) {
     const manageableGuilds = [];
-    let userGuilds = await AuthClient.getGuilds(key);    
+    let userGuilds = await AuthClient.getGuilds(key);
     for (const id of userGuilds.keys()) {        
         const authGuild = userGuilds.get(id);        
         const hasManager = authGuild._permissions
@@ -155,7 +216,7 @@ async function getManagableGuilds(key: string) {
 
         if (hasManager)
             manageableGuilds.push(id);
-    }    
+    }
     return bot.guilds.cache
         .filter(g => manageableGuilds.some(id => id === g.id));
 }
@@ -180,8 +241,7 @@ router.get('/:guildId/members/:memberId/xp-card', async (req, res) => {
         const image = await generator.generate(savedMember);
         
         res.set({'Content-Type': 'image/png'}).send(image);
-    }
-    catch (error) { res.status(400).send(error?.message); }
+    } catch (error) { res.status(400).send(error?.message); }
 });
 
 async function validateGuildManager(key: string, id: string) {

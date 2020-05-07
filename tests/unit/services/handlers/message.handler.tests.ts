@@ -42,7 +42,7 @@ describe('services/handlers/message.handler', () => {
     it('auto mod throws with filter, validation logged', async() => {
         const expected: MessageValidationMetadata = {
             earnedXP: false,
-            filter: MessageFilter.Emoji
+            filter = MessageFilter.Emoji
         };
 
         autoMod.validateMsg = () => { throw new ValidationError('', MessageFilter.Emoji); }

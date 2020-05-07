@@ -1,8 +1,9 @@
 import { GuildDocument, MessageFilter } from '../../../models/guild';
 import { ContentValidator } from './content-validator';
+import { ValidationError } from '../auto-mod';
 
 export class BadWordValidator implements ContentValidator {
-    filter: MessageFilter.Words;
+    filter = MessageFilter.Words;
 
     validate(content: string, guild: GuildDocument) {
         const msgWords = content.split(' ');
@@ -10,7 +11,7 @@ export class BadWordValidator implements ContentValidator {
             const isExplicit = guild.autoMod.banWords
                 .some(w => w.toLowerCase() === word.toLowerCase());
             if (isExplicit) {
-                throw new TypeError('Message contains banned words.');
+                throw new ValidationError('Message contains banned words.', this.filter);
             }
         }
     }

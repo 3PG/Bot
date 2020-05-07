@@ -25,7 +25,7 @@ export enum EventType {
     MemberLeave = "MEMBER_LEAVE",
     Unban = "UNBAN", 
     Warn ="WARN"
-  }
+}
 
 export interface AnnounceEvent {
     event: EventType;
@@ -70,6 +70,25 @@ export interface ReactionRole {
     role: string
 }
 
+export class TimersModule extends Module {
+    commandTimers: CommandTimer[] = [];
+    messageTimers: MessageTimer[] = [];
+}
+
+export interface Timer {
+    enabled: boolean;
+    interval: string;
+    from: Date;
+}
+export interface CommandTimer extends Timer {
+    channel: string;
+    command: string;
+}
+export interface MessageTimer extends Timer {
+    channel: string;
+    message: string;
+}
+
 export class XPModule extends Module {
     levelRoles: LevelRole[] = [];
     ignoredRoles: string[] = [];
@@ -104,6 +123,7 @@ const guildSchema = new Schema({
     commands: { type: Object, default: new CommandsModule() },
     general: { type: Object, default: new GeneralModule() },
     music: { type: Object, default: new MusicModule },
+    timers: { type: Object, default: new TimersModule() },
     xp: { type: Object, default: new XPModule() },
     settings: { type: Object, default: new DashboardSettings() }
 });
@@ -114,6 +134,7 @@ export interface GuildDocument extends Document {
     autoMod: AutoModModule;
     general: GeneralModule;
     music: MusicModule;
+    timers: TimersModule;
     xp: XPModule;
     commands: CommandsModule;
     settings: DashboardSettings;

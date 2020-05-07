@@ -34,8 +34,6 @@ export default class Leveling {
             this.checkLevelRoles(msg, newLevel, savedGuild);
         }
         await savedMember.save();
-
-        await this.logs.logMessage(msg, null);
     }
     
     private handleCooldown(savedMember: MemberDocument, savedGuild: GuildDocument) {

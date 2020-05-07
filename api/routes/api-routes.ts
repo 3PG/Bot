@@ -20,7 +20,7 @@ router.get('/auth', async (req, res) => {
     try {
         const key = await AuthClient.getAccess(req.query.code);
         res.json(key);
-    } catch (error) { res.status(400).send(error); }
+    } catch (error) { res.status(400).json(error); }
 });
 
 router.post('/stripe-webhook', async(req, res) => {
@@ -30,16 +30,22 @@ router.post('/stripe-webhook', async(req, res) => {
     
     const id = req.body.data.object.metadata.id;
     if (req.body.type === 'checkout.session.completed') {
-      await giveUserPlus(id);
+      await giveUserPro(id);
       return res.json({ success: true });
     }
     res.json({ received: true });
-  } catch (error) { res.status(400).send(error); } 
+  } catch (error) { res.status(400).json(error); } 
 });
 
-async function giveUserPlus(id: string) {   
+async function giveUserPro(id: string) {   
   const savedUser = await SavedUser.findById(id);
   savedUser.premium = true;
+  savedUser.save();
+}
+
+async function removeUserPro(id: string) {   
+  const savedUser = await SavedUser.findById(id);
+  savedUser.premium = false;
   savedUser.save();
 }
 

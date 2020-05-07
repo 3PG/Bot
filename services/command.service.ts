@@ -51,9 +51,8 @@ export default class CommandService {
 
             this.validators.checkCommand(command, guild, msg);
             this.validators.checkPreconditions(command, msg.member);
-            
-            await command.execute(new CommandContext(msg), 
-                ...this.getCommandArgs(msg.content));
+
+            await this.findAndExecute(msg, guild);
 
             this.cooldowns.add(msg.author, command);
 
@@ -64,12 +63,20 @@ export default class CommandService {
         } finally { return true; }
     }
 
+    async findAndExecute(msg: Message, guild: GuildDocument) {
+        try {
+            const command = this.findCommand(msg.content);
+            await command.execute(new CommandContext(msg), 
+                ...this.getCommandArgs(guild.general.prefix, msg.content));  
+        } catch {} 
+    }
+
     private findCommand(content: string) {        
         const name = content.split(' ')[0].substring(1, content.length);
         return this.commands.get(name);
     }
-    private getCommandArgs(content: string) {
+    private getCommandArgs(content: string, prefix: string) {
         let args = content.split(' ');
-        return args.splice(1, args.length);
+        return args.splice(prefix.length, args.length);
     }
 }

@@ -1,6 +1,6 @@
 import { Guild, Message } from 'discord.js';
 import DBWrapper from './db-wrapper';
-import { LogDocument, SavedLog, MessageValidationMetadata } from '../models/log';
+import { LogDocument, SavedLog, MessageValidationMetadata, Change } from '../models/log';
 import { Command } from '../commands/command';
 import { MessageFilter } from '../models/guild';
 
@@ -12,6 +12,12 @@ export default class Logs extends DBWrapper<Guild, LogDocument> {
 
     protected async create(guild: Guild) {
         return new SavedLog({ _id: guild.id }).save();
+    }
+
+    async logChanges(change: Change, guild: Guild) {
+        const log = await this.get(guild);        
+        log.changes.push(change);
+        await this.save(log);
     }
     
     async logCommand(msg: Message, command: Command) {
@@ -32,8 +38,7 @@ export default class Logs extends DBWrapper<Guild, LogDocument> {
             content: msg.content,
             id: msg.id,
             validation
-        });
-        console.log(log);        
+        });   
         await this.save(log);
     }
 }

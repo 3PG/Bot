@@ -17,7 +17,7 @@ export default class MessageHandler implements EventHandler {
         private leveling = Deps.get<Leveling>(Leveling),
         private logs = Deps.get<Logs>(Logs)) {}
 
-    async invoke(msg: Message) {
+    async invoke(msg: Message) {        
         if (msg.author.bot) return;
 
         const guild = await this.guilds.get(msg.guild);
@@ -33,9 +33,9 @@ export default class MessageHandler implements EventHandler {
                 await this.leveling.validateXPMsg(msg, guild);
                 earnedXP = true;
             }
-        } catch (validation) {            
+        } catch (validation) {
             filter = validation.filter;
-        } finally {            
+        } finally {         
             await this.logs.logMessage(msg, { earnedXP, filter });
         }
     }

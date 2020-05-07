@@ -13,6 +13,8 @@ export default class Deps {
     }
 
     static get<T>(type: any): T {
+        if (!type) return null;
+
         const service = this.deps.find(t => t instanceof type);
         return service || this.add(new type());
     }

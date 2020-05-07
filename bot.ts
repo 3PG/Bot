@@ -21,7 +21,7 @@ export const bot = new Client({
     messageCacheLifetime: 60,
     messageCacheMaxSize: 100,
     fetchAllMembers: true,
-    partials: ['REACTION', 'MESSAGE', 'GUILD_MEMBER']
+    partials: ['REACTION', 'MESSAGE', 'GUILD_MEMBER', 'USER']
 });
 export const emitter = new EventEmitter();
 
@@ -47,5 +47,5 @@ Deps.build(
 mongoose.connect(config.mongoURL, { 
     useUnifiedTopology: true, 
     useNewUrlParser: true, 
-    useFindAndModify: false 
+    useFindAndModify: false
 });

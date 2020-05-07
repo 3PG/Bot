@@ -1,8 +1,9 @@
 import { GuildDocument, MessageFilter } from '../../../models/guild';
 import { ContentValidator } from './content-validator';
+import { ValidationError } from '../auto-mod';
 
 export class MassMentionValidator implements ContentValidator {
-    filter: MessageFilter.MassMention;
+    filter = MessageFilter.MassMention;
     
     validate(content: string, guild: GuildDocument) {
         const pattern = /<@![0-9]{18}>/gm;
@@ -10,6 +11,6 @@ export class MassMentionValidator implements ContentValidator {
 
         const invalid = content.match(pattern)?.length >= severity;
         if (invalid)
-            throw new TypeError('Message contains too many mentions.');
+            throw new ValidationError('Message contains too many mentions.', this.filter);
     }
 }
