@@ -23,7 +23,7 @@ export default class Timers {
     }
 
     cancelTimers(guildId: string) {
-        const guildTimers = this.currentTimers.get(guildId);
+        const guildTimers = this.currentTimers.get(guildId) ?? [];
         for (const timer of guildTimers)
             timer.id.unref();
         this.currentTimers.set(guildId, []);
@@ -50,9 +50,16 @@ export default class Timers {
             const guildTimers = this.currentTimers.get(guildId) 
                 ?? this.currentTimers.set(guildId, []).get(guildId);
     
-            const id = setInterval(async() => await this.sendTimer(timer, savedGuild), interval);
+            let task: TimerTask;
+            const id = setInterval(async() => await this.sendTimer(task, savedGuild), interval);
     
-            guildTimers.push({ id, timer });
+            task = {
+                id,
+                status: { name: 'ACTIVE' },
+                timer
+            };
+            guildTimers.push(task);
+            
             this.startedTimers++;
         });
     }
@@ -61,32 +68,45 @@ export default class Timers {
         const hours = Number(interval.split(':')[0]);
         const minutes = Number(interval.split(':')[1]);
 
-        return 1000 * (hours * 60 + minutes);
+        return ((hours * 60) + minutes) * 60 * 1000;
     }
 
-    private async sendTimer(timer: Timer | any, savedGuild: GuildDocument) {
+    private async sendTimer(task: TimerTask, savedGuild: GuildDocument) {
+        const timer = task.timer as any;
         if ('command' in timer) {
-            const guild = bot.guilds.cache.get(savedGuild.id);
-            const member = guild.members.cache.get(bot.user.id);
-            const channel = guild.channels.cache.get(timer.channel);
-
-            await this.commandService.findAndExecute({
-                channel,
-                client: bot,
-                content: timer.message,
-                guild: member.guild
-            } as any, savedGuild);
+            try {
+                const guild = bot.guilds.cache.get(savedGuild.id);
+                const member = guild.members.cache.get(bot.user.id);
+                const channel = guild.channels.cache.get(timer.channel);
+    
+                await this.commandService.findAndExecute({
+                    channel,
+                    client: bot,
+                    content: timer.message,
+                    guild: member.guild
+                } as any, savedGuild);
+            } catch (error) {
+                task.status.name = 'FAILED';
+                task.status.reason = error?.message;
+            }
         }
         if ('message' in timer) {
-            const channel = bot.channels.cache.get(timer.channel) as TextChannel;
-            channel?.send(timer.message);
+            try {
+                const channel = bot.channels.cache.get(timer.channel) as TextChannel;
+                channel.send(timer.message);
+            } catch (error) {
+                task.status.name = 'FAILED';
+                task.status.reason = error?.message;
+            }
         }
     }
 }
 
 export interface TimerTask {
     id: NodeJS.Timeout;
+    status: {
+        name: 'PENDING' | 'ACTIVE' | 'FAILED';
+        reason?: string;
+    }
     timer: Timer;
 }
-
-// move \/

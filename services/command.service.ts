@@ -64,11 +64,9 @@ export default class CommandService {
     }
 
     async findAndExecute(msg: Message, guild: GuildDocument) {
-        try {
-            const command = this.findCommand(msg.content);
-            await command.execute(new CommandContext(msg), 
-                ...this.getCommandArgs(guild.general.prefix, msg.content));  
-        } catch {} 
+        const command = this.findCommand(msg.content);
+        await command.execute(new CommandContext(msg), 
+            ...this.getCommandArgs(guild.general.prefix, msg.content));  
     }
 
     private findCommand(content: string) {        

@@ -35,12 +35,15 @@ router.get('/', async (req, res) => {
 router.put('/:id/:module', async (req, res) => {
     try {
         const { id, module } = req.params; 
+
+        await validateGuildManager(req.query.key, id);
         
         const isValidModule = config.modules.some(m => m === module);        
         if (!isValidModule)
             throw new TypeError('Module not configured');
 
-        await validateGuildManager(req.query.key, id);
+        if (module === 'timers')
+            await resetTimers(id);
 
         const user = await getUser(req.query.key);
         const guild = bot.guilds.cache.get(id); 
@@ -64,6 +67,11 @@ router.put('/:id/:module', async (req, res) => {
         res.status(400).json(error);
     }
 });
+
+async function resetTimers(id: string) {
+    timers.cancelTimers(id);
+    await timers.startTimers(id);
+}
 
 function emitConfigSaved(guild: Guild, user: User, change: Change) {
     emitter.emit('configUpdate', {
@@ -103,7 +111,9 @@ router.get('/:id/channels/:channelId/messages/:messageId', (req, res) => {
         const guild = bot.guilds.cache.get(req.params.id);
         const channel = guild.channels.cache
             .get(req.params.channelId) as TextChannel;
-        const message = channel.messages.cache.get(req.params.messageId);
+        channel.messages.fetch();
+
+        const message = channel.messages.cache.get(req.params.messageId);        
 
         res.status(200).json(message);
     } catch (error) { res.status(400).json(error); }
@@ -130,20 +140,16 @@ router.get('/:id/timers', (req, res) => {
     } catch (error) { res.status(400).json(error); }
 });
 
-router.get('/:id/timers/start', async(req, res) => {
+router.get('/:id/timers/:timerId/cancel', async(req, res) => {
     try {
-        await timers.startTimers(req.params.id);
-        res.status(200).json({ success: true });
-    } catch (error) { res.status(400).json(error); } 
-});
+        const { id, timerId } = req.params.id;
+        await validateGuildManager(req.query.key, id);
 
-router.get('/:id/timers/:timerId/cancel', (req, res) => {
-    try {
-        const guildTimers = timers.currentTimers.get(req.params.id) ?? [];
+        const guildTimers = timers.currentTimers.get(id) ?? [];
         guildTimers.splice(
-            guildTimers.findIndex(t => t.id === req.params.timerId), 1);
+            guildTimers.findIndex(t => t.id === timerId), 1);
             
-        timers.currentTimers.set(req.params.id, guildTimers);
+        timers.currentTimers.set(id, guildTimers);
     
         res.status(200).json({ success: true });
     } catch (error) { res.status(400).json(error); }
