@@ -1,12 +1,20 @@
 import { GuildMember } from "discord.js";
 
-export default class CommandUtils {
-    static getMemberFromMention(mention: string, guild: any): GuildMember {    
-        const id = mention.replace(/^<@!?(\d+)>$/gm, '$1') ?? '';
-        const member = guild.members.cache.get(id);
-        if (!member)
-            throw new TypeError('Member not found.');
-        
-        return member;
-    }
+export function getMemberFromMention(mention: string, guild: any): GuildMember {    
+    const id = mention.replace(/^<@!?(\d+)>$/gm, '$1') ?? '';
+    const member = guild.members.cache.get(id);        
+    if (!member)
+        throw new TypeError('Member not found.');
+    
+    return member;
+}
+
+export function createUUID() {
+    var dt = new Date().getTime();
+    var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        var r = (dt + Math.random()*16)%16 | 0;
+        dt = Math.floor(dt/16);
+        return (c=='x' ? r :(r&0x3|0x8)).toString(16);
+    });
+    return uuid;
 }

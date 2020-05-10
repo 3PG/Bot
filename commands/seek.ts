@@ -1,7 +1,6 @@
-import { Command, CommandContext } from './Command';
+import { Command, CommandContext } from './command';
 import Deps from '../utils/deps';
 import Music from '../modules/music/music';
-import { Player } from 'erela.js';
 
 export default class PlayCommand implements Command {
     name = 'seek';

@@ -1,7 +1,7 @@
-import { Command, CommandContext } from './Command';
+import { Command, CommandContext } from './command';
 import AutoMod from '../modules/auto-mod/auto-mod';
 import Deps from '../utils/deps';
-import CommandUtils from '../utils/command-utils';
+import { getMemberFromMention } from '../utils/command-utils';
 
 export default class WarnCommand implements Command {
     name = 'warn';
@@ -14,7 +14,7 @@ export default class WarnCommand implements Command {
     execute = async(ctx: CommandContext, targetMention: string, ...args: string[]) => {
         const reason = args.join(' ');
         const target = (targetMention) ?
-            CommandUtils.getMemberFromMention(targetMention, ctx.guild) : ctx.member;
+            getMemberFromMention(targetMention, ctx.guild) : ctx.member;
         
         await this.autoMod.warnMember(target, ctx.user, reason);
 

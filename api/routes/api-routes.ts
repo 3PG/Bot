@@ -40,13 +40,11 @@ router.post('/stripe-webhook', async(req, res) => {
 async function giveUserPro(id: string) {   
   const savedUser = await SavedUser.findById(id);
   savedUser.premium = true;
-  savedUser.save();
-}
+  
+  const oneMonthLater = new Date(new Date().setDate(new Date().getDate() + 30));
+  savedUser.premiumExpiration = oneMonthLater;
 
-async function removeUserPro(id: string) {   
-  const savedUser = await SavedUser.findById(id);
-  savedUser.premium = false;
-  savedUser.save();
+  return savedUser.save();
 }
 
 router.get('/invite', (req, res) => 

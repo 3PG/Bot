@@ -1,4 +1,4 @@
-import { Command, CommandContext } from './Command';
+import { Command, CommandContext } from './command';
 
 export default class PingCommand implements Command {
     name = 'ping';

@@ -1,5 +1,4 @@
-import { Command, CommandContext } from './Command';
-import config from '../config.json';
+import { Command, CommandContext } from './command';
 
 export default class FlipCommand implements Command {
     name = 'flip';

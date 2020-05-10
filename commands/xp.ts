@@ -1,5 +1,5 @@
-import { Command, CommandContext } from './Command';
-import CommandUtils from '../utils/command-utils';
+import { Command, CommandContext } from './command';
+import { getMemberFromMention } from '../utils/command-utils';
 import config from '../config.json';
 
 export default class XPCommand implements Command {
@@ -8,14 +8,14 @@ export default class XPCommand implements Command {
     cooldown = 3;
     module = 'XP';
 
-    execute = (ctx: CommandContext, userMention: string) => {
+    execute = (ctx: CommandContext, userMention: string) => {        
         const target = (userMention) ?
-            CommandUtils.getMemberFromMention(userMention, ctx.guild) : ctx.member;
+            getMemberFromMention(userMention, ctx.guild) : ctx.member;
         
         if (target.user.bot)
             throw new TypeError(`Bot users cannot earn XP`);
-
-        const xpCardURL = `${config.api.url}/guilds/${ctx.guild.id}/members/${target.id}/xp-card`;             
+            
+        const xpCardURL = `${config.api.url}/guilds/${ctx.guild.id}/members/${target.id}/xp-card`;
         return ctx.channel.send({
             files: [{
                 attachment: xpCardURL,

@@ -5,7 +5,8 @@ import { bot } from '../../bot';
 import { TextChannel } from 'discord.js';
 import CommandService from '../../services/command.service';
 import Log from '../../utils/log';
-import { scheduleJob } from 'node-schedule';
+import { scheduleJob, Job } from 'node-schedule';
+import { createUUID } from '../../utils/command-utils';
 
 export default class Timers {
     readonly currentTimers = new Map<string, TimerTask[]>();
@@ -24,8 +25,10 @@ export default class Timers {
 
     cancelTimers(guildId: string) {
         const guildTimers = this.currentTimers.get(guildId) ?? [];
-        for (const timer of guildTimers)
-            timer.id.unref();
+        for (const timer of guildTimers) {
+            timer.interval?.unref();
+            timer.job?.cancel();
+        }
         this.currentTimers.set(guildId, []);
     }
 
@@ -34,34 +37,51 @@ export default class Timers {
         const savedGuild = await this.guilds.get(guild);
 
         for (const timer of savedGuild.timers.commandTimers)
-            this.startTimer(guildId, timer, savedGuild);
+            this.startTimer(timer, savedGuild);
             
         for (const timer of savedGuild.timers.messageTimers)
-            this.startTimer(guildId, timer, savedGuild);
+            this.startTimer(timer, savedGuild);
 
     }
 
-    startTimer(guildId: string, timer: Timer, savedGuild: GuildDocument) {
+    startTimer(timer: Timer, savedGuild: GuildDocument) {
         const minInterval = 60 * 1000;
-        const interval = this.getInterval(timer.interval);
+        const interval = this.getInterval(timer.interval);        
         if (interval < minInterval || !timer.enabled) return;
 
-        scheduleJob(timer.from, () => {
-            const guildTimers = this.currentTimers.get(guildId) 
-                ?? this.currentTimers.set(guildId, []).get(guildId);
-    
-            let task: TimerTask;
-            const id = setInterval(async() => await this.sendTimer(task, savedGuild), interval);
-    
-            task = {
-                id,
-                status: { name: 'ACTIVE' },
-                timer
-            };
-            guildTimers.push(task);
+        let from = new Date(timer.from),
+            job: Job,
+            status: any = 'PENDING',
+            uuid = createUUID();
+        
+        if (from.toString() === 'Invalid Date')
+            status = 'FAILED';
+
+        this.getGuildTimers(savedGuild.id)
+            .push({ status, timer, uuid, job });
+
+        if (from < new Date())
+            this.scheduleTimer(uuid, savedGuild, interval)
+        else
+            job = scheduleJob(from, () => this
+                .scheduleTimer(uuid, savedGuild, interval));
             
-            this.startedTimers++;
-        });
+        this.startedTimers++;
+    }
+    private getGuildTimers(id: string) {
+        return this.currentTimers.get(id) ?? this.currentTimers.set(id, []).get(id);
+    }
+
+    private scheduleTimer(uuid: string, savedGuild: GuildDocument, interval: number) {
+        const task = this.findTask(uuid, savedGuild.id);
+        if (!task) return;
+
+        task.status = 'ACTIVE';
+        task.interval = setInterval(
+            async() => await this.sendTimer(task, savedGuild), interval);
+    }
+    private findTask(uuid: string, guildId: string) {
+        return this.getGuildTimers(guildId)?.find(t => t.uuid === uuid);        
     }
 
     getInterval(interval: string) {
@@ -82,31 +102,26 @@ export default class Timers {
                 await this.commandService.findAndExecute({
                     channel,
                     client: bot,
-                    content: timer.message,
-                    guild: member.guild
+                    content: savedGuild.general.prefix + timer.command ?? '',
+                    guild: member.guild,
+                    member
                 } as any, savedGuild);
-            } catch (error) {
-                task.status.name = 'FAILED';
-                task.status.reason = error?.message;
-            }
+            } catch (error) { task.status = 'FAILED'; console.log(error);
+             }
         }
         if ('message' in timer) {
             try {
                 const channel = bot.channels.cache.get(timer.channel) as TextChannel;
                 channel.send(timer.message);
-            } catch (error) {
-                task.status.name = 'FAILED';
-                task.status.reason = error?.message;
-            }
+            } catch { task.status = 'FAILED'; }
         }
     }
 }
 
 export interface TimerTask {
-    id: NodeJS.Timeout;
-    status: {
-        name: 'PENDING' | 'ACTIVE' | 'FAILED';
-        reason?: string;
-    }
+    uuid: string;
+    interval?: NodeJS.Timeout;
+    job?: Job;
+    status: 'PENDING' | 'ACTIVE' | 'FAILED';
     timer: Timer;
 }

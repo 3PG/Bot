@@ -41,18 +41,18 @@ export default class CommandService {
         return (msg.content.startsWith(guild.general.prefix)) ?
             this.handleCommand(msg, guild) : false;
     }
-    private async handleCommand(msg: Message, guild: GuildDocument) {
+    private async handleCommand(msg: Message, savedGuild: GuildDocument) {
         const content = msg.content.toLowerCase();
         try {
-            this.validators.checkChannel(msg.channel as TextChannel, guild);
+            this.validators.checkChannel(msg.channel as TextChannel, savedGuild);
 
-            const command = this.findCommand(content);
+            const command = this.findCommand(savedGuild.general.prefix, content);
             if (!command || this.cooldowns.active(msg.author, command)) return;
 
-            this.validators.checkCommand(command, guild, msg);
+            this.validators.checkCommand(command, savedGuild, msg);
             this.validators.checkPreconditions(command, msg.member);
 
-            await this.findAndExecute(msg, guild);
+            await this.findAndExecute(msg, savedGuild);
 
             this.cooldowns.add(msg.author, command);
 
@@ -63,17 +63,25 @@ export default class CommandService {
         } finally { return true; }
     }
 
-    async findAndExecute(msg: Message, guild: GuildDocument) {
-        const command = this.findCommand(msg.content);
+    async findAndExecute(msg: Message, savedGuild: GuildDocument) {
+        const prefix = savedGuild.general.prefix;
+        const command = this.findCommand(prefix, msg.content);
+
+        console.log('args:');                
+        console.log(...this.getCommandArgs(prefix, msg.content));
+        
         await command.execute(new CommandContext(msg), 
-            ...this.getCommandArgs(guild.general.prefix, msg.content));  
+            ...this.getCommandArgs(prefix, prefix + msg.content));  
     }
 
-    private findCommand(content: string) {        
-        const name = content.split(' ')[0].substring(1, content.length);
+    private findCommand(prefix: string, content: string) {        
+        const name = content.split(' ')[0].substring(prefix.length, content.length);
+        console.log(name);
+        console.log(this.commands);        
+        
         return this.commands.get(name);
     }
-    private getCommandArgs(content: string, prefix: string) {
+    private getCommandArgs(prefix: string, content: string) {
         let args = content.split(' ');
         return args.splice(prefix.length, args.length);
     }

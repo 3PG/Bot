@@ -1,4 +1,4 @@
-import { Command, CommandContext } from './Command';
+import { Command, CommandContext } from './command';
 import config from '../config.json';
 
 export default class DashboardCommand implements Command {

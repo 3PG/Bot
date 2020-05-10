@@ -42,9 +42,6 @@ router.put('/:id/:module', async (req, res) => {
         if (!isValidModule)
             throw new TypeError('Module not configured');
 
-        if (module === 'timers')
-            await resetTimers(id);
-
         const user = await getUser(req.query.key);
         const guild = bot.guilds.cache.get(id); 
         const savedGuild = await guilds.get(guild);
@@ -56,6 +53,9 @@ router.put('/:id/:module', async (req, res) => {
 
         savedGuild[module] = req.body;
         await guilds.save(savedGuild);
+        
+        if (module === 'timers')
+            await resetTimers(id);
 
         await logs.logChanges(change, guild);
 
@@ -134,24 +134,9 @@ router.get('/:id/timers', (req, res) => {
             return res.json([]);
     
         for (const timer of guildTimers)
-            delete timer.id;
+            delete timer.interval;
     
         res.json(guildTimers);        
-    } catch (error) { res.status(400).json(error); }
-});
-
-router.get('/:id/timers/:timerId/cancel', async(req, res) => {
-    try {
-        const { id, timerId } = req.params.id;
-        await validateGuildManager(req.query.key, id);
-
-        const guildTimers = timers.currentTimers.get(id) ?? [];
-        guildTimers.splice(
-            guildTimers.findIndex(t => t.id === timerId), 1);
-            
-        timers.currentTimers.set(id, guildTimers);
-    
-        res.status(200).json({ success: true });
     } catch (error) { res.status(400).json(error); }
 });
 

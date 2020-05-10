@@ -3,7 +3,7 @@ import Members from '../data/members';
 import { TextChannel, PermissionString, Client, Guild } from 'discord.js';
 import { MemberDocument } from '../models/member';
 import Deps from '../utils/deps';
-import CommandUtils from '../utils/command-utils';
+import { getMemberFromMention } from '../utils/command-utils';
 
 export default class WarningsCommand implements Command {
     name = 'warnings';
@@ -17,7 +17,7 @@ export default class WarningsCommand implements Command {
     
     execute = async(ctx: CommandContext, userMention?: string, position?: string) => {
         const target = (userMention) ?
-            CommandUtils.getMemberFromMention(userMention, ctx.guild) : ctx.member;
+            getMemberFromMention(userMention, ctx.guild) : ctx.member;
 
         const savedMember = await this.members.get(target);
         

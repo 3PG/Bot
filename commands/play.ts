@@ -1,4 +1,4 @@
-import { Command, CommandContext } from './Command';
+import { Command, CommandContext } from './command';
 import Deps from '../utils/deps';
 import { GuildMember } from 'discord.js';
 import Music from '../modules/music/music';
