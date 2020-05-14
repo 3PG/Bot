@@ -62,30 +62,34 @@ export class XPCardGenerator extends ImageGenerator {
         context.fillStyle = card.tertiary || this.colors.tertiary;
         context.font = super.applyText(canvas, `#${this.discordUser.discriminator}`);  
 
-        context.fillText(`#${this.discordUser.discriminator}`, canvas.width / 2.7 + context.measureText(this.discordUser.username), canvas.height / 1.6);
+        context.fillText(
+            `#${this.discordUser.discriminator}`,
+            canvas.width / 2.7 + context.measureText(this.discordUser.username),
+            canvas.height / 1.6);
     }
-    private async addXPBar(context, canvas, xp: number) {
+    private async addXPBar(context: CanvasRenderingContext2D, canvas, xp: number) {
         let card = this.user.xpCard;
 
         const sizeOffset = 325;
         const position = { x: 275, y: canvas.height * 0.775 };
         const height = 25;
         
-        const { nextLevelXP, level, levelCompletion } = Leveling.xpInfo(xp);   
-
+        const { nextLevelXP, level, levelCompletion } = Leveling.xpInfo(xp);
+        
         context.fillStyle = card.secondary || this.colors.secondary;
         context.fillRect(position.x, position.y, canvas.width - sizeOffset - 1, height);
+
         context.fillStyle = card.primary || this.colors.tertiary;
         context.fillRect(position.x, position.y, 
             (canvas.width - sizeOffset) * (levelCompletion), height);
 
         context.fillStyle = card.primary || this.colors.primary;
         context.font = '16px Roboto, sans-serif';
-        context.fillText(xp, canvas.width / 2.5, canvas.height / 1.175);
+        context.fillText(xp.toString(), canvas.width / 2.5, canvas.height / 1.175);
         
         context.fillStyle = '#0F0F0F';
         context.fillText(`/`, canvas.width / 2.5 + 
-            context.measureText(xp).width, canvas.height / 1.175);
+            context.measureText(xp.toString()).width, canvas.height / 1.175);
 
         context.fillStyle = card.primary || this.colors.primary;
         context.fillText(`${nextLevelXP}XP`, canvas.width / 2.5 + 

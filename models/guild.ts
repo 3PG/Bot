@@ -89,7 +89,7 @@ export interface MessageTimer extends Timer {
     message: string;
 }
 
-export class XPModule extends Module {
+export class LevelingModule extends Module {
     levelRoles: LevelRole[] = [];
     ignoredRoles: string[] = [];
     xpPerMessage = 50;
@@ -102,7 +102,7 @@ export interface LevelRole {
 }
 
 export class MusicModule extends Module {
-    
+    maxTrackLength = 24;
 }
 
 export interface CommandConfig {
@@ -122,9 +122,9 @@ const guildSchema = new Schema({
     autoMod: { type: Object, default: new AutoModModule() }, 
     commands: { type: Object, default: new CommandsModule() },
     general: { type: Object, default: new GeneralModule() },
+    leveling: { type: Object, default: new LevelingModule() },
     music: { type: Object, default: new MusicModule },
     timers: { type: Object, default: new TimersModule() },
-    xp: { type: Object, default: new XPModule() },
     settings: { type: Object, default: new DashboardSettings() }
 });
 
@@ -133,9 +133,9 @@ export interface GuildDocument extends Document {
     announce: AnnounceModule;
     autoMod: AutoModModule;
     general: GeneralModule;
+    leveling: LevelingModule;
     music: MusicModule;
     timers: TimersModule;
-    xp: XPModule;
     commands: CommandsModule;
     settings: DashboardSettings;
 }

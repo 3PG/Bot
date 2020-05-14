@@ -20,7 +20,7 @@ export default class Leveling {
         this.handleCooldown(savedMember, savedGuild);
 
         const oldLevel = this.getLevel(savedMember.xp);
-        savedMember.xp += savedGuild.xp.xpPerMessage;
+        savedMember.xp += savedGuild.leveling.xpPerMessage;
         const newLevel = this.getLevel(savedMember.xp);
 
         if (newLevel > oldLevel) {  
@@ -39,7 +39,7 @@ export default class Leveling {
     private handleCooldown(savedMember: MemberDocument, savedGuild: GuildDocument) {
         const inCooldown = savedMember.recentMessages
             .filter(m => m.getMinutes() === new Date().getMinutes())
-            .length > savedGuild.xp.maxMessagesPerMinute;
+            .length > savedGuild.leveling.maxMessagesPerMinute;
         if (inCooldown)
             throw new TypeError('User is in cooldown');
 
@@ -53,7 +53,7 @@ export default class Leveling {
     private hasIgnoredXPRole(member: GuildMember, guild: GuildDocument) {
         for (const entry of member.roles.cache) { 
             const role = entry[1];
-            if (guild.xp.ignoredRoles.some(id => id === role.id))
+            if (guild.leveling.ignoredRoles.some(id => id === role.id))
                 return true;
         }
         return false;
@@ -65,7 +65,7 @@ export default class Leveling {
             msg.member?.roles.add(levelRole);
     }
     private getLevelRole(level: number, guild: GuildDocument) {
-        return guild.xp.levelRoles.find(r => r.level === level)?.role;
+        return guild.leveling.levelRoles.find(r => r.level === level)?.role;
     }
 
     getLevel(xp: number) {

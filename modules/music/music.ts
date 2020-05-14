@@ -1,8 +1,10 @@
 import config from '../../config.json';
-import { ErelaClient, Player } from 'erela.js';
+import { ErelaClient, Player, Track } from 'erela.js';
 import { bot } from '../../bot';
 import Log from '../../utils/log';
 import { CommandContext } from '../../commands/command';
+import { GuildDocument } from '../../models/guild';
+import { GuildMember } from 'discord.js';
 
 export default class Music {
     private _client = {} as ErelaClient;
@@ -53,5 +55,17 @@ export default class Music {
 
         return `${Math.floor(positionInSeconds / 60)}:${Math.floor(positionInSeconds % 60).toString().padStart(2, '0')} / ` +
             `${Math.floor(durationInSeconds / 60)}:${Math.floor(durationInSeconds % 60).toString().padStart(2, '0')}`;
+    }
+
+    async findTrack(query: string, requestor: GuildMember, savedGuild: GuildDocument) {
+        const track = await this.searchForTrack(query, requestor);
+        if (track.duration > savedGuild.music.maxTrackLength * 60 * 1000)
+            throw new TypeError(`Track length must be less than or equal to \`${savedGuild.music.maxTrackLength} hours\``);
+        return track;
+    }
+
+    private async searchForTrack(query: string, requestor: GuildMember) {
+        const res = await this.client.search(query, requestor);    
+        return res.tracks[0];
     }
 }

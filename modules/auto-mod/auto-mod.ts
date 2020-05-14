@@ -58,15 +58,19 @@ export default class AutoMod {
             user: member.user,
             reason,
             warnings: savedMember.warnings.length
-        } as UserWarnArgs);
+        } as UserPunishmentArgs);
 
         try {
             await member.send(`<@!${instigator}> warned you for \`${reason}\``);
         } catch {}
     }
+
+    // muteMember(target: GuildMember, user: User, reason: string) {        
+    //     target.permissions.remove(['SEND_MESSAGES']);
+    // }
 }
 
-export interface UserWarnArgs {
+export interface UserPunishmentArgs {
     guild: Guild;
     user: User;
     instigator: User;

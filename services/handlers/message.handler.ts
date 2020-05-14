@@ -29,7 +29,7 @@ export default class MessageHandler implements EventHandler {
         try {
             if (guild.autoMod.enabled)
                 await this.autoMod.validateMsg(msg, guild);
-            if (guild.xp.enabled) {
+            if (guild.leveling.enabled) {
                 await this.leveling.validateXPMsg(msg, guild);
                 earnedXP = true;
             }

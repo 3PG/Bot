@@ -3,7 +3,7 @@ import { Message, GuildMember, TextChannel, Guild, User, Client, PermissionStrin
 export interface Command {
     name: string;
     summary: string;
-    module;
+    module: string;
     cooldown?: number;
     precondition?: PermissionString;
     

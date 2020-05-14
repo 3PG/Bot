@@ -91,6 +91,20 @@ export interface ConfigUpdateArgs {
     old: any;
 }
 
+router.delete('/:id/config', async(req, res) => {
+    try {
+        const id = req.params.id;
+        await validateGuildManager(req.query.key, id);    
+        
+        const guild = bot.guilds.cache.get(req.params.id);
+        const savedGuild = await guilds.get(guild);
+        
+        await savedGuild.remove();
+        
+        res.send({ success: true })
+    } catch (error) { res.status(401).json(error); }
+});
+
 router.get('/:id/config', async (req, res) => {
     try {
         const guild = bot.guilds.cache.get(req.params.id);
@@ -111,7 +125,8 @@ router.get('/:id/channels/:channelId/messages/:messageId', (req, res) => {
         const guild = bot.guilds.cache.get(req.params.id);
         const channel = guild.channels.cache
             .get(req.params.channelId) as TextChannel;
-        channel.messages.fetch();
+
+        console.log(channel.messages.cache);        
 
         const message = channel.messages.cache.get(req.params.messageId);        
 
