@@ -12,21 +12,22 @@ export default class PlayCommand implements Command {
 
     constructor(
         private guilds = Deps.get<Guilds>(Guilds),
-        private music = Deps.get<Music>(Music)) {},
+        private music = Deps.get<Music>(Music)) {}
     
     execute = async(ctx: CommandContext, ...args: string[]) => {
         const query = args.join(' ');
         if (!query)
             throw new TypeError('Query must be provided.');
 
-        const player = this.music.joinAndGetPlayer(ctx);
+        const player = this.music.joinAndGetPlayer(ctx.member, ctx.channel);
 
         const maxQueueSize = 5;
         if (player.queue.size >= maxQueueSize)
             throw new TypeError(`Max queue size of \`${maxQueueSize}\` reached.`);
 
         const savedGuild = await this.guilds.get(ctx.guild);
-        const track = await this.music.findTrack(query, ctx.member, savedGuild);
+        const track = await this.music
+            .findTrack(query, ctx.member, savedGuild.music.maxTrackLength);
 
         player.queue.add(track);
         if (player.playing)

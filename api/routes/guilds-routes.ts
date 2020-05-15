@@ -11,11 +11,14 @@ import Users from '../../data/users';
 import Guilds from '../../data/guilds';
 import Logs from '../../data/logs';
 import AuditLogger from '../modules/audit-logger';
-import { User, Guild, TextChannel } from 'discord.js';
+import { User, Guild, TextChannel, VoiceChannel } from 'discord.js';
 import Leveling from '../../modules/xp/leveling';
 import Log from '../../utils/log';
 import { Change } from '../../models/log';
 import Timers from '../../modules/timers/timers';
+import { CommandContext } from '../../commands/command';
+import Music from '../../modules/music/music';
+import { getUser } from './user-routes';
 
 export const router = Router();
 
@@ -120,17 +123,19 @@ router.get('/:id/channels', async (req, res) => {
     } catch (error) { res.status(400).json(error); }
 });
 
-router.get('/:id/channels/:channelId/messages/:messageId', (req, res) => {
+router.get('/:id/channels/:channelId/messages/:messageId', async(req, res) => {
     try {
         const guild = bot.guilds.cache.get(req.params.id);
         const channel = guild.channels.cache
-            .get(req.params.channelId) as TextChannel;
+            .get(req.params.channelId) as TextChannel;   
 
-        console.log(channel.messages.cache);        
+        const msg = await channel.messages.fetch(req.params.messageId);
 
-        const message = channel.messages.cache.get(req.params.messageId);        
-
-        res.status(200).json(message);
+        res.status(200).json({
+            ...msg,
+            member: guild.members.cache.get(msg.author.id),
+            user: bot.users.cache.get(msg.author.id)
+        });
     } catch (error) { res.status(400).json(error); }
 });
 
@@ -212,21 +217,6 @@ function leaderboardMember(user: User, xpInfo: any) {
     };
 }
 
-async function getManagableGuilds(key: string) {
-    const manageableGuilds = [];
-    let userGuilds = await AuthClient.getGuilds(key);
-    for (const id of userGuilds.keys()) {        
-        const authGuild = userGuilds.get(id);        
-        const hasManager = authGuild._permissions
-            .some(p => p === config.api.managerPermission);
-
-        if (hasManager)
-            manageableGuilds.push(id);
-    }
-    return bot.guilds.cache
-        .filter(g => manageableGuilds.some(id => id === g.id));
-}
-
 router.get('/:guildId/members/:memberId/xp-card', async (req, res) => {
     try {
         const { guildId, memberId } = req.params;
@@ -250,16 +240,26 @@ router.get('/:guildId/members/:memberId/xp-card', async (req, res) => {
     } catch (error) { res.status(400).send(error?.message); }
 });
 
-async function validateGuildManager(key: string, id: string) {
+export async function validateGuildManager(key: string, guildId: string) {
     if (!key)
         throw new TypeError();
     const guilds = await getManagableGuilds(key);        
         
-    if (!guilds.has(id))
+    if (!guilds.has(guildId))
         throw TypeError();
 }
 
-async function getUser(key: string) {    
-    const { id } = await AuthClient.getUser(key);
-    return bot.users.cache.get(id);
+export async function getManagableGuilds(key: string) {
+    const manageableGuilds = [];
+    let userGuilds = await AuthClient.getGuilds(key);
+    for (const id of userGuilds.keys()) {        
+        const authGuild = userGuilds.get(id);        
+        const hasManager = authGuild._permissions
+            .some(p => p === config.api.managerPermission);
+
+        if (hasManager)
+            manageableGuilds.push(id);
+    }
+    return bot.guilds.cache
+        .filter(g => manageableGuilds.some(id => id === g.id));
 }

@@ -2,10 +2,11 @@ import { Router } from 'express';
 import { SavedCommand, CommandDocument } from '../../models/command';
 import { AuthClient } from '../server';
 import * as config from '../../config.json';
+import { SavedUser } from '../../models/user';
 
 import { router as guildsRoutes } from './guilds-routes';
 import { router as userRoutes } from './user-routes';
-import { SavedUser } from '../../models/user';
+import { router as musicRoutes } from './music-routes';
 
 export const router = Router();
 
@@ -54,6 +55,7 @@ router.get('/login', (req, res) =>
     res.redirect(`https://discordapp.com/oauth2/authorize?client_id=${config.bot.id}&redirect_uri=${config.webapp.url}/auth&response_type=code&scope=identify guilds`));
 
 router.use('/guilds', guildsRoutes);
+router.use('/guilds/:id/music', musicRoutes)
 router.use('/user', userRoutes);
 
 router.get('*', (req, res) => res.status(404).json({ code: 404 }));

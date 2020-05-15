@@ -73,9 +73,6 @@ export default class CommandService {
 
     private findCommand(prefix: string, content: string) {        
         const name = content.split(' ')[0].substring(prefix.length, content.length);
-        console.log(name);
-        console.log(this.commands);        
-        
         return this.commands.get(name);
     }
     private getCommandArgs(prefix: string, content: string) {

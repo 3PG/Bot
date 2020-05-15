@@ -11,9 +11,7 @@ export default class SkipCommand implements Command {
     constructor(private music = Deps.get<Music>(Music)) {}
     
     execute = async(ctx: CommandContext) => {
-        const player = this.music.joinAndGetPlayer(ctx);
-        if (player.queue.size <= 1)
-            throw new TypeError('No tracks to skip');
-        player.stop();
+        const player = this.music.joinAndGetPlayer(ctx.member, ctx.channel);
+        this.music.skip(player);
     }
 }

@@ -11,7 +11,7 @@ export default class PlayCommand implements Command {
     constructor(private music = Deps.get<Music>(Music)) {}
     
     execute = async(ctx: CommandContext) => {
-        const player = this.music.joinAndGetPlayer(ctx);
+        const player = this.music.joinAndGetPlayer(ctx.member, ctx.channel);
         player.queue.shuffle();
         
         return ctx.channel.send('List shuffled.');

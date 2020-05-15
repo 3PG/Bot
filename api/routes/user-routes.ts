@@ -6,7 +6,6 @@ import { bot } from '../../bot';
 import Deps from '../../utils/deps';
 import Users from '../../data/users';
 import config from '../../config.json';
-import Stripe from 'stripe';
 
 export const router = Router();
 
@@ -83,7 +82,7 @@ router.put('/xp-card', async (req, res) => {
     } catch { res.status(400).send('Bad Request'); }
 });
 
-async function getUser(key: string) {   
+export async function getUser(key: string) {   
     const { id } = await AuthClient.getUser(key);
     return bot.users.cache.get(id);
 }
