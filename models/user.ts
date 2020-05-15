@@ -17,10 +17,26 @@ const userSchema = new Schema({
 
 export interface UserDocument extends Document {
     _id: string;
+    badges: Badge[];
     premium: boolean;
     premiumExpiration: Date,
     votes: number;
     xpCard: XPCard;
 }
+
+export interface Badge {
+    at: Date;
+    type: BadgeType;
+    tier?: number;
+}
+
+export enum BadgeType {
+  Alpha = 'ALPHA',
+  BugDestroyer = 'BUG_DESTROYER',
+  EarlySupporter = 'EARLY_SUPPORTER',
+  Legend = 'LEGEND',
+  Pro = 'PRO'
+}
+
 
 export const SavedUser = model<UserDocument>('user', userSchema);

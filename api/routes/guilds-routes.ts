@@ -16,8 +16,6 @@ import Leveling from '../../modules/xp/leveling';
 import Log from '../../utils/log';
 import { Change } from '../../models/log';
 import Timers from '../../modules/timers/timers';
-import { CommandContext } from '../../commands/command';
-import Music from '../../modules/music/music';
 import { getUser } from './user-routes';
 
 export const router = Router();

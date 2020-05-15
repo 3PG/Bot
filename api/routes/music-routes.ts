@@ -9,7 +9,7 @@ export const router = Router();
 
 const music = Deps.get<Music>(Music);
 
-router.get('/:id/music/pause', async (req, res) => {
+router.get('/pause', async (req, res) => {
     try {
         const { player } = await getMusic(req.params.id, req.query.key);
         player.pause(true);
@@ -18,7 +18,7 @@ router.get('/:id/music/pause', async (req, res) => {
     } catch (error) { res.status(400).send(error?.message); }
 });
 
-router.get('/:id/music/resume', async (req, res) => {
+router.get('/resume', async (req, res) => {
     try {
         const { player } = await getMusic(req.params.id, req.query.key);
         player.pause(false);
@@ -27,7 +27,7 @@ router.get('/:id/music/resume', async (req, res) => {
     } catch (error) { res.status(400).send(error?.message); }
 });
 
-router.get('/:id/music/list', async (req, res) => {
+router.get('/list', async (req, res) => {
     try {
         const { player } = await getMusic(req.params.id, req.query.key);
 
@@ -41,7 +41,7 @@ router.get('/:id/music/list', async (req, res) => {
     } catch (error) { res.status(400).send(error?.message); }
 });
 
-router.get('/:id/music/skip', async (req, res) => {
+router.get('/skip', async (req, res) => {
     try {
         const { player } = await getMusic(req.params.id, req.query.key);
         
@@ -51,7 +51,7 @@ router.get('/:id/music/skip', async (req, res) => {
     } catch (error) { res.status(400).send(error?.message); }
 });
 
-router.get('/:id/music/seek/:position', async (req, res) => {
+router.get('/seek/:position', async (req, res) => {
     try {
         const { player } = await getMusic(req.params.id, req.query.key);
 
@@ -62,7 +62,7 @@ router.get('/:id/music/seek/:position', async (req, res) => {
 });
 
 
-router.get('/:id/music/remove/:number', async (req, res) => {
+router.get('/remove/:number', async (req, res) => {
     try {
         const { player } = await getMusic(req.params.id, req.query.key);
         
@@ -72,7 +72,7 @@ router.get('/:id/music/remove/:number', async (req, res) => {
     } catch (error) { res.status(400).send(error?.message); }
 });
 
-router.get('/:id/music/play', async (req, res) => {
+router.get('/play', async (req, res) => {
     try {
         const { player, requestor } = await getMusic(req.params.id, req.query.key);
         const track = await music.findTrack(
@@ -90,7 +90,7 @@ router.get('/:id/music/play', async (req, res) => {
     } catch (error) { res.status(400).send(error?.message); }
 });
 
-router.get('/:id/music/stop', async (req, res) => {
+router.get('/stop', async (req, res) => {
     try {
         await validateGuildManager(req.query.key, req.params.id);
 
