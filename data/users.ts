@@ -8,7 +8,7 @@ export default class Users extends DBWrapper<User, UserDocument> {
             throw new TypeError(`Bots don't have accounts`);
     
         const savedUser = await SavedUser.findById(user.id);
-        if (savedUser && savedUser.premiumExpiration > new Date())
+        if (savedUser && savedUser.premiumExpiration <= new Date())
             await this.removePro(savedUser);
 
         return savedUser ?? this.create(user);

@@ -28,7 +28,7 @@ const items = [
 router.get('/pay', async(req, res) => {
     try {
         const user = await getUser(req.query.key);
-
+        
         const session = await stripe.checkout.sessions.create({
             success_url: `${config.webapp.url}/payment-success`,
             cancel_url: `${config.webapp.url}/pro`,

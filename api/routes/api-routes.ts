@@ -10,6 +10,7 @@ import { router as musicRoutes } from './music-routes';
 import Deps from '../../utils/deps';
 import Users from '../../data/users';
 import { bot } from '../../bot';
+import { MessageEmbed } from 'discord.js';
 
 export const router = Router();
 
@@ -32,16 +33,14 @@ router.get('/auth', async (req, res) => {
 router.post('/auth-vote', async(req, res) => {
   try {
     const secrets = [ req.get('X-DBL-Signature'), req.get('Authorization') ]; // dbl, top.gg
-    const containsSecret = secrets.some(s => s && s.includes(config.bot.botLists.dbl.webhookSecret));
+    const containsSecret = secrets
+      .some(s => s && s.includes(config.bot.botLists.dbl.webhookSecret));
     if (!containsSecret)
       throw new TypeError('No secret found');
     
     const id = req.body.id || req.body.user; // dbl || top.gg
     const user = bot.users.cache.get(id)
     const savedUser = await users.get(user);
-
-    console.log('wee woo');
-    
         
     savedUser.votes++;
   
@@ -73,14 +72,16 @@ router.post('/stripe-webhook', async(req, res) => {
   } catch (error) { res.status(400).json(error?.message); } 
 });
 
-async function giveUserPro(id: string) {   
-  const savedUser = await SavedUser.findById(id);
-  savedUser.premium = true;
+async function giveUserPro(id: string) {
+  console.log('give ' + id + ' pro');
   
-  const oneMonthLater = new Date(new Date().setDate(new Date().getDate() + 30));
-  savedUser.premiumExpiration = oneMonthLater;
+  const user = bot.users.cache.get(id);
+  const savedUser = await users.get(user);
 
-  return savedUser.save();
+  savedUser.premium = true;
+  savedUser.premiumExpiration = new Date(new Date().setDate(new Date().getDate() + 30));
+
+  await savedUser.save();
 }
 
 router.get('/invite', (req, res) => 
