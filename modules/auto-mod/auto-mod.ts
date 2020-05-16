@@ -33,41 +33,60 @@ export default class AutoMod {
                 if (guild.autoMod.autoDeleteMessages)
                     await msg.delete({ reason: validation.message });
                 if (guild.autoMod.autoWarnUsers && msg.member && msg.client.user)
-                    await this.warnMember(msg.member, msg.client.user, validation.message);
+                    await this.warn(msg.member, msg.client.user, validation.message);
 
                 throw validation;
             }
         }
     }
 
-    async warnMember(member: GuildMember, instigator: User, reason = 'No reason specified.') {
-        if (member.id === instigator.id)
+    async warn(target: GuildMember, instigator: User, reason = 'No reason specified.') {
+        if (target.id === instigator.id)
             throw new TypeError('You cannot warn yourself.');
-        if (member.user.bot)
+        if (target.user.bot)
             throw new TypeError('Bots cannot be warned.');
 
-        const savedMember = await this.members.get(member);
+        const savedMember = await this.members.get(target);
         const warning = { reason, instigatorId: instigator.id, at: new Date() };
 
         savedMember.warnings.push(warning);        
         await this.members.save(savedMember);
 
         emitter.emit('userWarn', {
-            guild: member.guild,
+            guild: target.guild,
             instigator,
-            user: member.user,
+            user: target.user,
             reason,
             warnings: savedMember.warnings.length
         } as UserPunishmentArgs);
-
-        try {
-            await member.send(`<@!${instigator}> warned you for \`${reason}\``);
-        } catch {}
     }
 
-    // muteMember(target: GuildMember, user: User, reason: string) {        
-    //     target.permissions.remove(['SEND_MESSAGES']);
-    // }
+    async mute(target: GuildMember, instigator: User) {
+        if (target.id === instigator.id)
+            throw new TypeError('You cannot mute yourself.');
+        if (target.user.bot)
+            throw new TypeError('Bots cannot be muted.');
+
+        const role = await this.getMutedRole(target.guild);
+        target.roles.add(role);            
+    }
+
+    async unmute(target: GuildMember, instigator: User) {   
+        if (target.id === instigator.id)
+            throw new TypeError('You cannot unmute yourself.');
+        if (target.user.bot)
+            throw new TypeError('Bots cannot be unmuted.');
+
+        const role = await this.getMutedRole(target.guild);
+        target.roles.remove(role);
+    }
+
+    private async getMutedRole(guild: Guild) {
+        let role = guild.roles.cache.find(r => r.name === 'Muted');
+        if (!role)
+            role = await guild.roles.create({ data: { name: 'Muted' } });
+        return role;
+    }
 }
 
 export interface UserPunishmentArgs {

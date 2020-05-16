@@ -5,7 +5,7 @@ import { validateGuildManager } from './guilds-routes';
 import { bot } from '../../bot';
 import { AuthClient } from '../server';
 
-export const router = Router();
+export const router = Router({ mergeParams: true });
 
 const music = Deps.get<Music>(Music);
 
@@ -102,7 +102,7 @@ router.get('/stop', async (req, res) => {
 
 async function getMusic(id: string, key: string) {
     const guild = bot.guilds.cache.get(id);
-    const user = await AuthClient.getUser(key);
+    const user = await AuthClient.getUser(key);    
 
     const member = guild.members.cache.get(user.id);
 

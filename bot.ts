@@ -21,7 +21,7 @@ export const bot = new Client({
     messageCacheLifetime: 60,
     messageCacheMaxSize: 100,
     fetchAllMembers: true,
-    partials: ['REACTION', 'MESSAGE', 'GUILD_MEMBER', 'USER']
+    partials: ['REACTION', 'MESSAGE', 'GUILD_MEMBER', 'USER', 'CHANNEL']
 });
 export const emitter = new EventEmitter();
 

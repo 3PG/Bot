@@ -17,7 +17,7 @@ export default class GuildBanAddHandler extends AnnounceHandler {
         return new EventVariables(content)
             .guild(guild)
             .memberCount(guild)
-            .reason(ban)
+            .reason(ban.reason)
             .user(user)
             .toString();
     }

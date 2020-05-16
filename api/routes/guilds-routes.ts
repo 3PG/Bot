@@ -30,7 +30,7 @@ router.get('/', async (req, res) => {
     try {        
         const guilds = await getManagableGuilds(req.query.key);
         res.json(guilds);
-    } catch (error) { res.status(400).json(error); }
+    } catch (error) { res.status(400).json(error?.message); }
 });
 
 router.put('/:id/:module', async (req, res) => {
@@ -65,7 +65,7 @@ router.put('/:id/:module', async (req, res) => {
         res.json(savedGuild);
     } catch (error) {
         Log.error(error, 'api');
-        res.status(400).json(error);
+        res.status(400).json(error?.message);
     }
 });
 
@@ -103,7 +103,7 @@ router.delete('/:id/config', async(req, res) => {
         await savedGuild.remove();
         
         res.send({ success: true })
-    } catch (error) { res.status(401).json(error); }
+    } catch (error) { res.status(401).json(error?.message); }
 });
 
 router.get('/:id/config', async (req, res) => {
@@ -111,20 +111,20 @@ router.get('/:id/config', async (req, res) => {
         const guild = bot.guilds.cache.get(req.params.id);
         const savedGuild = await guilds.get(guild);
         res.json(savedGuild);
-    } catch (error) { res.status(400).json(error); }
+    } catch (error) { res.status(400).json(error?.message); }
 });
 
 router.get('/:id/channels', async (req, res) => {
     try {
         const guild = bot.guilds.cache.get(req.params.id);
-        res.json(guild.channels.cache);        
-    } catch (error) { res.status(400).json(error); }
+        res.json(guild?.channels.cache);        
+    } catch (error) { res.status(400).json(error?.message); }
 });
 
 router.get('/:id/channels/:channelId/messages/:messageId', async(req, res) => {
     try {
         const guild = bot.guilds.cache.get(req.params.id);
-        const channel = guild.channels.cache
+        const channel = guild?.channels.cache
             .get(req.params.channelId) as TextChannel;   
 
         const msg = await channel.messages.fetch(req.params.messageId);
@@ -134,7 +134,7 @@ router.get('/:id/channels/:channelId/messages/:messageId', async(req, res) => {
             member: guild.members.cache.get(msg.author.id),
             user: bot.users.cache.get(msg.author.id)
         });
-    } catch (error) { res.status(400).json(error); }
+    } catch (error) { res.status(400).json(error?.message); }
 });
 
 router.get('/:id/log', async(req, res) => {
@@ -142,7 +142,7 @@ router.get('/:id/log', async(req, res) => {
         const guild = bot.guilds.cache.get(req.params.id);
         const log = await logs.get(guild);
         res.json(log);
-    } catch (error) { res.status(400).json(error); }
+    } catch (error) { res.status(400).json(error?.message); }
 });
 
 router.get('/:id/timers', (req, res) => {
@@ -155,7 +155,7 @@ router.get('/:id/timers', (req, res) => {
             delete timer.interval;
     
         res.json(guildTimers);        
-    } catch (error) { res.status(400).json(error); }
+    } catch (error) { res.status(400).json(error?.message); }
 });
 
 router.get('/:id/warnings', async(req, res) => {
@@ -173,7 +173,7 @@ router.get('/:id/warnings', async(req, res) => {
                 });
             }
         res.json(warnings);        
-    } catch (error) { res.status(400).json(error); }
+    } catch (error) { res.status(400).json(error?.message); }
 });
 
 router.get('/:id/public', (req, res) => {
@@ -184,8 +184,8 @@ router.get('/:id/public', (req, res) => {
 router.get('/:id/roles', async (req, res) => {
     try {
         const guild = bot.guilds.cache.get(req.params.id);
-        res.json(guild.roles.cache.filter(r => r.name !== '@everyone'));        
-    } catch { res.status(404).send('Not Found'); }
+        res.json(guild?.roles.cache.filter(r => r.name !== '@everyone'));        
+    } catch (error) { res.status(400).json(error?.message); }
 });
 
 router.get('/:id/members', async (req, res) => {
@@ -227,9 +227,10 @@ router.get('/:guildId/members/:memberId/xp-card', async (req, res) => {
         if (!member)
             throw Error();
         
-        const savedMember = await members.get(member);  
+        const savedMember = await members.get(member);        
         const savedMembers = await SavedMember.find({ guildId });
-        const rank = Ranks.get(member, savedMembers);
+        
+        const rank = Ranks.get(member, savedMembers);        
         
         const generator = new XPCardGenerator(savedUser, rank);
         const image = await generator.generate(savedMember);

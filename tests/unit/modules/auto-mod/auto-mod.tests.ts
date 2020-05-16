@@ -94,7 +94,7 @@ describe('modules/auto-mod', () => {
             const member: any = { id: '123', send: () => { throw new TypeError() }, user: { bot: false }};
             const instigator: any = { id: '321' };
 
-            const result = () => autoMod.warnMember(member, instigator);
+            const result = () => autoMod.warn(member, instigator);
 
             result().should.eventually.throw();
         });
@@ -103,7 +103,7 @@ describe('modules/auto-mod', () => {
             const member: any = { id: '123', user: { bot: false } };
             const instigator: any = { id: '123' };
 
-            const result = () => autoMod.warnMember(member, instigator);
+            const result = () => autoMod.warn(member, instigator);
 
             result().should.eventually.throw();
         });
@@ -112,7 +112,7 @@ describe('modules/auto-mod', () => {
             const member: any = { id: '123', user: { bot: true }};
             const instigator: any = { id: '321' };
 
-            const result = () => autoMod.warnMember(member, instigator);
+            const result = () => autoMod.warn(member, instigator);
 
             result().should.eventually.throw();
         });
