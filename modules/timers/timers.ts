@@ -1,4 +1,4 @@
-import { Timer, CommandTimer, MessageTimer, GuildDocument } from '../../models/guild';
+import { Timer, CommandTimer, MessageTimer, GuildDocument } from '../../data/models/guild';
 import Deps from '../../utils/deps';
 import Guilds from '../../data/guilds';
 import { bot } from '../../bot';

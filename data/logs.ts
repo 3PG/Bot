@@ -1,8 +1,7 @@
 import { Guild, Message } from 'discord.js';
 import DBWrapper from './db-wrapper';
-import { LogDocument, SavedLog, MessageValidationMetadata, Change } from '../models/log';
+import { LogDocument, SavedLog, MessageValidationMetadata, Change } from '../data/models/log';
 import { Command } from '../commands/command';
-import { MessageFilter } from '../models/guild';
 
 export default class Logs extends DBWrapper<Guild, LogDocument> {
     protected async getOrCreate(guild: Guild) {

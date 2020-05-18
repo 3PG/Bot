@@ -1,10 +1,10 @@
 import { use, should, expect } from 'chai';
-import { GuildDocument, MessageFilter } from '../../../../models/guild';
+import { GuildDocument, MessageFilter } from '../../../../data/models/guild';
 import { mock } from 'ts-mockito';
 import AutoMod from '../../../../modules/auto-mod/auto-mod';
 import { Message } from 'discord.js';
 import chaiAsPromised from 'chai-as-promised';
-import {  SavedMember } from '../../../../models/member';
+import {  SavedMember } from '../../../../data/models/member';
 import Members from '../../../../data/members';
 
 should();

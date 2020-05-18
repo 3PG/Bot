@@ -1,4 +1,4 @@
-import { SavedGuild, GuildDocument } from "../../../models/guild";
+import { SavedGuild, GuildDocument } from "../../../data/models/guild";
 import Validators from "../../../services/validators";
 import { Command } from "../../../commands/command";
 import PingCommand from "../../../commands/ping";

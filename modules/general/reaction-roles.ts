@@ -1,4 +1,4 @@
-import { GuildDocument } from "../../models/guild";
+import { GuildDocument } from "../../data/models/guild";
 import { MessageReaction } from "discord.js";
 
 export default class ReactionRoles {

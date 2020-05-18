@@ -4,10 +4,14 @@ import Deps from '../../utils/deps';
 import { validateGuildManager } from './guilds-routes';
 import { bot } from '../../bot';
 import { AuthClient } from '../server';
+import { getUser } from './user-routes';
+import Members from '../../data/members';
+import Users from '../../data/users';
 
 export const router = Router({ mergeParams: true });
 
-const music = Deps.get<Music>(Music);
+const music = Deps.get<Music>(Music),
+      users = Deps.get<Users>(Users);
 
 router.get('/pause', async (req, res) => {
     try {
@@ -74,11 +78,11 @@ router.get('/remove/:number', async (req, res) => {
 
 router.get('/play', async (req, res) => {
     try {
-        const { player, requestor } = await getMusic(req.params.id, req.query.key);
+        const { player, requestor, hasPremium } = await getMusic(req.params.id, req.query.key);
         const track = await music.findTrack(
             req.query.query, requestor, req.query.maxTrackLength ?? 2);
         
-        const maxSize = 5;
+        const maxSize = (hasPremium) ? 10 : 5;
         if (player.queue.size >= maxSize)
             throw new Error('Queue limit reached.');
 
@@ -100,14 +104,18 @@ router.get('/stop', async (req, res) => {
     } catch (error) { res.status(400).send(error?.message); }
 });
 
-async function getMusic(id: string, key: string) {
-    const guild = bot.guilds.cache.get(id);
-    const user = await AuthClient.getUser(key);    
+async function getMusic(guildId: string, key: string) {
+    const { id } = await AuthClient.getUser(key);
 
-    const member = guild.members.cache.get(user.id);
+    const user = bot.users.cache.get(id);
+    const guild = bot.guilds.cache.get(guildId);
+    const member = guild.members.cache.get(id);
+
+    const savedUser = await users.get(user);
 
     return {
         player: music.joinAndGetPlayer(member, null),
-        requestor: member
+        requestor: member,
+        hasPremium: savedUser.premium
     };
 }

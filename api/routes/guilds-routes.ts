@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import config from '../../config.json';
-import { SavedMember } from '../../models/member';
+import { SavedMember } from '../../data/models/member';
 import { AuthClient } from '../server';
 import { XPCardGenerator } from '../modules/image/xp-card-generator';
 import { bot, emitter } from '../../bot';
@@ -11,10 +11,10 @@ import Users from '../../data/users';
 import Guilds from '../../data/guilds';
 import Logs from '../../data/logs';
 import AuditLogger from '../modules/audit-logger';
-import { User, Guild, TextChannel, VoiceChannel } from 'discord.js';
+import { User, Guild, TextChannel, VoiceChannel, GuildMember } from 'discord.js';
 import Leveling from '../../modules/xp/leveling';
 import Log from '../../utils/log';
-import { Change } from '../../models/log';
+import { Change } from '../../data/models/log';
 import Timers from '../../modules/timers/timers';
 import { getUser } from './user-routes';
 
@@ -68,12 +68,10 @@ router.put('/:id/:module', async (req, res) => {
         res.status(400).json(error?.message);
     }
 });
-
 async function resetTimers(id: string) {
     timers.cancelTimers(id);
     await timers.startTimers(id);
 }
-
 function emitConfigSaved(guild: Guild, user: User, change: Change) {
     emitter.emit('configUpdate', {
         guild,
@@ -192,12 +190,14 @@ router.get('/:id/members', async (req, res) => {
     try {
         const savedMembers = await SavedMember.find({ guildId: req.params.id }).lean();        
         let rankedMembers = [];
-        for (const member of savedMembers) {
-            const user = bot.users.cache.get(member.userId);
-            if (!user) continue;
+        for (const savedMember of savedMembers) {
+            const member = bot.guilds.cache
+                .get(req.params.id).members.cache
+                .get(savedMember.userId);
+            if (!member) continue;
             
-            const xpInfo = Leveling.xpInfo(member.xp);
-            rankedMembers.push(leaderboardMember(user, xpInfo));
+            const xpInfo = Leveling.xpInfo(savedMember.xp);
+            rankedMembers.push(leaderboardMember(member, xpInfo));
         }
         rankedMembers.sort((a, b) => b.xp - a.xp);
     
@@ -205,7 +205,7 @@ router.get('/:id/members', async (req, res) => {
     } catch (error) { res.status(400).send(error?.message); }
 });
 
-function leaderboardMember(user: User, xpInfo: any) {
+function leaderboardMember({ user, voice }: GuildMember, xpInfo: any) {
     return {
         id: user.id,
         username: user.username,

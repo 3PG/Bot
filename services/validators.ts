@@ -1,6 +1,6 @@
 import { Command } from "../commands/command";
 import { GuildMember, TextChannel, Message } from "discord.js";
-import { GuildDocument } from "../models/guild";
+import { GuildDocument } from "../data/models/guild";
 
 export default class Validators {
     checkCommand(command: Command, guild: GuildDocument, msg: Message) {

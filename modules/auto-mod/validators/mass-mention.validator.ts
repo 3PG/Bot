@@ -1,4 +1,4 @@
-import { GuildDocument, MessageFilter } from '../../../models/guild';
+import { GuildDocument, MessageFilter } from '../../../data/models/guild';
 import { ContentValidator } from './content-validator';
 import { ValidationError } from '../auto-mod';
 

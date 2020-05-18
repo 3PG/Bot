@@ -1,8 +1,8 @@
 import { Router } from 'express';
-import { SavedCommand, CommandDocument } from '../../models/command';
+import { SavedCommand, CommandDocument } from '../../data/models/command';
 import { AuthClient } from '../server';
 import * as config from '../../config.json';
-import { SavedUser, BadgeType } from '../../models/user';
+import { SavedUser, BadgeType } from '../../data/models/user';
 
 import { router as guildsRoutes } from './guilds-routes';
 import { router as userRoutes } from './user-routes';
@@ -71,6 +71,27 @@ router.post('/stripe-webhook', async(req, res) => {
     res.json({ received: true });
   } catch (error) { res.status(400).json(error?.message); } 
 });
+
+
+router.post('/error', async(req, res) => {
+  try {
+    const { message } = req.body;
+
+    const key = req.query.key;
+    let user = { id: 'N/A' };
+    if (key)
+      user = AuthClient.getUser(key);
+    
+    await bot.users.cache
+      .get(config.bot.ownerId)
+      .send(new MessageEmbed({
+        title: 'Dashboard Error',
+        description: `**Message**: ${message}`,
+        footer: { text: `User ID: ${user.id}` }
+      }));
+  } catch (error) { res.status(400).json(error?.message); }
+});
+
 
 async function giveUserPro(id: string) {
   console.log('give ' + id + ' pro');

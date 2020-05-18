@@ -1,5 +1,5 @@
 import AnnounceHandler from '../handlers/announce-handler';
-import { EventType } from '../../models/guild';
+import { EventType } from '../../data/models/guild';
 import EventVariables from '../../modules/announce/event-variables';
 import { ConfigUpdateArgs } from '../../api/routes/guilds-routes';
 

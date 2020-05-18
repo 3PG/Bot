@@ -1,6 +1,6 @@
 import AnnounceHandler from './announce-handler';
 import { Guild, User } from 'discord.js';
-import { EventType } from '../../models/guild';
+import { EventType } from '../../data/models/guild';
 import EventVariables from '../../modules/announce/event-variables';
 
 export default class GuildBanAddHandler extends AnnounceHandler {

@@ -1,5 +1,5 @@
 import { GuildMember } from 'discord.js';
-import { MemberDocument, SavedMember } from '../models/member';
+import { MemberDocument, SavedMember } from '../data/models/member';
 import DBWrapper from './db-wrapper';
 
 export default class Members extends DBWrapper<GuildMember, MemberDocument> {

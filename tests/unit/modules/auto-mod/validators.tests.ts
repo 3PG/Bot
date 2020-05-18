@@ -1,4 +1,4 @@
-import { SavedGuild, GuildDocument, MessageFilter } from "../../../../models/guild";
+import { SavedGuild, GuildDocument, MessageFilter } from "../../../../data/models/guild";
 import { Message } from "discord.js";
 import { EmojiValidator } from "../../../../modules/auto-mod/validators/emoji.validator";
 import { expect } from "chai";

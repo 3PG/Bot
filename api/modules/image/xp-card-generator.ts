@@ -2,8 +2,8 @@ import { bot } from '../../../bot';
 import ImageGenerator from './image-generator';
 import { Canvas, createCanvas } from 'canvas';
 import { User } from 'discord.js';
-import { MemberDocument } from '../../../models/member';
-import { UserDocument, XPCard } from '../../../models/user';
+import { MemberDocument } from '../../../data/models/member';
+import { UserDocument, XPCard } from '../../../data/models/user';
 import Leveling from '../../../modules/xp/leveling';
 
 export class XPCardGenerator extends ImageGenerator {

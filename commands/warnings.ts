@@ -1,7 +1,7 @@
 import { Command, CommandContext } from './command';
 import Members from '../data/members';
 import { TextChannel, PermissionString, Client, Guild } from 'discord.js';
-import { MemberDocument } from '../models/member';
+import { MemberDocument } from '../data/models/member';
 import Deps from '../utils/deps';
 import { getMemberFromMention } from '../utils/command-utils';
 

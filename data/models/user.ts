@@ -12,6 +12,7 @@ const userSchema = new Schema({
     premium: Boolean,
     premiumExpiration: Date,
     votes: Number,
+    badges: { type: Array, default: [] },
     xpCard: { type: Object, default: new XPCard() }
 });
 

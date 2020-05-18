@@ -1,5 +1,5 @@
-import { User } from "discord.js";
-import { Command } from "../commands/command";
+import { User } from 'discord.js';
+import { Command } from '../commands/command';
 
 export default class Cooldowns {
     private cooldowns: CommandCooldown[] = [];
