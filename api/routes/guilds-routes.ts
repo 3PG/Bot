@@ -115,7 +115,7 @@ router.get('/:id/config', async (req, res) => {
 router.get('/:id/channels', async (req, res) => {
     try {
         const guild = bot.guilds.cache.get(req.params.id);
-        res.json(guild?.channels.cache);        
+        res.json(guild.channels.cache);        
     } catch (error) { res.status(400).json(error?.message); }
 });
 

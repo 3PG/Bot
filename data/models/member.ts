@@ -5,7 +5,8 @@ const memberSchema = new Schema({
     guildId: String,
     xp: { type: Number, default: 0 },
     recentMessages: { type: Array, default: [] },
-    warnings: { type: Array, default: [] }
+    warnings: { type: Array, default: [] },
+    mutes: { type: Array, default: [] }
 });
 
 export interface MemberDocument extends Document {
@@ -13,10 +14,11 @@ export interface MemberDocument extends Document {
     guildId: string;
     xp: number;
     recentMessages: Date[],
-    warnings: Warning[];
+    warnings: Punishment[];
+    mutes: Punishment[];
 }
 
-export interface Warning {
+export interface Punishment {
     reason: string;
     instigatorId: string;
     at: Date;

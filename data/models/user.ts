@@ -9,9 +9,9 @@ export class XPCard {
 
 const userSchema = new Schema({
     _id: String,
-    premium: Boolean,
-    premiumExpiration: Date,
-    votes: Number,
+    premium: { type: Boolean, default: false },
+    premiumExpiration: { type: Date, default: new Date() },
+    votes: { type: Number, default: 0 },
     badges: { type: Array, default: [] },
     xpCard: { type: Object, default: new XPCard() }
 });

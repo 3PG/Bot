@@ -10,6 +10,7 @@ import { MassCapsValidator } from './validators/mass-caps.validator';
 import { ZalgoValidator } from './validators/zalgo.validator';
 import { emitter } from '../../bot';
 import { ContentValidator } from './validators/content-validator';
+import { MemberDocument } from '../../data/models/member';
 
 export default class AutoMod {
     constructor(private members = Deps.get<Members>(Members)) {}
@@ -47,10 +48,7 @@ export default class AutoMod {
             throw new TypeError('Bots cannot be warned.');
 
         const savedMember = await this.members.get(target);
-        const warning = { reason, instigatorId: instigator.id, at: new Date() };
-
-        savedMember.warnings.push(warning);        
-        await this.members.save(savedMember);
+        await this.saveWarning(savedMember, reason, instigator);
 
         emitter.emit('userWarn', {
             guild: target.guild,
@@ -61,14 +59,38 @@ export default class AutoMod {
         } as UserPunishmentArgs);
     }
 
-    async mute(target: GuildMember, instigator: User) {
+    private async saveWarning(savedMember: MemberDocument, reason: string, instigator: User) {
+        const warning = { reason, instigatorId: instigator.id, at: new Date() };
+        savedMember.warnings.push(warning);
+
+        return await this.members.save(savedMember);
+    }
+
+    async mute(target: GuildMember, instigator: User, reason: string) {
         if (target.id === instigator.id)
             throw new TypeError('You cannot mute yourself.');
         if (target.user.bot)
             throw new TypeError('Bots cannot be muted.');
 
         const role = await this.getMutedRole(target.guild);
-        target.roles.add(role);            
+        target.roles.add(role);
+
+        const savedMember = await this.members.get(target);
+        await this.saveMute(savedMember, reason, instigator);
+
+        emitter.emit('userMute', {
+            guild: target.guild,
+            instigator,
+            user: target.user,
+            reason,
+            warnings: savedMember.warnings.length
+        } as UserPunishmentArgs);
+    }
+    private async saveMute(savedMember: MemberDocument, reason: string, instigator: User) {
+        const mute = { reason, instigatorId: instigator.id, at: new Date() };
+        savedMember.mutes.push(mute);
+
+        await this.members.save(savedMember);
     }
 
     async unmute(target: GuildMember, instigator: User) {   

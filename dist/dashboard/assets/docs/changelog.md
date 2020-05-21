@@ -12,6 +12,24 @@
 
 ---
 
+## 2.0.2b `Upcoming`
+
+![v2.0.2b Dashboard](assets/docs/img/dashboard-v2.0.1a.png)
+
+**Add**
+- new theme -> 3PG Discord
+- announce -> user mute event
+
+**Change/Fix**
+- adding guilds via dashboard did not update them
+- users were not updating properly on dashboard load
+- better home page scrolling
+- guild data caching -> faster dashboard loading (especially on slow connections)
+- timers -> disabled timers no longer being saved
+- dashboard -> events -> fix ban/level-up confusion
+
+---
+
 ## 2.0.1a `16/05/20`
 
 ![v2.0.1a Dashboard](assets/docs/img/dashboard-v2.0.1a.png)

@@ -19,7 +19,7 @@ export default class Users extends DBWrapper<User, UserDocument> {
         return savedUser.save();
     }
 
-    protected async create(user: User) {
+    protected create(user: User) {
         return new SavedUser({ _id: user.id }).save();
     }
 }

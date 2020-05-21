@@ -2,7 +2,7 @@ import { Command, CommandContext } from './command';
 
 export default class ClearCommand implements Command {
     name = 'clear';
-    summary = 'Allow a user to send messages.';
+    summary = 'Clear all messages that are less than 2 weeks old, default (100).';
     cooldown = 5;
     module = 'Auto-mod';
     

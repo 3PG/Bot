@@ -37,37 +37,29 @@ export class XPCardGenerator extends ImageGenerator {
         const canvas = createCanvas(700, 250);
         const context = canvas.getContext('2d');
 
-        await super.addBackgroundToCanvas(
-                context, canvas, this.user.xpCard.backgroundURL);
-        await this.addXPBar(context, canvas, savedMember.xp);
+        await super.addBackgroundToCanvas(context, canvas,
+            this.user.xpCard.backgroundURL);
+        await this.addXPInfo(context, canvas, savedMember.xp);
         this.addUserText(context, canvas);
         await super.addAvatarToCanvas(context, 
                 this.discordUser.displayAvatarURL({ format: 'png' }));
 
         return canvas.toBuffer();
     }
+    
     private addUserText(context, canvas: Canvas) {
         let card = this.user.xpCard;
 
         context.fillStyle = card.tertiary || this.colors.tertiary;
         context.font = '32px Roboto, sans-serif';
-
-        const rank = `#${this.rank}`;
-        context.fillText(rank, canvas.width / 2.5, canvas.height / 2.5);
+        context.fillText(`#${this.rank}`, canvas.width / 2.5, canvas.height / 2.5);
 
         context.fillStyle = card.primary || this.colors.primary;
         context.font = super.applyText(canvas, this.discordUser.username);
         context.fillText(this.discordUser.username, canvas.width / 2.7, canvas.height / 1.6);
-
-        context.fillStyle = card.tertiary || this.colors.tertiary;
-        context.font = super.applyText(canvas, `#${this.discordUser.discriminator}`);  
-
-        context.fillText(
-            `#${this.discordUser.discriminator}`,
-            canvas.width / 2.7 + context.measureText(this.discordUser.username),
-            canvas.height / 1.6);
     }
-    private async addXPBar(context: CanvasRenderingContext2D, canvas, xp: number) {
+
+    private async addXPInfo(context: CanvasRenderingContext2D, canvas, xp: number) {
         let card = this.user.xpCard;
 
         const sizeOffset = 325;
@@ -79,7 +71,7 @@ export class XPCardGenerator extends ImageGenerator {
         context.fillStyle = card.secondary || this.colors.secondary;
         context.fillRect(position.x, position.y, canvas.width - sizeOffset - 1, height);
 
-        context.fillStyle = card.primary || this.colors.tertiary;
+        context.fillStyle = card.tertiary || this.colors.tertiary;
         context.fillRect(position.x, position.y, 
             (canvas.width - sizeOffset) * (levelCompletion), height);
 

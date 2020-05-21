@@ -17,14 +17,15 @@ export class AnnounceModule extends Module {
 }
 
 export enum EventType {
-    Ban = "BAN", 
-    ConfigUpdate = "CONFIG_UPDATE",
-    LevelUp = "LEVEL_UP",
-    MessageDeleted = "MESSAGE_DELETED",
-    MemberJoin = "MEMBER_JOIN",
-    MemberLeave = "MEMBER_LEAVE",
-    Unban = "UNBAN", 
-    Warn ="WARN"
+    Ban = 'BAN', 
+    ConfigUpdate = 'CONFIG_UPDATE',
+    LevelUp = 'LEVEL_UP',
+    MessageDeleted = 'MESSAGE_DELETED',
+    MemberJoin = 'MEMBER_JOIN',
+    MemberLeave = 'MEMBER_LEAVE',
+    Mute = 'MUTE',
+    Unban = 'UNBAN', 
+    Warn ='WARN',
 }
 
 export interface AnnounceEvent {
@@ -48,12 +49,12 @@ export class CommandsModule extends Module {
 }
 
 export enum MessageFilter {
-    Emoji = "EMOJI", 
-    Links = "LINKS",
-    MassCaps = "MASS_CAPS",
-    MassMention = "MASS_MENTION",
-    Words = "WORDS",
-    Zalgo = "ZALGO"
+    Emoji = 'EMOJI', 
+    Links = 'LINKS',
+    MassCaps = 'MASS_CAPS',
+    MassMention = 'MASS_MENTION',
+    Words = 'WORDS',
+    Zalgo = 'ZALGO'
 }
 
 export class GeneralModule extends Module {

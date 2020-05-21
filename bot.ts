@@ -16,6 +16,7 @@ import Cooldowns from './services/cooldowns';
 import Validators from './services/validators';
 import ReactionRoles from './modules/general/reaction-roles';
 import { EventEmitter } from 'events';
+import Log from './utils/log';
 
 export const bot = new Client({
     messageCacheLifetime: 60,
@@ -48,4 +49,4 @@ mongoose.connect(config.mongoURL, {
     useUnifiedTopology: true, 
     useNewUrlParser: true, 
     useFindAndModify: false
-});
+}, () => Log.info('Connected to db'));

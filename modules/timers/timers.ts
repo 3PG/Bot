@@ -27,7 +27,7 @@ export default class Timers {
         const guildTimers = this.currentTimers.get(guildId) ?? [];
         for (const timer of guildTimers) {
             timer.interval?.unref();
-            timer.job?.cancel();
+            timer.job?.cancel(false);
         }
         this.currentTimers.set(guildId, []);
     }
@@ -37,11 +37,9 @@ export default class Timers {
         const savedGuild = await this.guilds.get(guild);
 
         for (const timer of savedGuild.timers.commandTimers)
-            this.startTimer(timer, savedGuild);
-            
+            await this.startTimer(timer, savedGuild);            
         for (const timer of savedGuild.timers.messageTimers)
-            this.startTimer(timer, savedGuild);
-
+            await this.startTimer(timer, savedGuild);
     }
 
     startTimer(timer: Timer, savedGuild: GuildDocument) {
@@ -59,20 +57,21 @@ export default class Timers {
 
         this.getGuildTimers(savedGuild.id)
             .push({ status, timer, uuid, job });
-
-        if (from < new Date())
-            this.scheduleTimer(uuid, savedGuild, interval)
-        else
-            job = scheduleJob(from, () => this
-                .scheduleTimer(uuid, savedGuild, interval));
             
         this.startedTimers++;
+
+        if (from < new Date())
+            return this.schedule(uuid, savedGuild, interval);
+
+        job = scheduleJob(from,
+            () => this.schedule(uuid, savedGuild, interval));
     }
     private getGuildTimers(id: string) {
-        return this.currentTimers.get(id) ?? this.currentTimers.set(id, []).get(id);
+        return this.currentTimers.get(id)
+            ?? this.currentTimers.set(id, []).get(id);
     }
 
-    private scheduleTimer(uuid: string, savedGuild: GuildDocument, interval: number) {
+    private async schedule(uuid: string, savedGuild: GuildDocument, interval: number) {
         const task = this.findTask(uuid, savedGuild.id);
         if (!task) return;
 
@@ -106,8 +105,7 @@ export default class Timers {
                     guild: member.guild,
                     member
                 } as any, savedGuild);
-            } catch (error) { task.status = 'FAILED'; console.log(error);
-             }
+            } catch (error) { task.status = 'FAILED'; }
         }
         if ('message' in timer) {
             try {
