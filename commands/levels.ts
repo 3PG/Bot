@@ -1,8 +1,9 @@
-import { Command, CommandContext } from './command';
+import { Command, CommandContext, Permission } from './command';
 import Guilds from '../data/guilds';
 import Deps from '../utils/deps';
 
 export default class LevelsCommand implements Command {
+    precondition: Permission = '';
     name = 'levels';
     summary = `List all your server's level roles`;
     cooldown = 3;

@@ -1,6 +1,7 @@
-import { Command, CommandContext } from './command';
+import { Command, CommandContext, Permission } from './command';
 
 export default class ClearCommand implements Command {
+    precondition: Permission = 'MANAGE_MESSAGES';
     name = 'clear';
     summary = 'Clear all messages that are less than 2 weeks old, default (100).';
     cooldown = 5;

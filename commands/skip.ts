@@ -1,8 +1,9 @@
-import { Command, CommandContext } from './command';
+import { Command, CommandContext, Permission } from './command';
 import Deps from '../utils/deps';
 import Music from '../modules/music/music';
 
 export default class SkipCommand implements Command {
+    precondition: Permission = 'SPEAK';
     name = 'skip';
     summary = 'Skip current playing track';
     cooldown = 5;

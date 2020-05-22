@@ -1,10 +1,11 @@
-import { Command, CommandContext } from './command';
+import { Command, CommandContext, Permission } from './command';
 import AutoMod from '../modules/auto-mod/auto-mod';
 import Deps from '../utils/deps';
 import { getMemberFromMention } from '../utils/command-utils';
 import Guilds from '../data/guilds';
 
 export default class UnmuteCommand implements Command {
+    precondition: Permission = 'MUTE_MEMBERS';
     name = 'unmute';
     summary = 'Allow a user to send messages.';
     cooldown = 3;
@@ -19,7 +20,7 @@ export default class UnmuteCommand implements Command {
         
         await this.autoMod.unmute(target, ctx.user);
 
-        const reason = args.join(' ');
+        const reason = args.join(' ') || 'Unspecified';
         await ctx.channel.send(`<@!${target.id}> was unmuted for \`${reason}\``);
     };
 }

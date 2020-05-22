@@ -2,7 +2,7 @@ import { GuildDocument, MessageFilter } from '../../../data/models/guild';
 import { ContentValidator } from './content-validator';
 import { ValidationError } from '../auto-mod';
 
-export class EmojiValidator implements ContentValidator {
+export default class EmojiValidator implements ContentValidator {
     filter = MessageFilter.Emoji;
 
     validate(content: string, guild: GuildDocument) {

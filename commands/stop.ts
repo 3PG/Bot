@@ -1,8 +1,9 @@
-import { Command, CommandContext } from './command';
+import { Command, CommandContext, Permission } from './command';
 import Deps from '../utils/deps';
 import Music from '../modules/music/music';
 
 export default class StopCommand implements Command {
+    precondition: Permission = 'SPEAK';
     name = 'stop';
     summary = 'Stop playback, clear list, and leave channel';
     cooldown = 5;

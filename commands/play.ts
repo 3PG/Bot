@@ -1,10 +1,10 @@
-import { Command, CommandContext } from './command';
+import { Command, CommandContext, Permission } from './command';
 import Deps from '../utils/deps';
-import { GuildMember } from 'discord.js';
 import Music from '../modules/music/music';
 import Guilds from '../data/guilds';
 
 export default class PlayCommand implements Command {
+    precondition: Permission = 'SPEAK';
     name = 'play';
     summary = 'Join and play a youtube result.';
     cooldown = 1;

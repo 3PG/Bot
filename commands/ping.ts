@@ -1,6 +1,7 @@
-import { Command, CommandContext } from './command';
+import { Command, CommandContext, Permission } from './command';
 
 export default class PingCommand implements Command {
+    precondition: Permission = '';
     name = 'ping';
     summary = 'Probably the best command ever created.';
     cooldown = 3;

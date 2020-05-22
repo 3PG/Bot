@@ -1,7 +1,8 @@
-import { Command, CommandContext } from './command';
+import { Command, CommandContext, Permission } from './command';
 import config from '../config.json';
 
 export default class DashboardCommand implements Command {
+    precondition: Permission = 'MANAGE_GUILD';
     name = 'dashboard';
     summary = `Get a link to the server's dashboard`;
     cooldown = 3;

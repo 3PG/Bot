@@ -20,17 +20,19 @@ export default class MessageHandler implements EventHandler {
     async invoke(msg: Message) {        
         if (msg.author.bot) return;
 
-        const guild = await this.guilds.get(msg.guild);
-        const handled = await this.commands.handle(msg, guild);        
-        if (handled) return;        
+        const savedGuild = await this.guilds.get(msg.guild);
+
+        const isCommand = msg.content.startsWith(savedGuild.general.prefix);
+        if (isCommand)
+            return await this.commands.handle(msg, savedGuild);        
 
         let filter = undefined;
         let earnedXP = false;
         try {
-            if (guild.autoMod.enabled)
-                await this.autoMod.validateMsg(msg, guild);
-            if (guild.leveling.enabled) {
-                await this.leveling.validateXPMsg(msg, guild);
+            if (savedGuild.autoMod.enabled)
+                await this.autoMod.validateMsg(msg, savedGuild);
+            if (savedGuild.leveling.enabled) {
+                await this.leveling.validateXPMsg(msg, savedGuild);
                 earnedXP = true;
             }
         } catch (validation) {

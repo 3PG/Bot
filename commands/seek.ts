@@ -1,8 +1,9 @@
-import { Command, CommandContext } from './command';
+import { Command, CommandContext, Permission } from './command';
 import Deps from '../utils/deps';
 import Music from '../modules/music/music';
 
-export default class PlayCommand implements Command {
+export default class SeekCommand implements Command {
+    precondition: Permission = 'SPEAK';
     name = 'seek';
     summary = 'Go to a position in a track.';
     cooldown = 1;

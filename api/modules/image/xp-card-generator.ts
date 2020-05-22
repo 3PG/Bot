@@ -21,18 +21,11 @@ export class XPCardGenerator extends ImageGenerator {
         super();
 
         this.discordUser = bot.users.cache.get(user.id);
-        if (!this.discordUser)
-            throw TypeError('Could not find Discord user!');
-        if (this.discordUser.bot)
-            throw TypeError('Bots don\'t have XP cards!');
     }
 
     async generate(savedMember: MemberDocument, preview?: XPCard) {
         if (preview)
-            this.user.xpCard = preview;            
-        
-        if (!savedMember)
-            throw new TypeError('Guild user cannot be null!');
+            this.user.xpCard = preview;
 
         const canvas = createCanvas(700, 250);
         const context = canvas.getContext('2d');

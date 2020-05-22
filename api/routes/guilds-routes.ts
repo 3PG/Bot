@@ -205,7 +205,7 @@ router.get('/:id/members', async (req, res) => {
     } catch (error) { res.status(400).send(error?.message); }
 });
 
-function leaderboardMember({ user, voice }: GuildMember, xpInfo: any) {
+function leaderboardMember({ user }: GuildMember, xpInfo: any) {
     return {
         id: user.id,
         username: user.username,

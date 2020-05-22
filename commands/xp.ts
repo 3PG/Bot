@@ -1,8 +1,9 @@
-import { Command, CommandContext } from './command';
+import { Command, CommandContext, Permission } from './command';
 import { getMemberFromMention } from '../utils/command-utils';
 import config from '../config.json';
 
 export default class XPCommand implements Command {
+    precondition: Permission = '';
     name = 'xp';
     summary = 'Display the XP card of a user.';
     cooldown = 3;

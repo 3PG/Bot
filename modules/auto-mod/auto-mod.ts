@@ -1,28 +1,33 @@
 import { Message, GuildMember, User, Guild } from 'discord.js';
 import { GuildDocument, MessageFilter } from '../../data/models/guild';
-import { BadWordValidator } from './validators/bad-word.validator';
-import { BadLinkValidator } from './validators/bad-link.validator';
 import Deps from '../../utils/deps';
 import Members from '../../data/members';
-import { EmojiValidator } from './validators/emoji.validator';
-import { MassMentionValidator } from './validators/mass-mention.validator';
-import { MassCapsValidator } from './validators/mass-caps.validator';
-import { ZalgoValidator } from './validators/zalgo.validator';
 import { emitter } from '../../bot';
 import { ContentValidator } from './validators/content-validator';
 import { MemberDocument } from '../../data/models/member';
+import fs from 'fs';
+import { promisify } from 'util';
+import Log from '../../utils/log';
+
+const readdir = promisify(fs.readdir);
 
 export default class AutoMod {
+    private validators: ContentValidator[] = [];
+
     constructor(private members = Deps.get<Members>(Members)) {}
 
-    readonly validators: ContentValidator[] = [
-        new BadWordValidator(),
-        new BadLinkValidator(),
-        new EmojiValidator(),
-        new MassMentionValidator(),
-        new MassCapsValidator(),
-        new ZalgoValidator()
-    ];
+    async init() {
+        const directory = './modules/auto-mod/validators';
+        const files = await readdir(directory);
+
+        for (const file of files) {
+            const Validator = require(`./validators/${file}`).default;
+            if (!Validator) continue;
+
+            this.validators.push(new Validator());
+        }
+        Log.info(`Loaded: ${this.validators.length} validators`, `automod`);
+    }
     
     async validateMsg(msg: Message, guild: GuildDocument) {
         const activeFilters = guild.autoMod.filters;

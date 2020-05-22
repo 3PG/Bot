@@ -1,8 +1,9 @@
-import { Command, CommandContext } from './command';
+import { Command, CommandContext, Permission } from './command';
 import Deps from '../utils/deps';
 import Music from '../modules/music/music';
 
 export default class ResumeCommand implements Command {
+    precondition: Permission = 'SPEAK';
     name = 'resume';
     summary = 'Resume playing a track if paused.';
     module = 'Music';

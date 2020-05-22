@@ -2,7 +2,7 @@ import { GuildDocument, MessageFilter } from '../../../data/models/guild';
 import { ContentValidator } from './content-validator';
 import { ValidationError } from '../auto-mod';
 
-export class MassCapsValidator implements ContentValidator {
+export default class MassCapsValidator implements ContentValidator {
     filter = MessageFilter.MassCaps;
 
     validate(content: string, guild: GuildDocument) {

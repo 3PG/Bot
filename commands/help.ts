@@ -1,7 +1,8 @@
-import { Command, CommandContext } from './command';
+import { Command, CommandContext, Permission } from './command';
 import config from '../config.json';
 
 export default class HelpCommand implements Command {
+    precondition: Permission = '';
     name = 'help';
     summary = 'Send help...';
     cooldown = 3;

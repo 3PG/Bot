@@ -1,11 +1,13 @@
 import { Message, GuildMember, TextChannel, Guild, User, Client, PermissionString } from 'discord.js';
 
+export type Permission = '' | PermissionString;
+
 export interface Command {
     name: string;
     summary: string;
     module: string;
+    precondition: Permission;
     cooldown?: number;
-    precondition?: PermissionString;
     
     execute: (ctx: CommandContext, ...args: any) => Promise<any> | void;
 }

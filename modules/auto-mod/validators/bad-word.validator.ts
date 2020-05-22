@@ -2,7 +2,7 @@ import { GuildDocument, MessageFilter } from '../../../data/models/guild';
 import { ContentValidator } from './content-validator';
 import { ValidationError } from '../auto-mod';
 
-export class BadWordValidator implements ContentValidator {
+export default class BadWordValidator implements ContentValidator {
     filter = MessageFilter.Words;
 
     validate(content: string, guild: GuildDocument) {

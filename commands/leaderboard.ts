@@ -1,7 +1,8 @@
-import { Command, CommandContext } from './command';
+import { Command, CommandContext, Permission } from './command';
 import config from '../config.json';
 
 export default class LeaderboardCommand implements Command {
+    precondition: Permission = '';
     name = 'leaderboard';
     summary = `Get a link to the server's leaderboard`;
     cooldown = 3;

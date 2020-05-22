@@ -1,6 +1,7 @@
-import { Command, CommandContext } from './command';
+import { Command, CommandContext, Permission } from './command';
 
 export default class LockCommand implements Command {
+    precondition: Permission = 'MANAGE_CHANNELS';
     name = 'lock';
     summary = 'Stop messages in the current channel.';
     cooldown = 5;

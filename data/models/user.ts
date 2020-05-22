@@ -9,6 +9,7 @@ export class XPCard {
 
 const userSchema = new Schema({
     _id: String,
+    crates: { type: Number, default: 0 },
     premium: { type: Boolean, default: false },
     premiumExpiration: { type: Date, default: new Date() },
     votes: { type: Number, default: 0 },
@@ -19,10 +20,11 @@ const userSchema = new Schema({
 export interface UserDocument extends Document {
     _id: string;
     badges: Badge[];
+    crates: number,
     premium: boolean;
     premiumExpiration: Date,
-    votes: number;
     xpCard: XPCard;
+    votes: number;
 }
 
 export interface Badge {

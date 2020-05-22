@@ -2,7 +2,7 @@ import { use, should, expect } from 'chai';
 import { mock } from 'ts-mockito';
 import chaiAsPromised from 'chai-as-promised';
 import PlayCommand from '../../../commands/play';
-import { CommandContext } from '../../../commands/command;
+import { CommandContext } from '../../../commands/command';
 
 should();
 use(chaiAsPromised);

@@ -1,7 +1,8 @@
-import { Command, CommandContext } from './command';
+import { Command, CommandContext, Permission } from './command';
 import config from '../config.json';
 
 export default class FlipCommand implements Command {
+    precondition: Permission = '';
     name = 'vote';
     summary = 'Get 3PG voting links, and support 3PG';
     cooldown = 1;

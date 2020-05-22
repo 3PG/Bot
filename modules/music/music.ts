@@ -8,7 +8,7 @@ export default class Music {
     private _client = {} as ErelaClient;
     get client() { return this._client; }
 
-    initialize() {
+    init() {
         const nodes = [{
             host: 'localhost',
             port: 2333,

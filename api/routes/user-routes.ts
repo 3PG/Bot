@@ -6,8 +6,12 @@ import { bot } from '../../bot';
 import Deps from '../../utils/deps';
 import Users from '../../data/users';
 import config from '../../config.json';
+import Crates from '../modules/crates/crates';
 
 export const router = Router();
+
+const crates = Deps.get<Crates>(Crates),
+      users = Deps.get<Users>(Users);
 
 router.get('/', async (req, res) => {
     try {
@@ -43,7 +47,7 @@ router.get('/pay', async(req, res) => {
 router.get('/saved', async (req, res) => {
     try {        
         const user = await getUser(req.query.key);
-        const savedUser = await Deps.get<Users>(Users).get(user);
+        const savedUser = await users.get(user);
         res.json(savedUser);
     } catch { res.status(400).send('Bad Request'); }
 });
@@ -53,7 +57,7 @@ router.get('/xp-card-preview', async (req, res) => {
         delete req.query.cache;
 
         const user = await getUser(req.query.key);
-        const savedUser = await Deps.get<Users>(Users).get(user);
+        const savedUser = await users.get(user);
         if (!savedUser)
             return res.status(404).send('User not found');
 
@@ -70,15 +74,28 @@ router.get('/xp-card-preview', async (req, res) => {
     } catch { res.status(400).send('Bad Request'); }
 });
 
-router.put('/xp-card', async (req, res) => {        
+router.put('/xp-card', async (req, res) => {
     try {
         const user = await getUser(req.query.key);
-        const savedUser = await Deps.get<Users>(Users).get(user);
+        const savedUser = await users.get(user);
 
         savedUser.xpCard = req.body;
         await savedUser.save();
         
         res.send(savedUser);
+    } catch { res.status(400).send('Bad Request'); }
+});
+
+router.put('/open-crate', async (req, res) => {
+    try {
+        const user = await getUser(req.query.key);
+        const savedUser = await users.get(user);
+
+        const result = crates.open(savedUser);
+
+        await savedUser.save();
+        
+        res.send(result);
     } catch { res.status(400).send('Bad Request'); }
 });
 

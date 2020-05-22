@@ -17,7 +17,7 @@ export default class Timers {
         private commandService = Deps.get<CommandService>(CommandService),
         private guilds = Deps.get<Guilds>(Guilds)) {}
 
-    async initialize() {        
+    async init() {
         for (const id of bot.guilds.cache.keys())
             await this.startTimers(id);
         Log.info(`Started ${this.startedTimers} timers`, 'timers');        

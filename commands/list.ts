@@ -1,8 +1,9 @@
-import { Command, CommandContext } from './command';
+import { Command, CommandContext, Permission } from './command';
 import Deps from '../utils/deps';
 import Music from '../modules/music/music';
 
 export default class ListCommand implements Command {
+    precondition: Permission = '';
     name = 'list';
     summary = 'Display the current track list.';
     cooldown = 3;

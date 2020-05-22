@@ -1,15 +1,15 @@
-import { Command, CommandContext } from './command';
+import { Command, CommandContext, Permission } from './command';
 import Members from '../data/members';
-import { TextChannel, PermissionString, Client, Guild } from 'discord.js';
+import { TextChannel } from 'discord.js';
 import { MemberDocument } from '../data/models/member';
 import Deps from '../utils/deps';
 import { getMemberFromMention } from '../utils/command-utils';
 
 export default class WarningsCommand implements Command {
+    precondition: Permission = 'VIEW_AUDIT_LOG';
     name = 'warnings';
     summary = 'Display the warnings of a member.';
     cooldown = 3;
-    precondition: PermissionString = 'KICK_MEMBERS';
     module = 'Auto-mod';
 
     constructor(

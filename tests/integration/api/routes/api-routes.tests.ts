@@ -1,9 +1,13 @@
 import request from 'supertest';
-import { app } from '../../../../api/server';
+import API, { app } from '../../../../api/server';
 import Deps from '../../../../utils/deps';
 
 describe('routes/api', () => {
-    beforeEach(() => Deps.testing = true);
+    let api: API;
+    beforeEach(() => {
+        Deps.testing = true;
+        api = Deps.get<API>(API);
+    });
 
     describe('/', () => {
         it('returns 200', (done) => {
