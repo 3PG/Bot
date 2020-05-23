@@ -7,6 +7,7 @@ import Guilds from '../data/guilds';
 export default class UnmuteCommand implements Command {
     precondition: Permission = 'MUTE_MEMBERS';
     name = 'unmute';
+    usage = 'unmute target_id/mention';
     summary = 'Allow a user to send messages.';
     cooldown = 3;
     module = 'Auto-mod';

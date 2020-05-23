@@ -27,7 +27,7 @@ export default class Timers {
         const guildTimers = this.currentTimers.get(guildId) ?? [];
         for (const timer of guildTimers) {
             timer.interval?.unref();
-            timer.job?.cancel(false);
+            timer.job?.cancel();
         }
         this.currentTimers.set(guildId, []);
     }
@@ -54,9 +54,6 @@ export default class Timers {
         
         if (from.toString() === 'Invalid Date')
             status = 'FAILED';
-
-        this.getGuildTimers(savedGuild.id)
-            .push({ status, timer, uuid, job });
             
         this.startedTimers++;
 
@@ -65,6 +62,9 @@ export default class Timers {
 
         job = scheduleJob(from,
             () => this.schedule(uuid, savedGuild, interval));
+
+        this.getGuildTimers(savedGuild.id)
+            .push({ status, timer, uuid, job });
     }
     private getGuildTimers(id: string) {
         return this.currentTimers.get(id)

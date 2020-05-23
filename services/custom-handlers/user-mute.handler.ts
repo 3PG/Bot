@@ -3,7 +3,7 @@ import { EventType } from '../../data/models/guild';
 import EventVariables from '../../modules/announce/event-variables';
 import { UserPunishmentArgs } from '../../modules/auto-mod/auto-mod';
 
-export default class UserWarnHandler extends AnnounceHandler {
+export default class UserMuteHandler extends AnnounceHandler {
     on = 'userMute';
     event = EventType.Mute;
 

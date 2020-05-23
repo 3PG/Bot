@@ -5,7 +5,8 @@ import config from '../config.json';
 export default class XPCommand implements Command {
     precondition: Permission = '';
     name = 'xp';
-    summary = 'Display the XP card of a user.';
+    usage = 'xp [target_id/mention]'
+    summary = 'Display your XP card, or the XP card of another user.';
     cooldown = 3;
     module = 'XP';
 

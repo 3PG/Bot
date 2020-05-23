@@ -6,6 +6,7 @@ import { getMemberFromMention } from '../utils/command-utils';
 export default class WarnCommand implements Command {
     precondition: Permission = 'KICK_MEMBERS';
     name = 'warn';
+    usage = 'warn target_id/mention';
     summary = 'Warn a user and add a warning to their account.';
     cooldown = 5;
     module = 'Auto-mod';

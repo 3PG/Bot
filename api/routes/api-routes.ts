@@ -43,6 +43,7 @@ router.post('/auth-vote', async(req, res) => {
     const savedUser = await users.get(user);
         
     savedUser.votes++;
+    savedUser.crates++;
   
     // TODO: remove after June 1st
     const noBadgeYet = savedUser.badges.some(b => b.type === BadgeType.EarlySupporter);

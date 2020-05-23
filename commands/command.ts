@@ -7,6 +7,7 @@ export interface Command {
     summary: string;
     module: string;
     precondition: Permission;
+    usage?: string;
     cooldown?: number;
     
     execute: (ctx: CommandContext, ...args: any) => Promise<any> | void;

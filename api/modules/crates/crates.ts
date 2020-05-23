@@ -17,8 +17,10 @@ export default class Crates {
             const Reward = require(`./rewards/${file}`).default;
             if (!Reward) continue;
 
-            this.rewards.push(new Reward());
+            const reward: Reward = new Reward();            
+            this.rewards[reward.rarity - 1] = reward;
         }
+        
         Log.info(`Loaded: ${this.rewards.length} rewards`, `crates`);
     }
 
@@ -26,14 +28,22 @@ export default class Crates {
         savedUser.crates--;
 
         const reward = this.roll();
-        reward.give(savedUser);
+        const given = reward.give(savedUser);
+        return {
+            given,
+            type: reward.type
+        };
     }
 
     private roll() {
         let reward = this.rewards[0];
-        const roll = Math.random() * 100;
-        for (let i = 0; i < Object.keys(RewardType).length; i++) {
-            const prereq = 100 / (2 * i);
+
+        const difficulty = 2;
+
+        const roll = Math.random();
+        console.log('roll: ' + roll);        
+        for (let i = 0; i < this.rewards.length; i++) {
+            const prereq = 1 / Math.pow(i + 1, difficulty);
             if (roll > prereq) continue;
 
             reward = this.rewards[i];

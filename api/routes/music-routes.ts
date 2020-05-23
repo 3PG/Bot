@@ -4,8 +4,6 @@ import Deps from '../../utils/deps';
 import { validateGuildManager } from './guilds-routes';
 import { bot } from '../../bot';
 import { AuthClient } from '../server';
-import { getUser } from './user-routes';
-import Members from '../../data/members';
 import Users from '../../data/users';
 
 export const router = Router({ mergeParams: true });
@@ -92,6 +90,26 @@ router.get('/play', async (req, res) => {
 
         res.status(200).json(track);
     } catch (error) { res.status(400).send(error?.message); }
+});
+
+router.get('/set-volume/:value', async (req, res) => {
+    try {
+        const { player } = await getMusic(req.params.id, req.query.key);
+
+        player.setVolume(Number(req.params.value));
+
+        res.status(200).send({ success: true });
+    } catch (error) { res.status(400).send(error?.message); }    
+});
+
+router.get('/shuffle', async (req, res) => {
+    try {
+        const { player } = await getMusic(req.params.id, req.query.key);
+
+        player.queue.shuffle();
+
+        res.status(200).send({ success: true });
+    } catch (error) { res.status(400).send(error?.message); }    
 });
 
 router.get('/stop', async (req, res) => {

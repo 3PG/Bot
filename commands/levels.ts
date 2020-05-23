@@ -16,7 +16,7 @@ export default class LevelsCommand implements Command {
 
         let details = '';
         for (const levelRole of savedGuild.leveling.levelRoles)
-            details += `**Level \`${levelRole.level}\`**: \`<@${levelRole.role}\`>\n`;
+            details += `**Level \`${levelRole.level}\`**: \`<@#${levelRole.role}\`>\n`;
         
         return ctx.channel.send(details || 'No level roles set.');
     };

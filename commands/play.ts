@@ -6,6 +6,7 @@ import Guilds from '../data/guilds';
 export default class PlayCommand implements Command {
     precondition: Permission = 'SPEAK';
     name = 'play';
+    usage = 'play a youtube video';
     summary = 'Join and play a youtube result.';
     cooldown = 1;
     module = 'Music';

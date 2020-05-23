@@ -5,7 +5,8 @@ import Music from '../modules/music/music';
 export default class SeekCommand implements Command {
     precondition: Permission = 'SPEAK';
     name = 'seek';
-    summary = 'Go to a position in a track.';
+    usage = 'seek [position]';
+    summary = 'View current track position, or go to a position in a track.';
     cooldown = 1;
     module = 'Music';
 

@@ -41,7 +41,7 @@ router.get('/pay', async(req, res) => {
             line_items: items
         });
         res.send(session);
-    } catch (error) { res.status(400).json(error); }
+    } catch (error) { res.status(400).send(error?.message); }
 });
 
 router.get('/saved', async (req, res) => {
@@ -49,7 +49,7 @@ router.get('/saved', async (req, res) => {
         const user = await getUser(req.query.key);
         const savedUser = await users.get(user);
         res.json(savedUser);
-    } catch { res.status(400).send('Bad Request'); }
+    } catch (error) { res.status(400).send(error?.message); }
 });
 
 router.get('/xp-card-preview', async (req, res) => {
@@ -71,7 +71,7 @@ router.get('/xp-card-preview', async (req, res) => {
         const image = await generator.generate(member, { ...savedUser.xpCard, ...req.query });
         
         res.set({'Content-Type': 'image/png'}).send(image);
-    } catch { res.status(400).send('Bad Request'); }
+    } catch (error) { res.status(400).send(error?.message); }
 });
 
 router.put('/xp-card', async (req, res) => {
@@ -83,20 +83,23 @@ router.put('/xp-card', async (req, res) => {
         await savedUser.save();
         
         res.send(savedUser);
-    } catch { res.status(400).send('Bad Request'); }
+    } catch (error) { res.status(400).send(error?.message); }
 });
 
-router.put('/open-crate', async (req, res) => {
+router.get('/open-crate', async (req, res) => {
     try {
         const user = await getUser(req.query.key);
         const savedUser = await users.get(user);
 
-        const result = crates.open(savedUser);
+        if (savedUser.crates <= 0)
+            throw new TypeError('No crates in inventory');
 
+        const result = crates.open(savedUser);
+        
         await savedUser.save();
         
-        res.send(result);
-    } catch { res.status(400).send('Bad Request'); }
+        res.json(result);
+    } catch (error) { res.status(400).send(error?.message); }
 });
 
 export async function getUser(key: string) {   

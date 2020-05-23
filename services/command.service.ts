@@ -65,9 +65,7 @@ export default class CommandService {
     }
 
     async findAndExecute(msg: Message, savedGuild: GuildDocument) {
-        const prefix = savedGuild.general.prefix;
-        console.log(prefix);
-        
+        const prefix = savedGuild.general.prefix;        
         const command = this.findCommand(prefix, msg.content);        
         await command.execute(new CommandContext(msg), 
             ...this.getCommandArgs(prefix, msg.content));  

@@ -112,7 +112,7 @@ describe('api/modules/crates', () => {
             savedUser.badges.push({
                 at: new Date(),
                 type: BadgeType.Legend,
-                tier: 1
+                tier: 2
             });
 
             const result = reward.give(savedUser);
@@ -126,6 +126,15 @@ describe('api/modules/crates', () => {
             const result = reward.give(savedUser);
 
             expect(result).to.be.true;
+        });
+
+        it('tier 2 legend badge, has worse badge, sets badge tier to 2', () => {
+            const reward = new Tier2LegendBadgeReward();
+
+            reward.give(savedUser);            
+
+            const result = savedUser.badges[0].tier;
+            expect(result).to.equal(2);
         });
 
         it('tier 1 legend badge, has badge, returns false', () => {
@@ -156,6 +165,15 @@ describe('api/modules/crates', () => {
             expect(result).to.be.true;
         });
 
+        it('tier 1 legend badge, has worse badge, sets badge tier to 1', () => {
+            const reward = new Tier1LegendBadgeReward();
+
+            reward.give(savedUser);
+
+            const result = savedUser.badges[0].tier;
+            expect(result).to.equal(1);
+        });
+
         it('7 days pro reward, returns true', () => {
             const reward = new SevenDaysPROReward();
 
@@ -166,8 +184,9 @@ describe('api/modules/crates', () => {
 
         it('7 days pro reward, adds 7 days to expiration', () => {
             const reward = new SevenDaysPROReward();
-
-            const date = new Date(savedUser.premiumExpiration);
+            
+            savedUser.premiumExpiration = new Date();
+            const date = savedUser.premiumExpiration;
             date.setDate(date.getDate() + 7);
 
             reward.give(savedUser);
@@ -188,8 +207,9 @@ describe('api/modules/crates', () => {
 
         it('1 month pro reward, adds 30 days to expiration', () => {
             const reward = new OneMonthPROReward();
-
-            const date = new Date(savedUser.premiumExpiration);
+            
+            savedUser.premiumExpiration = new Date();
+            const date = savedUser.premiumExpiration;
             date.setDate(date.getDate() + 30);
 
             reward.give(savedUser);
@@ -210,8 +230,9 @@ describe('api/modules/crates', () => {
 
         it('3 months pro reward, adds 90 days to expiration', () => {
             const reward = new ThreeMonthsPROReward();
-
-            const date = new Date(savedUser.premiumExpiration);
+            
+            savedUser.premiumExpiration = new Date();
+            const date = savedUser.premiumExpiration;
             date.setDate(date.getDate() + 90);
 
             reward.give(savedUser);

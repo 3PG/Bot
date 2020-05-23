@@ -5,9 +5,10 @@ import OAuthClient from 'disco-oauth';
 import bodyParser from 'body-parser';
 import { Stripe } from 'stripe';
 import { join } from 'path';
+import Log from '../utils/log';
+import rateLimiter from './modules/rate-limiter';
 
 import { router as apiRoutes } from './routes/api-routes';
-import Log from '../utils/log';
 
 export const app = express(),
              AuthClient = new OAuthClient(config.bot.id, config.bot.secret),
@@ -24,6 +25,7 @@ export default class API {
             enabled_events: ['*']
         });
 
+        app.use(rateLimiter);
         app.use(cors());
         app.use(bodyParser.json());
         app.use('/api', apiRoutes);

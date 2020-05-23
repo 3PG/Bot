@@ -6,14 +6,14 @@ import Guilds from '../data/guilds';
 
 export default class MuteCommand implements Command {
     precondition: Permission = 'MUTE_MEMBERS';
+    usage = 'mute target_id/mention';
     name = 'mute';
     summary = 'Stop a user from sending messages.';
     cooldown = 3;
     module = 'Auto-mod';
     
     constructor(
-        private autoMod = Deps.get<AutoMod>(AutoMod),
-        private guilds = Deps.get<Guilds>(Guilds)) {}
+        private autoMod = Deps.get<AutoMod>(AutoMod)) {}
     
     execute = async(ctx: CommandContext, targetMention: string, ...args: string[]) => {
         const target = getMemberFromMention(targetMention, ctx.guild);

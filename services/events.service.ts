@@ -13,6 +13,7 @@ import MessageReactionRemoveHandler from './handlers/message-reaction-remove.han
 import LevelUpHandler from './custom-handlers/level-up.handler';
 import UserWarnHandler from './custom-handlers/user-warn.handler';
 import ConfigUpdateHandler from './custom-handlers/config-update.handler';
+import UserMuteHandler from './custom-handlers/user-mute.handler';
 
 export default class EventsService {
     private readonly handlers: EventHandler[] = [
@@ -29,7 +30,8 @@ export default class EventsService {
     private readonly customHandlers: EventHandler[] = [
         new LevelUpHandler(),
         new UserWarnHandler(),
-        new ConfigUpdateHandler()
+        new ConfigUpdateHandler(),
+        new UserMuteHandler()
     ];
 
     constructor() {
