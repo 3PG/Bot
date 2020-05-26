@@ -31,13 +31,7 @@ export default class Logs extends DBWrapper<Guild, LogDocument> {
 
     async logMessage(msg: Message, validation: MessageValidationMetadata) {
         const log = await this.get(msg.guild);
-        log.messages.push({
-            at: new Date(),
-            by: msg.author.id,
-            content: msg.content,
-            id: msg.id,
-            validation
-        });   
+        log.messages.push({ at: new Date(), validation });   
         await this.save(log);
     }
 }

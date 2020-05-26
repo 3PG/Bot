@@ -8,25 +8,37 @@
 
 ---
 
+## Beta `Upcoming`
+
+---
+
 ## Alpha
 
 ---
 
-## 2.0.2b `Upcoming`
+## 2.0.2a `23/04/2020`
 
-![v2.0.2b Dashboard](assets/docs/img/dashboard-v2.0.1a.png)
+![v2.0.2a Dashboard](assets/docs/img/dashboard-v2.0.2sa.png)
 
 **Add**
 - new theme -> 3PG Discord
 - announce -> user mute event
+- crates -> unlocked by voting
+- dashboard -> music player -> shuffle, and volume control
 
 **Change/Fix**
 - adding guilds via dashboard did not update them
 - users were not updating properly on dashboard load
 - better home page scrolling
-- guild data caching -> faster dashboard loading (especially on slow connections)
 - timers -> disabled timers no longer being saved
+- xp card colours -> primary and tertiary colour typo
+- dashboard -> guild data caching: faster dashboard loading (especially on slow connections)
 - dashboard -> events -> fix ban/level-up confusion
+- dashboard -> fixed widget data not updating on guild navigation
+- dashboard -> color pickers -> now adapt to theme
+
+**Remove**
+
 
 ---
 

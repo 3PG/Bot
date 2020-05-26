@@ -73,7 +73,6 @@ router.post('/stripe-webhook', async(req, res) => {
   } catch (error) { res.status(400).json(error?.message); } 
 });
 
-
 router.post('/error', async(req, res) => {
   try {
     const { message } = req.body;
@@ -92,7 +91,6 @@ router.post('/error', async(req, res) => {
       }));
   } catch (error) { res.status(400).json(error?.message); }
 });
-
 
 async function giveUserPro(id: string) {
   console.log('give ' + id + ' pro');

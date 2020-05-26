@@ -18,9 +18,6 @@ export interface CommandLog {
 
 export interface MessageLog {
     at: Date;
-    by: string;
-    content: string;
-    id: string;
     validation: MessageValidationMetadata;
 }
 

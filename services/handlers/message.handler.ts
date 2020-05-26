@@ -17,7 +17,7 @@ export default class MessageHandler implements EventHandler {
         private leveling = Deps.get<Leveling>(Leveling),
         private logs = Deps.get<Logs>(Logs)) {}
 
-    async invoke(msg: Message) {        
+    async invoke(msg: Message) {
         if (msg.author.bot) return;
 
         const savedGuild = await this.guilds.get(msg.guild);
