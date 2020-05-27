@@ -4,11 +4,11 @@ import CommandService from '../command.service';
 import Guilds from '../../data/guilds';
 import AutoMod from '../../modules/auto-mod/auto-mod';
 import Leveling from '../../modules/xp/leveling';
-import { Message } from 'discord.js';
+import { Message, ClientEvents } from 'discord.js';
 import Logs from '../../data/logs';
 
 export default class MessageHandler implements EventHandler {
-    on = 'message';
+    on: keyof ClientEvents = 'message';
 
     constructor(
         private autoMod = Deps.get<AutoMod>(AutoMod),

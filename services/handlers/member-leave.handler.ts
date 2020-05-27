@@ -1,10 +1,10 @@
-import { GuildMember, TextChannel } from 'discord.js';
+import { GuildMember, TextChannel, ClientEvents } from 'discord.js';
 import { EventType } from '../../data/models/guild';
 import AnnounceHandler from './announce-handler';
 import EventVariables from '../../modules/announce/event-variables';
 
 export default class MemberLeaveHandler extends AnnounceHandler {
-    on = 'guildMemberRemove';
+    on: keyof ClientEvents = 'guildMemberRemove';
     event = EventType.MemberLeave;
 
     async invoke(member: GuildMember) {

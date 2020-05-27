@@ -51,4 +51,4 @@ mongoose.connect(config.mongoURL, {
     useUnifiedTopology: true, 
     useNewUrlParser: true, 
     useFindAndModify: false
-}, (err) => err ? Log.error('Failed to connect to db') : Log.info('Connected to db'));
+}, (error) => error ? Log.error('Failed to connect to db') : Log.info('Connected to db'));

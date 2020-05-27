@@ -1,10 +1,10 @@
 import AnnounceHandler from './announce-handler';
-import { GuildMember } from 'discord.js';
+import { GuildMember, ClientEvents } from 'discord.js';
 import { EventType } from '../../data/models/guild';
 import EventVariables from '../../modules/announce/event-variables';
 
 export default class MemberJoinHandler extends AnnounceHandler {
-    on = 'guildMemberAdd';
+    on: keyof ClientEvents = 'guildMemberAdd';
     event = EventType.MemberJoin;
 
     async invoke(member: GuildMember) {

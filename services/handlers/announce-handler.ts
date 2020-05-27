@@ -1,11 +1,11 @@
 import { EventType, AnnounceEvent } from '../../data/models/guild';
 import Guilds from '../../data/guilds';
-import { Guild, TextChannel } from 'discord.js';
+import { Guild, TextChannel, ClientEvents } from 'discord.js';
 import Deps from '../../utils/deps';
 import EventHandler from './event-handler';
 
 export default abstract class AnnounceHandler implements EventHandler {
-    abstract on: string;
+    abstract on: any;
     abstract event: EventType;
 
     constructor(protected guilds = Deps.get<Guilds>(Guilds)) {}

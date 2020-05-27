@@ -8,9 +8,10 @@ import CommandService from '../command.service';
 import config from '../../config.json';
 import AutoMod from '../../modules/auto-mod/auto-mod';
 import Crates from '../../api/modules/crates/crates';
+import { ClientEvents } from 'discord.js';
 
 export default class ReadyHandler implements EventHandler {
-    on = 'ready';
+    on: keyof ClientEvents = 'ready';
     
     constructor(
         private autoMod = Deps.get<AutoMod>(AutoMod),

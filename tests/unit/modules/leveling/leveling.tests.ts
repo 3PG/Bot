@@ -3,6 +3,7 @@ import { mock } from 'ts-mockito';
 import Leveling from '../../../../modules/xp/leveling';
 import { GuildDocument } from '../../../../data/models/guild';
 import chaiAsPromised from 'chai-as-promised';
+import Deps from '../../../../utils/deps';
 
 use(chaiAsPromised);
 should();
@@ -12,6 +13,7 @@ describe('modules/leveling', () => {
 
     beforeEach(() => {
         leveling = new Leveling();
+        Deps.testing = true;
     });
 
     describe('validateXPMsg', () => {

@@ -1,10 +1,10 @@
 import AnnounceHandler from './announce-handler';
-import { Message } from 'discord.js';
+import { Message, ClientEvents } from 'discord.js';
 import { EventType } from '../../data/models/guild';
 import EventVariables from '../../modules/announce/event-variables';
 
 export default class MessageDeleteHandler extends AnnounceHandler {
-    on = 'messageDelete';
+    on: keyof ClientEvents = 'messageDelete';
     event = EventType.MessageDeleted;
 
     async invoke(msg: Message) {

@@ -71,7 +71,7 @@ export default class AutoMod {
         return await this.members.save(savedMember);
     }
 
-    async mute(target: GuildMember, instigator: User, reason: string) {
+    async mute(target: GuildMember, instigator: User, duration = 1000*60*60*24*7, reason = 'Unspecified') {
         if (target.id === instigator.id)
             throw new TypeError('You cannot mute yourself.');
         if (target.user.bot)

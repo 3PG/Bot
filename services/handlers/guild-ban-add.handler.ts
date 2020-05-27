@@ -1,10 +1,10 @@
 import AnnounceHandler from './announce-handler';
-import { Guild, User } from 'discord.js';
+import { Guild, User, ClientEvents } from 'discord.js';
 import { EventType } from '../../data/models/guild';
 import EventVariables from '../../modules/announce/event-variables';
 
 export default class GuildBanAddHandler extends AnnounceHandler {
-    on = 'guildBanAdd';
+    on: keyof ClientEvents = 'guildBanAdd';
     event = EventType.Ban;
 
     async invoke(guild: Guild, user: User) {
