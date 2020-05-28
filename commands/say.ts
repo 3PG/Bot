@@ -9,6 +9,6 @@ export default class SayCommand implements Command {
     module = 'General';
     
     execute = async(ctx: CommandContext, ...args: string[]) => {
-        return ctx.channel.send(args.join(' '));
+        return ctx.channel.send(args?.join(' '));
     }
 }

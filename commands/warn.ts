@@ -14,7 +14,7 @@ export default class WarnCommand implements Command {
     constructor(private autoMod = Deps.get<AutoMod>(AutoMod)) {}
     
     execute = async(ctx: CommandContext, targetMention: string, ...args: string[]) => {
-        const reason = args.join(' ') || 'Unspecified';
+        const reason = args?.join(' ') || 'Unspecified';
         const target = (targetMention) ?
             getMemberFromMention(targetMention, ctx.guild) : ctx.member;
         

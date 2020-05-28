@@ -17,7 +17,7 @@ export default class MuteCommand implements Command {
     execute = async(ctx: CommandContext, targetMention: string, durationString: string, ...args: string[]) => {
         const target = getMemberFromMention(targetMention, ctx.guild);
         
-        const reason = args.join(' ') || 'Unspecified';
+        const reason = args?.join(' ') || 'Unspecified';
         const duration = parseDuration(durationString);
         await this.autoMod.mute(target, ctx.user, duration, reason);
 

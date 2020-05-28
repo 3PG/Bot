@@ -355,3 +355,11 @@ Caused by: java.lang.NullPointerException: null
 2020-05-28 13:13:23.573  INFO 11248 --- [XNIO-1 task-75] lavalink.server.io.SocketServer          : Connection successfully established from /127.0.0.1:64419
 2020-05-28 13:14:00.412  INFO 11248 --- [XNIO-1 I/O-7] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:64419 -- CloseStatus[code=1006, reason=]
 2020-05-28 13:14:00.412  INFO 11248 --- [XNIO-1 I/O-7] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
+2020-05-28 13:14:10.378  INFO 11248 --- [XNIO-1 task-76] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:64438
+2020-05-28 13:14:10.390  INFO 11248 --- [XNIO-1 task-76] lavalink.server.io.SocketServer          : Connection successfully established from /127.0.0.1:64438
+2020-05-28 13:14:23.568  INFO 11248 --- [XNIO-1 I/O-2] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:64438 -- CloseStatus[code=1006, reason=]
+2020-05-28 13:14:23.568  INFO 11248 --- [XNIO-1 I/O-2] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
+2020-05-28 13:14:33.397  INFO 11248 --- [XNIO-1 task-77] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /127.0.0.1:64452
+2020-05-28 13:14:33.403  INFO 11248 --- [XNIO-1 task-77] lavalink.server.io.SocketServer          : Connection successfully established from /127.0.0.1:64452
+2020-05-28 13:14:38.293  INFO 11248 --- [XNIO-1 I/O-16] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:64452 -- CloseStatus[code=1006, reason=]
+2020-05-28 13:14:38.293  INFO 11248 --- [XNIO-1 I/O-16] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
