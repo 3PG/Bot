@@ -1,27 +1,30 @@
-import { use, should, expect } from 'chai';
+import { expect, use } from 'chai';
 import { GuildDocument, MessageFilter } from '../../../../data/models/guild';
 import { mock } from 'ts-mockito';
 import AutoMod from '../../../../modules/auto-mod/auto-mod';
 import { Message } from 'discord.js';
-import chaiAsPromised from 'chai-as-promised';
-import {  SavedMember } from '../../../../data/models/member';
+import { SavedMember } from '../../../../data/models/member';
 import Members from '../../../../data/members';
+import Deps from '../../../../utils/deps';
+import chaiAsPromised from 'chai-as-promised';
 
-should();
 use(chaiAsPromised);
 
 describe('modules/auto-mod', () => {
     let autoMod: AutoMod;
+    let emit: any;
+    let members: any;
 
     beforeEach(() => {
-        const members = mock<Members>();
+        Deps.testing = true;
+
+        members = mock<Members>();
         members.get = (): any => new SavedMember();
         
-        autoMod = new AutoMod(members);
+        autoMod = new AutoMod(emit, members);
     });
     
-    describe('validateMsg', () => {
-
+    describe('validate', () => {
         it('contains ban word, has filter, error thrown', async() => {            
             const guild = mock<GuildDocument>();
             const msg = mock<Message>();
@@ -30,9 +33,9 @@ describe('modules/auto-mod', () => {
             guild.autoMod.banWords = ['a'];
             msg.content = 'a';
             
-            const result = () => autoMod.validateMsg(msg, guild);
+            const result = () => autoMod.validate(msg, guild);
 
-            result().should.eventually.throw();
+            return expect(result()).to.be.rejected;
         });
         
         it('contains ban word, has filter, auto deleted, error thrown', async() => {            
@@ -44,9 +47,9 @@ describe('modules/auto-mod', () => {
             msg.content = 'a';
             msg.delete = () => { throw new TypeError('deleted'); }
 
-            const result = () => autoMod.validateMsg(msg, guild);
+            const result = () => autoMod.validate(msg, guild);
 
-            result().should.eventually.throw('deleted');
+            return expect(result()).to.be.rejected;
         });
 
         it('contains ban word, no filter, ignored', async() => {
@@ -57,9 +60,9 @@ describe('modules/auto-mod', () => {
             guild.autoMod.banWords = [];
             msg.content = 'a';
 
-            const result = () => autoMod.validateMsg(msg, guild);
+            const result = () => autoMod.validate(msg, guild);
 
-            result().should.not.eventually.throw();
+            return expect(result()).to.not.be.rejected;
         });
         
         it('contains ban link, has filter, error thrown', async() => {            
@@ -70,9 +73,9 @@ describe('modules/auto-mod', () => {
             guild.autoMod.banLinks = ['a'];
             msg.content = 'a';
 
-            const result = () => autoMod.validateMsg(msg, guild);
+            const result = () => autoMod.validate(msg, guild);
 
-            result().should.eventually.throw();
+            return expect(result()).to.be.rejected;
         });
         
         it('contains ban link, no filter, ignored', async() => {            
@@ -83,29 +86,20 @@ describe('modules/auto-mod', () => {
             guild.autoMod.banLinks = ['a'];
             msg.content = 'a';
 
-            const result = () => autoMod.validateMsg(msg, guild);
+            const result = () => autoMod.validate(msg, guild);
 
-            result().should.not.eventually.throw();
+            return expect(result()).to.be.fulfilled;
         });
     });
 
     describe('warnMember', () => {
-        it('warn member, message sent to user', async() => {
-            const member: any = { id: '123', send: () => { throw new TypeError() }, user: { bot: false }};
-            const instigator: any = { id: '321' };
-
-            const result = () => autoMod.warn(member, instigator);
-
-            result().should.eventually.throw();
-        });
-
         it('warn self member, error thrown', async() => {
             const member: any = { id: '123', user: { bot: false } };
             const instigator: any = { id: '123' };
 
             const result = () => autoMod.warn(member, instigator);
 
-            result().should.eventually.throw();
+            return expect(result()).to.be.rejected;
         });
 
         it('warn bot member, error thrown', async() => {
@@ -114,7 +108,7 @@ describe('modules/auto-mod', () => {
 
             const result = () => autoMod.warn(member, instigator);
 
-            result().should.eventually.throw();
+            return expect(result()).to.be.rejected;
         });
     });
 });

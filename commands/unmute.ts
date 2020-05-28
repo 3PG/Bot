@@ -19,7 +19,7 @@ export default class UnmuteCommand implements Command {
         const target = getMemberFromMention(targetMention, ctx.guild);
         
         const reason = args?.join(' ') || 'Unspecified';
-        await this.autoMod.unmute(target, reason, ctx.user);
+        await this.autoMod.unmute(target, { instigator: ctx.user, reason });
 
         await ctx.channel.send(`<@!${target.id}> was unmuted for \`${reason}\``);
     };

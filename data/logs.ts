@@ -16,7 +16,7 @@ export default class Logs extends DBWrapper<Guild, LogDocument> {
     async logChanges(change: Change, guild: Guild) {
         const log = await this.get(guild);        
         log.changes.push(change);
-        await this.save(log);
+        await log.save();
     }
     
     async logCommand(msg: Message, command: Command) {
@@ -26,12 +26,12 @@ export default class Logs extends DBWrapper<Guild, LogDocument> {
             by: msg.author.id,
             name: command.name
         });
-        await this.save(log);
+        await log.save();
     }
 
     async logMessage(msg: Message, validation: MessageValidationMetadata) {
         const log = await this.get(msg.guild);
         log.messages.push({ at: new Date(), validation });   
-        await this.save(log);
+        await log.save();
     }
 }

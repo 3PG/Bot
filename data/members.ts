@@ -7,11 +7,10 @@ export default class Members extends DBWrapper<GuildMember, MemberDocument> {
         if (member.user.bot)
             throw new TypeError(`Bots don't have accounts`);
 
-        const user = await SavedMember.findOne({
+        return SavedMember.findOne({
             userId: member.id,
             guildId: member.guild.id
-        });
-        return user ?? this.create(member);
+        }) ?? this.create(member);
     }
 
     protected create(member: GuildMember) {
@@ -19,5 +18,9 @@ export default class Members extends DBWrapper<GuildMember, MemberDocument> {
             userId: member.id,
             guildId: member.guild.id
         }).save();
+    }
+
+    getAll() {
+        return SavedMember.find();
     }
 }

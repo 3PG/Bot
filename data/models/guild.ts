@@ -51,6 +51,7 @@ export class CommandsModule extends Module {
 
 export enum MessageFilter {
     Emoji = 'EMOJI', 
+    ExplicitWords = 'EXPLICIT_WORDS',
     Links = 'LINKS',
     MassCaps = 'MASS_CAPS',
     MassMention = 'MASS_MENTION',

@@ -2,23 +2,31 @@ import { Message, GuildMember, User, Guild } from 'discord.js';
 import { GuildDocument, MessageFilter } from '../../data/models/guild';
 import Deps from '../../utils/deps';
 import Members from '../../data/members';
-import { emitter } from '../../bot';
 import { ContentValidator } from './validators/content-validator';
 import { MemberDocument } from '../../data/models/member';
 import fs from 'fs';
 import { promisify } from 'util';
 import Log from '../../utils/log';
+import Emit from '../../services/emit';
 
 const readdir = promisify(fs.readdir);
+const readFile = promisify(fs.readFile);
+
+export let explicitWords: string[] = [];
 
 export default class AutoMod {
     private validators: ContentValidator[] = [];
 
-    constructor(private members = Deps.get<Members>(Members)) {}
+    constructor(
+        private emit = Deps.get<Emit>(Emit),
+        private members = Deps.get<Members>(Members)) {}
 
     async init() {
-        const directory = './modules/auto-mod/validators';
-        const files = await readdir(directory);
+        const directory = './modules/auto-mod';
+        const words = await readFile(directory + '/explicit-words.txt');        
+        const files = await readdir(directory + '/validators');
+        
+        explicitWords = words.toString().split('\n');
 
         for (const file of files) {
             const Validator = require(`./validators/${file}`).default;
@@ -29,111 +37,94 @@ export default class AutoMod {
         Log.info(`Loaded: ${this.validators.length} validators`, `automod`);
     }
     
-    async validateMsg(msg: Message, guild: GuildDocument) {
+    async validate(msg: Message, guild: GuildDocument) {
         const activeFilters = guild.autoMod.filters;
-        for (const filter of activeFilters) {
+        for (const filter of activeFilters)
             try {                
                 const validator = this.validators.find(v => v.filter === filter);
-                validator?.validate(msg.content, guild);
+                await validator?.validate(msg.content, guild);
             } catch (validation) {
                 if (guild.autoMod.autoDeleteMessages)
                     await msg.delete({ reason: validation.message });
                 if (guild.autoMod.autoWarnUsers && msg.member)
-                    await this.warn(msg.member, msg.client.user, validation.message);
-
+                    await this.warn(msg.member, {
+                        instigator: msg.client.user,
+                        reason: validation.message
+                    });
                 throw validation;
             }
-        }
     }
 
-    async warn(target: GuildMember, instigator: User, reason = 'No reason specified.') {
-        if (target.id === instigator.id)
-            throw new TypeError('You cannot warn yourself.');
-        if (target.user.bot)
-            throw new TypeError('Bots cannot be warned.');
+    async warn(target: GuildMember, args: PunishmentArgs) {
+        this.validateAction(target, args.instigator);
 
         const savedMember = await this.members.get(target);
-        await this.saveWarning(savedMember, reason, instigator);
-
-        emitter.emit('userWarn', {
-            guild: target.guild,
-            instigator,
-            user: target.user,
-            reason,
-            warnings: savedMember.warnings.length
-        } as UserPunishmentArgs);
+        
+        this.emit.warning(args, target, savedMember);
+        await this.saveWarning(args, savedMember);
+    }
+    private async saveWarning(args: PunishmentArgs, savedMember: MemberDocument) {
+        savedMember.warnings.push({
+            at: new Date(),
+            instigatorId: args.instigator.id,
+            reason: args.reason
+        });
+        return this.members.save(savedMember);        
     }
 
-    private async saveWarning(savedMember: MemberDocument, reason: string, instigator: User) {
-        const warning = { reason, instigatorId: instigator.id, at: new Date() };
-        savedMember.warnings.push(warning);
-
-        return await this.members.save(savedMember);
-    }
-
-    async mute(target: GuildMember, instigator: User, duration = 1000*60*60*24*7, reason = 'Unspecified') {
-        if (target.id === instigator.id)
-            throw new TypeError('You cannot mute yourself.');
-        if (target.user.bot)
-            throw new TypeError('Bots cannot be muted.');
+    async mute(target: GuildMember, args: PunishmentArgs) {
+        this.validateAction(target, args.instigator);
 
         const role = await this.getMutedRole(target.guild);
         target.roles.add(role);
 
         const savedMember = await this.members.get(target);
-        await this.saveMute(savedMember, reason, instigator);
 
-        emitter.emit('userMute', {
-            guild: target.guild,
-            instigator,
-            user: target.user,
-            reason,
-            warnings: savedMember.warnings.length
-        } as UserPunishmentArgs);
+        this.emit.mute(args, target, savedMember);
+        await this.saveMute(args, savedMember);
     }
-    private async saveMute(savedMember: MemberDocument, reason: string, instigator: User) {
-        const mute = { reason, instigatorId: instigator.id, at: new Date() };
-        savedMember.mutes.push(mute);
-
-        await this.members.save(savedMember);
+    private async saveMute(args: PunishmentArgs, savedMember: MemberDocument) {
+        savedMember.mutes.push({
+            at: new Date(),
+            reason: args.reason,
+            instigatorId: args.instigator.id
+        });
+        return savedMember.save();
     }
 
-    async unmute(target: GuildMember,  reason: string, instigator: User) {   
-        if (target.id === instigator.id)
-            throw new TypeError('You cannot unmute yourself.');
-        if (target.user.bot)
-            throw new TypeError('Bots cannot be unmuted.');
+    async unmute(target: GuildMember, args: PunishmentArgs) {
+        this.validateAction(target, args.instigator);
 
         const role = await this.getMutedRole(target.guild);
         target.roles.remove(role);
-        
+
         const savedMember = await this.members.get(target);
-        
-        emitter.emit('userUnmute', {
-            guild: target.guild,
-            instigator,
-            user: target.user,
-            reason,
-            warnings: savedMember.warnings.length
-        } as UserPunishmentArgs);
+
+        this.emit.unmute(args, target, savedMember);
+    }
+
+    private validateAction(target: GuildMember, instigator: User) {
+        if (target.id === instigator.id)
+            throw new TypeError('You cannot punish yourself.');
+        if (target.user.bot)
+            throw new TypeError('Bots cannot be punished.');
+
+        const instigatorMember = target.guild.members.cache
+            .get(instigator.id);        
+        if (instigatorMember.roles.highest.position <= target.roles.highest.position)
+            throw new TypeError('User has the same or higher role.');
     }
 
     private async getMutedRole(guild: Guild) {
-        let role = guild.roles.cache.find(r => r.name === 'Muted');
-        if (!role)
-            role = await guild.roles.create({ data: { name: 'Muted' } });
-        return role;
+        return guild.roles.cache.find(r => r.name === 'Muted')
+            ?? await guild.roles.create({ data: { name: 'Muted' } });
     }
 }
 
-export interface UserPunishmentArgs {
-    guild: Guild;
-    user: User;
+export interface PunishmentArgs {
     instigator: User;
-    warnings: number;
     reason: string;
 }
-
 export class ValidationError extends Error {
     constructor(message: string, public filter: MessageFilter) {
         super(message);

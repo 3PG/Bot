@@ -18,6 +18,7 @@ import Validators from './services/validators';
 import ReactionRoles from './modules/general/reaction-roles';
 import Log from './utils/log';
 import Crates from './api/modules/crates/crates';
+import Emit from './services/emit';
 
 export const bot = new Client({
     messageCacheLifetime: 60,
@@ -43,6 +44,7 @@ Deps.build(
     CommandService,
     Crates,
     Cooldowns,
+    Emit,
     EventsService,
     Validators
 );
