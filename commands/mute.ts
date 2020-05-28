@@ -5,8 +5,8 @@ import { getMemberFromMention, parseDuration } from '../utils/command-utils';
 
 export default class MuteCommand implements Command {
     precondition: Permission = 'MUTE_MEMBERS';
-    usage = `mute user [duration = '7d'] [reason = 'Unspecified']`;
     name = 'mute';
+    usage = `mute user [duration = '7d'] [reason = 'Unspecified']`;
     summary = 'Stop a user from sending messages. Check docs for duration values.';
     cooldown = 3;
     module = 'Auto-mod';

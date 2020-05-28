@@ -38,7 +38,7 @@ export default class AutoMod {
             } catch (validation) {
                 if (guild.autoMod.autoDeleteMessages)
                     await msg.delete({ reason: validation.message });
-                if (guild.autoMod.autoWarnUsers && msg.member && msg.client.user)
+                if (guild.autoMod.autoWarnUsers && msg.member)
                     await this.warn(msg.member, msg.client.user, validation.message);
 
                 throw validation;
@@ -98,7 +98,7 @@ export default class AutoMod {
         await this.members.save(savedMember);
     }
 
-    async unmute(target: GuildMember, instigator: User) {   
+    async unmute(target: GuildMember,  reason: string, instigator: User) {   
         if (target.id === instigator.id)
             throw new TypeError('You cannot unmute yourself.');
         if (target.user.bot)
@@ -106,6 +106,16 @@ export default class AutoMod {
 
         const role = await this.getMutedRole(target.guild);
         target.roles.remove(role);
+        
+        const savedMember = await this.members.get(target);
+        
+        emitter.emit('userUnmute', {
+            guild: target.guild,
+            instigator,
+            user: target.user,
+            reason,
+            warnings: savedMember.warnings.length
+        } as UserPunishmentArgs);
     }
 
     private async getMutedRole(guild: Guild) {

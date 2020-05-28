@@ -24,7 +24,8 @@ export enum EventType {
     MemberJoin = 'MEMBER_JOIN',
     MemberLeave = 'MEMBER_LEAVE',
     Mute = 'MUTE',
-    Unban = 'UNBAN', 
+    Unban = 'UNBAN',
+    Unmute = 'UNMUTE',
     Warn ='WARN',
 }
 

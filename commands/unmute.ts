@@ -13,15 +13,14 @@ export default class UnmuteCommand implements Command {
     module = 'Auto-mod';
     
     constructor(
-        private autoMod = Deps.get<AutoMod>(AutoMod),
-        private guilds = Deps.get<Guilds>(Guilds)) {}
+        private autoMod = Deps.get<AutoMod>(AutoMod)) {}
     
     execute = async(ctx: CommandContext, targetMention: string, ...args: string[]) => {
         const target = getMemberFromMention(targetMention, ctx.guild);
         
-        await this.autoMod.unmute(target, ctx.user);
-
         const reason = args.join(' ') || 'Unspecified';
+        await this.autoMod.unmute(target, reason, ctx.user);
+
         await ctx.channel.send(`<@!${target.id}> was unmuted for \`${reason}\``);
     };
 }

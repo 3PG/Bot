@@ -9,12 +9,14 @@ import config from '../../config.json';
 import AutoMod from '../../modules/auto-mod/auto-mod';
 import Crates from '../../api/modules/crates/crates';
 import { ClientEvents } from 'discord.js';
+import BotStatsService from '../bot-stats.service';
 
 export default class ReadyHandler implements EventHandler {
     on: keyof ClientEvents = 'ready';
     
     constructor(
         private autoMod = Deps.get<AutoMod>(AutoMod),
+        private botStats = Deps.get<BotStatsService>(BotStatsService),
         private commandService = Deps.get<CommandService>(CommandService),
         private crates = Deps.get<Crates>(Crates),
         private music = Deps.get<Music>(Music),
@@ -24,6 +26,7 @@ export default class ReadyHandler implements EventHandler {
         Log.info(`It's live!`, `events`);
         
         await this.autoMod.init();
+        await this.botStats.init();
         await this.commandService.init();
         await this.crates.init();
         this.music.init();
