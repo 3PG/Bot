@@ -17,6 +17,7 @@ import Log from '../../utils/log';
 import { Change } from '../../data/models/log';
 import Timers from '../../modules/timers/timers';
 import { getUser } from './user-routes';
+import { sendError } from './api-routes';
 
 export const router = Router();
 
@@ -30,7 +31,7 @@ router.get('/', async (req, res) => {
     try {        
         const guilds = await getManagableGuilds(req.query.key);
         res.json(guilds);
-    } catch (error) { res.status(400).json(error?.message); }
+    } catch (error) { sendError(res, 400, error); }
 });
 
 router.put('/:id/:module', async (req, res) => {
@@ -45,7 +46,7 @@ router.put('/:id/:module', async (req, res) => {
 
         const user = await getUser(req.query.key);
         const guild = bot.guilds.cache.get(id); 
-        const savedGuild = await guilds.get(guild);
+        const savedGuild = await guilds.get(guild);        
         
         const change = AuditLogger.getChanges({
             old: savedGuild[module],
@@ -63,12 +64,9 @@ router.put('/:id/:module', async (req, res) => {
         emitConfigSaved(guild, user, change);
 
         res.json(savedGuild);
-    } catch (error) {
-        Log.error(error, 'api');
-        res.status(400).json(error?.message);
-    }
+    } catch (error) { sendError(res, 400, error); }
 });
-async function resetTimers(id: string) {
+async function resetTimers(id: string) {        
     timers.cancelTimers(id);
     await timers.startTimers(id);
 }
@@ -101,7 +99,7 @@ router.delete('/:id/config', async(req, res) => {
         await savedGuild.remove();
         
         res.send({ success: true })
-    } catch (error) { res.status(401).json(error?.message); }
+    } catch (error) { sendError(res, 400, error); }
 });
 
 router.get('/:id/config', async (req, res) => {
@@ -109,14 +107,14 @@ router.get('/:id/config', async (req, res) => {
         const guild = bot.guilds.cache.get(req.params.id);
         const savedGuild = await guilds.get(guild);
         res.json(savedGuild);
-    } catch (error) { res.status(400).json(error?.message); }
+    } catch (error) { sendError(res, 400, error); }
 });
 
 router.get('/:id/channels', async (req, res) => {
     try {
         const guild = bot.guilds.cache.get(req.params.id);
-        res.json(guild.channels.cache);        
-    } catch (error) { res.status(400).json(error?.message); }
+        res.json(guild.channels.cache);
+    } catch (error) { sendError(res, 400, error); }
 });
 
 router.get('/:id/channels/:channelId/messages/:messageId', async(req, res) => {
@@ -132,7 +130,7 @@ router.get('/:id/channels/:channelId/messages/:messageId', async(req, res) => {
             member: guild.members.cache.get(msg.author.id),
             user: bot.users.cache.get(msg.author.id)
         });
-    } catch (error) { res.status(400).json(error?.message); }
+    } catch (error) { sendError(res, 400, error); }
 });
 
 router.get('/:id/log', async(req, res) => {
@@ -140,7 +138,7 @@ router.get('/:id/log', async(req, res) => {
         const guild = bot.guilds.cache.get(req.params.id);
         const log = await logs.get(guild);
         res.json(log);
-    } catch (error) { res.status(400).json(error?.message); }
+    } catch (error) { sendError(res, 400, error); }
 });
 
 router.get('/:id/timers', (req, res) => {
@@ -150,10 +148,10 @@ router.get('/:id/timers', (req, res) => {
             return res.json([]);
     
         for (const timer of guildTimers)
-            delete timer.interval;
+            delete timer.timeout;
     
         res.json(guildTimers);        
-    } catch (error) { res.status(400).json(error?.message); }
+    } catch (error) { sendError(res, 400, error); }
 });
 
 router.get('/:id/warnings', async(req, res) => {
@@ -171,7 +169,7 @@ router.get('/:id/warnings', async(req, res) => {
                 });
             }
         res.json(warnings);        
-    } catch (error) { res.status(400).json(error?.message); }
+    } catch (error) { sendError(res, 400, error); }
 });
 
 router.get('/:id/public', (req, res) => {
@@ -182,8 +180,8 @@ router.get('/:id/public', (req, res) => {
 router.get('/:id/roles', async (req, res) => {
     try {
         const guild = bot.guilds.cache.get(req.params.id);
-        res.json(guild?.roles.cache.filter(r => r.name !== '@everyone'));        
-    } catch (error) { res.status(400).json(error?.message); }
+        res.json(guild?.roles.cache.filter(r => r.name !== '@everyone'));
+    } catch (error) { sendError(res, 400, error); }
 });
 
 router.get('/:id/members', async (req, res) => {
@@ -202,7 +200,7 @@ router.get('/:id/members', async (req, res) => {
         rankedMembers.sort((a, b) => b.xp - a.xp);
     
         res.json(rankedMembers);
-    } catch (error) { res.status(400).send(error?.message); }
+    } catch (error) { sendError(res, 400, error); }
 });
 
 function leaderboardMember({ user }: GuildMember, xpInfo: any) {
@@ -236,7 +234,7 @@ router.get('/:guildId/members/:memberId/xp-card', async (req, res) => {
         const image = await generator.generate(savedMember);
         
         res.set({'Content-Type': 'image/png'}).send(image);
-    } catch (error) { res.status(400).send(error?.message); }
+    } catch (error) { sendError(res, 400, error); }
 });
 
 export async function validateGuildManager(key: string, guildId: string) {

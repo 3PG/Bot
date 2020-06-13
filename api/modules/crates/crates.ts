@@ -42,7 +42,7 @@ export default class Crates {
 
         const roll = Math.random();
         for (let i = 0; i < this.rewards.length; i++) {
-            const prereq = 1 / Math.pow(i + 1, difficulty);
+            const prereq = 1 / (i + 1)**difficulty;
             if (roll > prereq) continue;
 
             reward = this.rewards[i];

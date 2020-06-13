@@ -6,8 +6,8 @@ export default class Guilds extends DBWrapper<Guild, GuildDocument> {
     protected async getOrCreate(guild: Guild) {
         if (!guild) return null;
 
-        const savedGuild = await SavedGuild.findById(guild.id);
-        return savedGuild ?? this.create(guild);
+        return await SavedGuild.findById(guild.id)
+            ?? this.create(guild);
     }
 
     protected create(guild: Guild) {

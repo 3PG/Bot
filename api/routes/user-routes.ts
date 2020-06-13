@@ -7,6 +7,7 @@ import Deps from '../../utils/deps';
 import Users from '../../data/users';
 import config from '../../config.json';
 import Crates from '../modules/crates/crates';
+import { sendError } from './api-routes';
 
 export const router = Router();
 
@@ -17,7 +18,7 @@ router.get('/', async (req, res) => {
     try {
         const user = await getUser(req.query.key);
         res.json(user);
-    } catch { res.status(400).send('Bad Request'); }
+    } catch (error) { sendError(res, 400, error); }
 });
 
 const items = [
@@ -41,7 +42,7 @@ router.get('/pay', async(req, res) => {
             line_items: items
         });
         res.send(session);
-    } catch (error) { res.status(400).send(error?.message); }
+    } catch (error) { sendError(res, 400, error); }
 });
 
 router.get('/saved', async (req, res) => {
@@ -49,7 +50,7 @@ router.get('/saved', async (req, res) => {
         const user = await getUser(req.query.key);
         const savedUser = await users.get(user);
         res.json(savedUser);
-    } catch (error) { res.status(400).send(error?.message); }
+    } catch (error) { sendError(res, 400, error); }
 });
 
 router.get('/xp-card-preview', async (req, res) => {
@@ -71,7 +72,7 @@ router.get('/xp-card-preview', async (req, res) => {
         const image = await generator.generate(member, { ...savedUser.xpCard, ...req.query });
         
         res.set({'Content-Type': 'image/png'}).send(image);
-    } catch (error) { res.status(400).send(error?.message); }
+    } catch (error) { sendError(res, 400, error); }
 });
 
 router.put('/xp-card', async (req, res) => {
@@ -83,7 +84,7 @@ router.put('/xp-card', async (req, res) => {
         await savedUser.save();
         
         res.send(savedUser);
-    } catch (error) { res.status(400).send(error?.message); }
+    } catch (error) { sendError(res, 400, error); }
 });
 
 router.get('/open-crate', async (req, res) => {
@@ -99,7 +100,7 @@ router.get('/open-crate', async (req, res) => {
         await savedUser.save();
         
         res.json(result);
-    } catch (error) { res.status(400).send(error?.message); }
+    } catch (error) { sendError(res, 400, error); }
 });
 
 export async function getUser(key: string) {   

@@ -13,6 +13,7 @@ export default class Emit {
             warnings: savedMember.warnings.length
         }
         emitter.emit('userWarn', eventArgs);
+        
     }
 
     mute(args: PunishmentArgs, target: GuildMember, savedMember: MemberDocument) {
@@ -23,16 +24,18 @@ export default class Emit {
             warnings: savedMember.warnings.length
         };
         emitter.emit('userMute', eventArgs);
+        
     }
 
-    unmute(args: PunishmentArgs, target: GuildMember, savedMember: MemberDocument) {    
-        emitter.emit('userUnmute', {
+    unmute(args: PunishmentArgs, target: GuildMember, savedMember: MemberDocument) {
+        const eventArgs: PunishmentEventArgs = {
             guild: target.guild,
             instigator: args.instigator,
             user: target.user,
             reason: args.reason,
             warnings: savedMember.warnings.length
-        } as PunishmentEventArgs);
+        };
+        emitter.emit('userUnmute', eventArgs);    
     }
 }
 

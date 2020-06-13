@@ -26,7 +26,10 @@ export default class AutoMod {
         const words = await readFile(directory + '/explicit-words.txt');        
         const files = await readdir(directory + '/validators');
         
-        explicitWords = words.toString().split('\n');
+        explicitWords = words
+            .toString()
+            .replace(/\r/g, '')
+            .split('\n');
 
         for (const file of files) {
             const Validator = require(`./validators/${file}`).default;

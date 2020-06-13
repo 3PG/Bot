@@ -14,8 +14,10 @@ import LevelUpHandler from './custom-handlers/level-up.handler';
 import UserWarnHandler from './custom-handlers/user-warn.handler';
 import ConfigUpdateHandler from './custom-handlers/config-update.handler';
 import UserMuteHandler from './custom-handlers/user-mute.handler';
+import UserUnmuteHandler from './custom-handlers/user-unmute.handler';
 
 export default class EventsService {
+    // TODO: add auto file loading
     private readonly handlers: EventHandler[] = [
         new ReadyHandler(),
         new GuildCreateHandler(),
@@ -31,7 +33,8 @@ export default class EventsService {
         new LevelUpHandler(),
         new UserWarnHandler(),
         new ConfigUpdateHandler(),
-        new UserMuteHandler()
+        new UserMuteHandler(),
+        new UserUnmuteHandler()
     ];
 
     constructor() {

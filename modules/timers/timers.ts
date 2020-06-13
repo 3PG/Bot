@@ -1,4 +1,4 @@
-import { Timer, CommandTimer, MessageTimer, GuildDocument } from '../../data/models/guild';
+import { Timer, GuildDocument } from '../../data/models/guild';
 import Deps from '../../utils/deps';
 import Guilds from '../../data/guilds';
 import { bot } from '../../bot';
@@ -24,12 +24,12 @@ export default class Timers {
     }
 
     cancelTimers(guildId: string) {
-        const guildTimers = this.currentTimers.get(guildId) ?? [];
-        for (const timer of guildTimers) {
-            timer.interval?.unref();
-            timer.job?.cancel();
+        const guildTimers = this.currentTimers.get(guildId) ?? [];        
+        for (const { job, timeout } of guildTimers) {            
+            job?.cancel();
+            clearInterval(timeout);
         }
-        this.currentTimers.set(guildId, []);
+        this.currentTimers.delete(guildId);
     }
 
     async startTimers(guildId: string) {
@@ -42,10 +42,10 @@ export default class Timers {
             await this.startTimer(timer, savedGuild);
     }
 
-    startTimer(timer: Timer, savedGuild: GuildDocument) {
+    async startTimer(timer: Timer, savedGuild: GuildDocument) {
         const minInterval = 60 * 1000;
         const interval = this.getInterval(timer.interval);        
-        if (interval < minInterval || !timer.enabled) return;
+        if (interval < minInterval || !timer.enabled) return;        
 
         let from = new Date(timer.from),
             job: Job,
@@ -54,30 +54,29 @@ export default class Timers {
         
         if (from.toString() === 'Invalid Date')
             status = 'FAILED';
-            
-        this.startedTimers++;
-
-        if (from < new Date())
-            return this.schedule(uuid, savedGuild, interval);
-
-        job = scheduleJob(from,
-            () => this.schedule(uuid, savedGuild, interval));
 
         this.getGuildTimers(savedGuild.id)
-            .push({ status, timer, uuid, job });
+            .push({ status, timer, uuid, job, timeout: null });
+
+        if (from >= new Date())
+            job = scheduleJob(from, () => this.schedule(uuid, savedGuild, interval));
+        else
+            this.schedule(uuid, savedGuild, interval);
+            
+        this.startedTimers++;
     }
     private getGuildTimers(id: string) {
         return this.currentTimers.get(id)
             ?? this.currentTimers.set(id, []).get(id);
     }
 
-    private async schedule(uuid: string, savedGuild: GuildDocument, interval: number) {
+    private schedule(uuid: string, savedGuild: GuildDocument, interval: number) {
         const task = this.findTask(uuid, savedGuild.id);
-        if (!task) return;
 
         task.status = 'ACTIVE';
-        task.interval = setInterval(
+        task.timeout = setInterval(
             async() => await this.sendTimer(task, savedGuild), interval);
+        
     }
     private findTask(uuid: string, guildId: string) {
         return this.getGuildTimers(guildId)?.find(t => t.uuid === uuid);        
@@ -118,7 +117,7 @@ export default class Timers {
 
 export interface TimerTask {
     uuid: string;
-    interval?: NodeJS.Timeout;
+    timeout: NodeJS.Timeout;
     job?: Job;
     status: 'PENDING' | 'ACTIVE' | 'FAILED';
     timer: Timer;

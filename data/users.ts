@@ -1,6 +1,7 @@
 import { User } from 'discord.js';
 import { SavedUser, UserDocument } from '../data/models/user';
 import DBWrapper from './db-wrapper';
+import { bot } from '../bot';
 
 export default class Users extends DBWrapper<User, UserDocument> {
     protected async getOrCreate(user: User) {
@@ -16,6 +17,12 @@ export default class Users extends DBWrapper<User, UserDocument> {
 
     private removePro(savedUser: UserDocument) {
         savedUser.premium = false;
+
+        bot.guilds.cache
+            .get('598565371162656788')?.members.cache
+            .get(savedUser.id)?.roles
+            .remove('599596068145201152');
+
         return savedUser.save();
     }
 

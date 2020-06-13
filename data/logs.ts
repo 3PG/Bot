@@ -5,8 +5,7 @@ import { Command } from '../commands/command';
 
 export default class Logs extends DBWrapper<Guild, LogDocument> {
     protected async getOrCreate(guild: Guild) {
-        const savedLog = await SavedLog.findById(guild.id);
-        return savedLog ?? this.create(guild);
+        return await SavedLog.findById(guild.id) ?? this.create(guild);
     }
 
     protected async create(guild: Guild) {
@@ -14,9 +13,9 @@ export default class Logs extends DBWrapper<Guild, LogDocument> {
     }
 
     async logChanges(change: Change, guild: Guild) {
-        const log = await this.get(guild);        
+        const log = await this.get(guild);
         log.changes.push(change);
-        await log.save();
+        return log.save();
     }
     
     async logCommand(msg: Message, command: Command) {
@@ -26,12 +25,12 @@ export default class Logs extends DBWrapper<Guild, LogDocument> {
             by: msg.author.id,
             name: command.name
         });
-        await log.save();
+        return log.save();
     }
 
     async logMessage(msg: Message, validation: MessageValidationMetadata) {
         const log = await this.get(msg.guild);
         log.messages.push({ at: new Date(), validation });   
-        await log.save();
+        return log.save();
     }
 }

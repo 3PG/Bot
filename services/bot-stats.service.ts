@@ -6,14 +6,13 @@ import TopGG from 'dblapi.js';
 
 export default class BotStatsService {
     async init() {
-        const updateInterval = 5 * 60 * 1000;
-
         if (bot.user.id !== '525935335918665760') return;
 
         // TODO: uncomment when has top.gg token
-        // await this.sendTopGGStats();
+        await this.sendTopGGStats();
 
-        setInterval(this.updateBotStats, updateInterval);
+        const updateInterval = 5 * 60 * 1000;
+        setInterval(async() => await this.updateBotStats(), updateInterval);
     }
 
     async updateBotStats() {

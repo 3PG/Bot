@@ -3,7 +3,7 @@ import { EventType } from '../../data/models/guild';
 import EventVariables from '../../modules/announce/event-variables';
 import { PunishmentEventArgs } from '../emit';
 
-export default class UserWarnHandler extends AnnounceHandler {
+export default class UserUnmuteHandler extends AnnounceHandler {
     on = 'userUnmute';
     event = EventType.Unmute;
 

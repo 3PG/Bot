@@ -7,7 +7,7 @@ export default class Members extends DBWrapper<GuildMember, MemberDocument> {
         if (member.user.bot)
             throw new TypeError(`Bots don't have accounts`);
 
-        return SavedMember.findOne({
+        return await SavedMember.findOne({
             userId: member.id,
             guildId: member.guild.id
         }) ?? this.create(member);

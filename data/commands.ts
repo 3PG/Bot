@@ -13,6 +13,10 @@ export default class Commands extends DBWrapper<Command, CommandDocument> {
             { upsert: true });
     }
 
+    async deleteAll() {
+        return await SavedCommand.deleteMany({});
+    }
+
     getCommandUsage(command: Command) {
         const args = command.execute
             .toString()

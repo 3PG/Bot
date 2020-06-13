@@ -28,6 +28,7 @@ export default class API {
         app.use(rateLimiter);
         app.use(cors());
         app.use(bodyParser.json());
+
         app.use('/api', apiRoutes);
         
         app.use(express.static(join(__dirname, '..', config.webapp.distPath)));

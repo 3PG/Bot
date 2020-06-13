@@ -27,36 +27,30 @@ router.get('/auth', async (req, res) => {
     try {
         const key = await AuthClient.getAccess(req.query.code);
         res.json(key);
-    } catch (error) { res.status(400).json(error); }
+      } catch (error) { sendError(res, 400, error); }
 });
 
 router.post('/auth-vote', async(req, res) => {
   try {
     const secrets = [ req.get('X-DBL-Signature'), req.get('Authorization') ]; // dbl, top.gg
     const containsSecret = secrets
-      .some(s => s && s.includes(config.bot.botLists.dbl.webhookSecret));
+      .some(s => 
+        s?.includes(config.bot.botLists.dbl.webhookSecret) ||
+        s?.includes(config.bot.botLists.topGG.webhookSecret));
     if (!containsSecret)
       throw new TypeError('No secret found');
     
-    const id = req.body.id || req.body.user; // dbl || top.gg
+    const id = req.body.id || req.body.user;
     const user = bot.users.cache.get(id)
     const savedUser = await users.get(user);
         
     savedUser.votes++;
-    savedUser.crates++;
-  
-    // TODO: remove after June 1st
-    const noBadgeYet = savedUser.badges.some(b => b.type === BadgeType.EarlySupporter);
-    if (noBadgeYet)
-      savedUser.badges.push({
-        at: new Date(),
-        type: BadgeType.EarlySupporter
-      });
+    savedUser.crates += 3;
   
     await savedUser.save();
     
     res.status(200).json({ success: true });
-  } catch (error) { res.status(400).json(error?.message); } 
+  } catch (error) { sendError(res, 400, error); }
 });
 
 router.post('/stripe-webhook', async(req, res) => {
@@ -70,7 +64,7 @@ router.post('/stripe-webhook', async(req, res) => {
       return res.json({ success: true });
     }
     res.json({ received: true });
-  } catch (error) { res.status(400).json(error?.message); } 
+  } catch (error) { sendError(res, 400, error); }
 });
 
 router.post('/error', async(req, res) => {
@@ -89,17 +83,20 @@ router.post('/error', async(req, res) => {
         description: `**Message**: ${message}`,
         footer: { text: `User ID: ${user.id}` }
       }));
-  } catch (error) { res.status(400).json(error?.message); }
+    } catch (error) { sendError(res, 400, error); }
 });
 
-async function giveUserPro(id: string) {
-  console.log('give ' + id + ' pro');
-  
+async function giveUserPro(id: string) {  
   const user = bot.users.cache.get(id);
   const savedUser = await users.get(user);
 
   savedUser.premium = true;
   savedUser.premiumExpiration = new Date(new Date().setDate(new Date().getDate() + 30));
+
+  bot.guilds.cache
+    .get('598565371162656788')?.members.cache
+    .get(id)?.roles
+    .add('599596068145201152');
 
   await savedUser.save();
 }
@@ -115,3 +112,7 @@ router.use('/guilds/:id/music', musicRoutes);
 router.use('/user', userRoutes);
 
 router.get('*', (req, res) => res.status(404).json({ code: 404 }));
+
+export function sendError(res: any, code: number, error: Error) {
+  return res.status(code).json({ code, message: error?.message })
+}

@@ -26,11 +26,14 @@ export default abstract class AnnounceHandler implements EventHandler {
         if (!config) return;
 
         const message = await this.applyEventVariables(config.message, ...applyEventArgs);
-
         if (message.length <= 0) return;
         
-        let channel = this.getChannel(config, guild);
-        await channel?.send(message);
+        try {
+            let channel = this.getChannel(config, guild);
+            await channel?.send(message);
+        } catch {
+            console.log('Insufficient permissions to announce channel');            
+        }
     }
 
     protected abstract applyEventVariables(...args: any[]): string | Promise<string>;

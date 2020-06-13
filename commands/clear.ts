@@ -4,7 +4,7 @@ export default class ClearCommand implements Command {
     precondition: Permission = 'MANAGE_MESSAGES';
     name = 'clear';
     usage = 'clear [count = 100]';
-    summary = 'Clear all messages that are less than 2 weeks old, default (100).';
+    summary = 'Clear all messages that are less than 2 weeks old.';
     cooldown = 5;
     module = 'Auto-mod';
     
