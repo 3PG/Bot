@@ -9,7 +9,7 @@ export default class ClearCommand implements Command {
     module = 'Auto-mod';
     
     execute = async(ctx: CommandContext, count = '100') => {
-        const msgs = await ctx.channel.bulkDelete(Number(count));
+        const msgs = await ctx.channel.bulkDelete(+count);
         const reminder = await ctx.channel.send(`Deleted \`${msgs.size}\` messages`);
         setTimeout(() => reminder.delete(), 3 * 1000);
     }

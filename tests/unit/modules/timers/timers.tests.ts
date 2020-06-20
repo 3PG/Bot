@@ -22,9 +22,9 @@ describe('modules/timers', () => {
     });
 
     it('cancelTimers, removes timers for a guild', () => {
-        timers.currentTimers.set('123', [{ id: null, timer: null }]);
+        timers.currentTimers.set('123', [null]);
 
-        timers.cancelTimers('123');
+        timers.endTimers('123');
 
         const result = timers.currentTimers.get('123').length;
         expect(result).to.equal(0);

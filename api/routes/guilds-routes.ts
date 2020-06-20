@@ -11,9 +11,8 @@ import Users from '../../data/users';
 import Guilds from '../../data/guilds';
 import Logs from '../../data/logs';
 import AuditLogger from '../modules/audit-logger';
-import { User, Guild, TextChannel, VoiceChannel, GuildMember } from 'discord.js';
+import { User, Guild, TextChannel, GuildMember } from 'discord.js';
 import Leveling from '../../modules/xp/leveling';
-import Log from '../../utils/log';
 import { Change } from '../../data/models/log';
 import Timers from '../../modules/timers/timers';
 import { getUser } from './user-routes';
@@ -67,7 +66,7 @@ router.put('/:id/:module', async (req, res) => {
     } catch (error) { sendError(res, 400, error); }
 });
 async function resetTimers(id: string) {        
-    timers.cancelTimers(id);
+    await timers.endTimers(id);
     await timers.startTimers(id);
 }
 function emitConfigSaved(guild: Guild, user: User, change: Change) {
@@ -78,14 +77,6 @@ function emitConfigSaved(guild: Guild, user: User, change: Change) {
         new: change.changes.new,
         old: change.changes.old
     } as ConfigUpdateArgs);
-}
-
-export interface ConfigUpdateArgs {
-    guild: Guild;
-    instigator: User;
-    module: string;
-    new: any;
-    old: any;
 }
 
 router.delete('/:id/config', async(req, res) => {
@@ -143,12 +134,9 @@ router.get('/:id/log', async(req, res) => {
 
 router.get('/:id/timers', (req, res) => {
     try {
-        const guildTimers = timers.currentTimers.get(req.params.id);
-        if (!guildTimers || guildTimers?.length <= 0)
-            return res.json([]);
-    
-        for (const timer of guildTimers)
-            delete timer.timeout;
+        const guildTimers = timers.currentTimers
+            .get(req.params.id)
+            .map(t => { t.status, t.timer, t.uuid });
     
         res.json(guildTimers);        
     } catch (error) { sendError(res, 400, error); }
@@ -259,4 +247,12 @@ export async function getManagableGuilds(key: string) {
     }
     return bot.guilds.cache
         .filter(g => manageableGuilds.some(id => id === g.id));
+}
+
+export interface ConfigUpdateArgs {
+    guild: Guild;
+    instigator: User;
+    module: string;
+    new: any;
+    old: any;
 }

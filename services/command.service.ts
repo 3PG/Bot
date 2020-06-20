@@ -4,26 +4,32 @@ import { Command, CommandContext } from '../commands/command';
 import Log from '../utils/log';
 import Deps from '../utils/deps';
 import Commands from '../data/commands';
-import Logs from '../data/logs';
 import { GuildDocument } from '../data/models/guild';
 import Cooldowns from './cooldowns';
 import Validators from './validators';
 import { promisify } from 'util';
+import config from '../config.json';
 
 const readdir = promisify(fs.readdir);
 
 export default class CommandService {
     private commands = new Map<string, Command>();
+    private ownerCommands = new Map<string, Command>();
 
     constructor(
-        private logs = Deps.get<Logs>(Logs),
         private cooldowns = Deps.get<Cooldowns>(Cooldowns),
         private validators = Deps.get<Validators>(Validators),
         private savedCommands = Deps.get<Commands>(Commands)) {}
 
     async init() {
+        await this.loadCommands();
+        await this.loadOwnerCommands();
+    }
+
+    private async loadCommands() {
         const directory = './commands';
-        const files = await readdir(directory);
+        let files = await readdir(directory);
+        files = files.filter(f => f.endsWith('.ts'));
 
         await this.savedCommands.deleteAll();
         
@@ -38,50 +44,65 @@ export default class CommandService {
         }
         Log.info(`Loaded: ${this.commands.size} commands`, `cmds`);
     }
+    private async loadOwnerCommands() {
+        const directory = './commands/owner';
+        const files = await readdir(directory);
+        
+        for (const file of files) {            
+            const Command = require(`../commands/owner/${file}`).default;
+            if (!Command) continue;
+            
+            const command = new Command();
+            this.ownerCommands.set(command.name, command);
+        }
+        Log.info(`Loaded: ${this.ownerCommands.size} owner commands`, `cmds`);
+    }
 
     async handle(msg: Message, savedGuild: GuildDocument) {
-        if (!(msg.member && msg.content && msg.guild && !msg.author.bot)) return;
-
-        return this.handleCommand(msg, savedGuild);
+        return (msg.member && msg.content && msg.guild && !msg.author.bot)
+            ? this.handleCommand(msg, savedGuild) : null;
     }
     private async handleCommand(msg: Message, savedGuild: GuildDocument) {
-        const content = msg.content.toLowerCase();
         try {
             this.validators.checkChannel(msg.channel as TextChannel, savedGuild);
 
-            const command = this.findCommand(savedGuild.general.prefix, content);
-            if (!command || this.cooldowns.active(msg.author, command)) return;
+            const prefix = savedGuild.general.prefix;
+            const slicedContent = msg.content.slice(prefix.length);
+
+            const command = this.findCommand(slicedContent);     
+            if (!command || this.cooldowns.active(msg.author, command))
+                return null;       
+            if (msg.author.id !== config.bot.ownerId
+                && this.ownerCommands.has(command.name))
+                throw new TypeError('You found an owner command! 🎉');
 
             this.validators.checkCommand(command, savedGuild, msg);
             this.validators.checkPreconditions(command, msg.member);
 
-            await this.findAndExecute(msg, savedGuild);
+            await this.findAndExecute(prefix, msg);
 
             this.cooldowns.add(msg.author, command);
 
-            await this.logs.logCommand(msg, command);
+            return command;
         } catch (error) {
             const content = error?.message ?? 'Un unknown error occurred';          
             msg.channel.send(':warning: ' + content);
         }
     }
 
-    async findAndExecute(msg: Message, savedGuild: GuildDocument) {
-        const prefix = savedGuild.general.prefix;        
-        const command = this.findCommand(prefix, msg.content);        
-        await command.execute(new CommandContext(msg), 
-            ...this.getCommandArgs(prefix, msg.content));  
+    async findAndExecute(prefix: string, msg: Message) {
+        const slicedContent = msg.content.slice(prefix.length);
+        const command = this.findCommand(slicedContent);        
+        
+        return command.execute(new CommandContext(msg), 
+            ...slicedContent
+                .split(' ')
+                .slice(1));  
     }
 
-    private findCommand(prefix: string, content: string) {        
-        const name = content
-            .split(' ')[0]
-            .substring(prefix.length, content.length);
-
-        return this.commands.get(name);
-    }
-    private getCommandArgs(prefix: string, content: string) {
-        let args = content.split(' ');
-        return args.splice(prefix.length, args.length);
+    private findCommand(slicedContent: string) {        
+        const name = slicedContent.split(' ')[0];
+        return this.commands.get(name)
+            ?? this.ownerCommands.get(name);
     }
 }

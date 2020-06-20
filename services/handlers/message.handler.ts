@@ -23,8 +23,10 @@ export default class MessageHandler implements EventHandler {
         const savedGuild = await this.guilds.get(msg.guild);
 
         const isCommand = msg.content.startsWith(savedGuild.general.prefix);
-        if (isCommand)
-            return await this.commands.handle(msg, savedGuild);        
+        if (isCommand) {
+            const command = await this.commands.handle(msg, savedGuild);
+            return command && this.logs.logCommand(msg, command);
+        }       
 
         let filter = undefined;
         let earnedXP = false;

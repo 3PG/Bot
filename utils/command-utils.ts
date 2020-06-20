@@ -2,7 +2,7 @@ import { GuildMember } from "discord.js";
 
 export function getMemberFromMention(mention: string, guild: any): GuildMember {    
   const id = mention?.replace(/^<@!?(\d+)>$/gm, '$1') ?? '';
-  const member = guild.members.cache.get(id);        
+  const member = guild.members.cache.get(id);
   if (!member)
     throw new TypeError('Member not found.');
   
