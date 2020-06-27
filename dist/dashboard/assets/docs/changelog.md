@@ -12,6 +12,27 @@
 
 ---
 
+### v2.1.2b
+`Upcoming`
+
+![v2.1.2b Dashboard](assets/docs/img/dashboard-v2.1.2b.png)
+
+**Add**
+- dashboard -> timers -> add better command timers interface
+- dashboard -> one-click sign in
+
+**Change/Fix**
+- timers -> timer spam
+- dashboard -> guild -> redirects to /dashboard then to /login when guild cannot be found
+- rate limiting -> changed rate limiting settings to be more user friendly
+- bot persistently crashed due to memory leak
+
+**Remove**
+- obnoxious alert error logs
+- `ITS TIME TO STOP! ITS TIME TO STOP OK! NO MORE!` rate limiting message
+
+---
+
 ### v2.1.1b
 `13/06/2020`
 
@@ -28,6 +49,7 @@
 - auto mod ->copy and paste boo boo with explicit words
 - commands -> empty permissions displayed undefined
 - docs -> changelog -> navigating to docs anchor links was sending 404
+- reaction roles -> emoji name comparison bug stopped some reaction roles from working 
   
 **Removed**
 - logs -> cleared all existing logs as some were unnecessary

@@ -12,6 +12,8 @@ import { ClientEvents } from 'discord.js';
 import BotStatsService from '../bot-stats.service';
 
 export default class ReadyHandler implements EventHandler {
+    started = false;
+
     on: keyof ClientEvents = 'ready';
     
     constructor(
@@ -24,6 +26,9 @@ export default class ReadyHandler implements EventHandler {
 
     async invoke() {
         Log.info(`It's live!`, `events`);
+
+        if (this.started) return;
+        this.started = true;
         
         await this.autoMod.init();
         await this.botStats.init();

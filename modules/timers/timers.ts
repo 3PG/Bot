@@ -10,7 +10,7 @@ import { createUUID } from '../../utils/command-utils';
 import { setIntervalAsync, clearIntervalAsync, SetIntervalAsyncTimer } from 'set-interval-async/dynamic';
 
 export default class Timers {
-    readonly currentTimers = new Map<string, TimerTask[]>();
+    private readonly currentTimers = new Map<string, TimerTask[]>();
     
     private startedTimers = 0;
 
@@ -57,7 +57,7 @@ export default class Timers {
             return status = 'FAILED';
 
         this.getGuildTimers(savedGuild.id)
-            .push({ status, timer, uuid, job, interval: null });
+            .push({ status, timer, uuid, job, interval: null });        
 
         if (from >= new Date())
             job = scheduleJob(from, () => this.schedule(uuid, savedGuild, interval));
@@ -66,7 +66,7 @@ export default class Timers {
 
         this.startedTimers++;
     }
-    private getGuildTimers(id: string) {
+    getGuildTimers(id: string) {
         return this.currentTimers.get(id)
             ?? this.currentTimers.set(id, []).get(id);
     }

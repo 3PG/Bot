@@ -6,7 +6,7 @@ import MemberLeaveHandler from './handlers/member-leave.handler';
 import MessageDeleteHandler from './handlers/message-deleted.handler';
 import EventHandler from './handlers/event-handler';
 import ReadyHandler from './handlers/ready.handler';
-import GuildCreateHandler from './handlers/guildCreate.handler';
+import GuildCreateHandler from './handlers/guild-create.handler';
 import MessageHandler from './handlers/message.handler';
 import MessageReactionAddHandler from './handlers/message-reaction-add.handler';
 import MessageReactionRemoveHandler from './handlers/message-reaction-remove.handler';

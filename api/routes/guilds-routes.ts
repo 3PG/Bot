@@ -17,6 +17,7 @@ import { Change } from '../../data/models/log';
 import Timers from '../../modules/timers/timers';
 import { getUser } from './user-routes';
 import { sendError } from './api-routes';
+import stringify from 'json-stringify-safe';
 
 export const router = Router();
 
@@ -46,7 +47,7 @@ router.put('/:id/:module', async (req, res) => {
         const user = await getUser(req.query.key);
         const guild = bot.guilds.cache.get(id); 
         const savedGuild = await guilds.get(guild);        
-        
+
         const change = AuditLogger.getChanges({
             old: savedGuild[module],
             new: req.body
@@ -134,10 +135,7 @@ router.get('/:id/log', async(req, res) => {
 
 router.get('/:id/timers', (req, res) => {
     try {
-        const guildTimers = timers.currentTimers
-            .get(req.params.id)
-            .map(t => { t.status, t.timer, t.uuid });
-    
+        const guildTimers = JSON.parse(stringify(timers.getGuildTimers(req.params.id)));
         res.json(guildTimers);        
     } catch (error) { sendError(res, 400, error); }
 });

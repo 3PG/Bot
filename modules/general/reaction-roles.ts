@@ -2,11 +2,11 @@ import { GuildDocument } from "../../data/models/guild";
 import { MessageReaction } from "discord.js";
 
 export default class ReactionRoles {
-    async checkToAdd(msgReaction: MessageReaction, savedGuild: GuildDocument) {
-        const config = this.getReactionRole(msgReaction, savedGuild);
+    async checkToAdd(reaction: MessageReaction, savedGuild: GuildDocument) {        
+        const config = this.getReactionRole(reaction, savedGuild);
         if (!config) return;
 
-        const { member, guild } = msgReaction.message;
+        const { member, guild } = reaction.message;
         const role = guild.roles.cache.get(config.role);
         if (role)
             await member.roles.add(role);
@@ -22,11 +22,13 @@ export default class ReactionRoles {
             await member.roles.remove(role);
     }
 
-    private getReactionRole(msgReaction: MessageReaction, savedGuild: GuildDocument) {
-        const msg = msgReaction.message;
+    private getReactionRole(reaction: MessageReaction, savedGuild: GuildDocument) {
+        const msg = reaction.message;
+        const toHex = (a: string) => a.codePointAt(0).toString(16);
+
         return savedGuild.general.reactionRoles
             .find(r => r.channel === msg.channel.id
                 && r.messageId === msg.id
-                && r.emote === msgReaction.emoji.name);
+                && toHex(r.emote) === toHex(reaction.emoji.name));
     }
 }
