@@ -20,6 +20,8 @@ export default class Deps {
     }
 
     private static add<T>(instance: T): T {
+        if (this.deps.length > 50)
+            return instance;
         this.deps.push(instance);
         return instance;
     }

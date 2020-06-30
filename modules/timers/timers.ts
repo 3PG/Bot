@@ -10,6 +10,7 @@ import { createUUID } from '../../utils/command-utils';
 import { setIntervalAsync, clearIntervalAsync, SetIntervalAsyncTimer } from 'set-interval-async/dynamic';
 
 export default class Timers {
+    private started = false;
     private readonly currentTimers = new Map<string, TimerTask[]>();
     
     private startedTimers = 0;
@@ -19,6 +20,9 @@ export default class Timers {
         private guilds = Deps.get<Guilds>(Guilds)) {}
 
     async init() {
+        if (this.started) return
+        this.started = true;
+
         for (const id of bot.guilds.cache.keys())
             await this.startTimers(id);
         Log.info(`Started ${this.startedTimers} timers`, 'timers');        
@@ -27,8 +31,11 @@ export default class Timers {
     async endTimers(guildId: string) {
         const guildTimers = this.getGuildTimers(guildId);        
         for (const task of guildTimers) {
-            task.job?.cancel();            
+            task.job?.cancel();
+            delete task.job;
+
             await clearIntervalAsync(task.interval);
+            delete task.interval;
         }
         this.currentTimers.delete(guildId);
     }

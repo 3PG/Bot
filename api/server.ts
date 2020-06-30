@@ -29,6 +29,8 @@ export default class API {
         app.use(cors());
         app.use(bodyParser.json());
 
+        app.get('/login', (req, res) => res.redirect('/api/login'));
+
         app.use('/api', apiRoutes);
         
         app.use(express.static(join(__dirname, '..', config.webapp.distPath)));
