@@ -3,16 +3,16 @@ import config from '../config.json';
 import fetch from 'node-fetch';
 import Log from '../utils/log';
 import TopGG from 'dblapi.js';
+import { setIntervalAsync } from 'set-interval-async/dynamic';
 
 export default class BotStatsService {
     async init() {
         if (bot.user.id !== '525935335918665760') return;
 
-        // TODO: uncomment when has top.gg token
         await this.sendTopGGStats();
 
         const updateInterval = 5 * 60 * 1000;
-        setInterval(async() => await this.updateBotStats(), updateInterval);
+        setIntervalAsync(() => this.updateBotStats(), updateInterval);
     }
 
     async updateBotStats() {
