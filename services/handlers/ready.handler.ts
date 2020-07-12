@@ -31,7 +31,7 @@ export default class ReadyHandler implements EventHandler {
         this.started = true;
         
         await this.autoMod.init();
-        await this.botStats.init();
+        // await this.botStats.init();
         await this.commandService.init();
         await this.crates.init();
         this.music.init();

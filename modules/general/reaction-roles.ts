@@ -1,5 +1,5 @@
-import { GuildDocument } from "../../data/models/guild";
-import { MessageReaction } from "discord.js";
+import { GuildDocument } from '../../data/models/guild';
+import { MessageReaction } from 'discord.js';
 
 export default class ReactionRoles {
     async checkToAdd(reaction: MessageReaction, savedGuild: GuildDocument) {        

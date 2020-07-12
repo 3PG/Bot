@@ -1,5 +1,5 @@
-import EventVariables from "../../../../modules/announce/event-variables";
-import { expect } from "chai";
+import EventVariables from '../../../../modules/announce/event-variables';
+import { expect } from 'chai';
 
 describe('modules/announce/event-variables', () => {
     it('GUILD', () => {

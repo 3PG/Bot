@@ -1,6 +1,6 @@
-import Timers from "../../../../modules/timers/timers";
-import { expect } from "chai";
-import { SavedGuild, GuildDocument } from "../../../../data/models/guild";
+import Timers from '../../../../modules/timers/timers';
+import { expect } from 'chai';
+import { SavedGuild, GuildDocument } from '../../../../data/models/guild';
 
 describe('modules/timers', () => {
     let commandsService: any;

@@ -7,7 +7,7 @@ export default class LevelsCommand implements Command {
     name = 'levels';
     summary = `List all your server's level roles`;
     cooldown = 3;
-    module = 'XP';
+    module = 'Leveling';
 
     constructor(private guilds = Deps.get<Guilds>(Guilds)) {}
 

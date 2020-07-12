@@ -1,4 +1,4 @@
-import { UserDocument } from "../../../../data/models/user";
+import { UserDocument } from '../../../../data/models/user';
 
 export default interface Reward {
     type: RewardType;

@@ -1,5 +1,5 @@
-import Reward, { RewardType } from "./reward";
-import { UserDocument, BadgeType } from "../../../../data/models/user";
+import Reward, { RewardType } from './reward';
+import { UserDocument, BadgeType } from '../../../../data/models/user';
 
 export default class Tier2LegendBadgeReward implements Reward {
     type = RewardType.Tier3LegendBadge;

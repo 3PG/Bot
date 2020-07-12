@@ -1,10 +1,10 @@
-import { SavedGuild, GuildDocument } from "../../../data/models/guild";
-import Validators from "../../../services/validators";
-import { Command } from "../../../commands/command";
-import PingCommand from "../../../commands/ping";
-import { GuildMember, Message } from "discord.js";
-import { mock } from "ts-mockito";
-import { expect } from "chai";
+import { SavedGuild, GuildDocument } from '../../../data/models/guild';
+import Validators from '../../../services/validators';
+import { Command } from '../../../commands/command';
+import PingCommand from '../../../commands/ping';
+import { GuildMember, Message } from 'discord.js';
+import { mock } from 'ts-mockito';
+import { expect } from 'chai';
 
 describe('services/validators', () => {
     let command: Command;

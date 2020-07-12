@@ -1,7 +1,7 @@
-import { GuildMember } from "discord.js";
+import { GuildMember, Guild } from 'discord.js';
 
-export function getMemberFromMention(mention: string, guild: any): GuildMember {    
-  const id = mention?.replace(/^<@!?(\d+)>$/gm, '$1') ?? '';
+export function getMemberFromMention(mention: string, guild: Guild): GuildMember {
+  const id = getIdFromMention(mention);
   const member = guild.members.cache.get(id);
   if (!member)
     throw new TypeError('Member not found.');
@@ -9,7 +9,20 @@ export function getMemberFromMention(mention: string, guild: any): GuildMember {
   return member;
 }
 
-export function createUUID() {
+function getIdFromMention(mention: string) {
+  return mention?.match(/\d+/g)[0];
+}
+
+export function getRoleFromMention(mention: string, guild: Guild) {
+  const id = getIdFromMention(mention);
+  const role = guild.roles.cache.get(id);
+  if (!role)
+    throw new TypeError('Role not found.');
+  
+  return role;
+}
+
+export function generateUUID() {
   let time = new Date().getTime();
   let uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
     let random = (time + Math.random() * 16) % 16 | 0;

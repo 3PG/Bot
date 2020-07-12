@@ -1,4 +1,4 @@
-import { User, Guild, Message } from "discord.js";
+import { User, Guild, Message } from 'discord.js';
 
 export default class EventVariables {
     constructor(private content: string) {}

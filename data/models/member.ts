@@ -13,7 +13,7 @@ export interface MemberDocument extends Document {
     userId: string;
     guildId: string;
     xp: number;
-    recentMessages: Date[],
+    recentMessages: Date[];
     warnings: Punishment[];
     mutes: Punishment[];
 }

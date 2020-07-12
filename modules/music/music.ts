@@ -55,6 +55,11 @@ export default class Music {
             `${Math.floor(durationInSeconds / 60)}:${Math.floor(durationInSeconds % 60).toString().padStart(2, '0')}`;
     }
 
+    getLengthString(track: Track) {
+        const durationInSeconds = track.duration / 1000;
+        return `${Math.floor(durationInSeconds / 60)}:${Math.floor(durationInSeconds % 60).toString().padStart(2, '0')}`;        
+    }
+
     async findTrack(query: string, requestor: GuildMember, maxTrackLength: number) {
         const track = await this.searchForTrack(query, requestor);
 

@@ -1,4 +1,4 @@
-import Reward, { RewardType } from "./reward";
+import Reward, { RewardType } from './reward';
 
 export default class NothingReward implements Reward {
     type = RewardType.Nothing;

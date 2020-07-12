@@ -1,42 +1,32 @@
-import { MessageValidationMetadata, SavedLog } from "../../../../data/models/log";
-import { MessageFilter, SavedGuild } from "../../../../data/models/guild";
-import { expect } from "chai";
-import MessageHandler from "../../../../services/handlers/message.handler";
-import { ValidationError } from "../../../../modules/auto-mod/auto-mod";
-import CommandService from "../../../../services/command.service";
-import { mock } from "ts-mockito";
-import Guilds from "../../../../data/guilds";
-import Leveling from "../../../../modules/xp/leveling";
-import Logs from "../../../../data/logs";
+import { MessageValidationMetadata } from '../../../../data/models/log';
+import { MessageFilter, SavedGuild } from '../../../../data/models/guild';
+import { expect } from 'chai';
+import MessageHandler from '../../../../services/handlers/message.handler';
+import { ValidationError } from '../../../../modules/auto-mod/auto-mod';
+import Mocks from '../../mocks';
 
 describe('services/handlers/message.handler', () => {
+    let msg: any;
     let validation = null;
     let handler: MessageHandler;
-    let autoMod: any, commandService: any, guilds: any, leveling: any, logs: any;
+    let logs: any;
+    let mocks: Mocks;
 
     beforeEach(() => {
-        autoMod = {
-            validateMsg: () => {}
-        }
-        commandService = {
-            handle: () => false
-        }
-        guilds = {
-            get: () => new SavedGuild()
-        }
-        leveling = {
-            validateXPMsg: () => { throw new Error(); }
-        }
         logs = {
             logMessage: (msg, v) => validation = v
         }
 
+        mocks = new Mocks();
+
         handler = new MessageHandler(
-            autoMod,
-            commandService,
-            guilds,
-            leveling,
+            mocks.autoMod,
+            mocks.commandService,
+            mocks.guilds,
+            mocks.leveling,
             logs);
+
+        msg = { content: '', author: {} };
     });
 
     it('auto mod throws with filter, validation logged', async() => {
@@ -45,9 +35,9 @@ describe('services/handlers/message.handler', () => {
             filter: MessageFilter.Emoji
         };
 
-        autoMod.validateMsg = () => { throw new ValidationError('', MessageFilter.Emoji); }
+        mocks.autoMod.validateMsg = () => { throw new ValidationError('', MessageFilter.Emoji); }        
 
-        await handler.invoke({ author: {} } as any);
+        await handler.invoke(msg);
 
         expect(validation).to.deep.equal(expected);
     });
@@ -58,9 +48,9 @@ describe('services/handlers/message.handler', () => {
             filter: undefined
         };
 
-        autoMod.validateMsg = () => {}
+        mocks.autoMod.validateMsg = () => {}
 
-        await handler.invoke({ author: {} } as any);
+        await handler.invoke(msg);
 
         expect(validation).to.deep.equal(expected);
     });
@@ -71,10 +61,12 @@ describe('services/handlers/message.handler', () => {
             filter: undefined
         };
 
-        autoMod.validateMsg = () => {}
-        leveling.validateXPMsg = () => {}
+        mocks.autoMod.validateMsg = () => {}
+        mocks.leveling.validateXPMsg = () => {}
 
-        await handler.invoke({ author: {} } as any);
+        msg.content = 'testing';
+
+        await handler.invoke(msg);
 
         expect(validation).to.deep.equal(expected);
     });

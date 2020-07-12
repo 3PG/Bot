@@ -1,5 +1,5 @@
-import Reward, { RewardType } from "./reward";
-import { UserDocument, BadgeType } from "../../../../data/models/user";
+import Reward, { RewardType } from './reward';
+import { UserDocument, BadgeType } from '../../../../data/models/user';
 
 export default class ThreeMonthsPROReward implements Reward {
     type = RewardType.ThreeMonthsPRO;

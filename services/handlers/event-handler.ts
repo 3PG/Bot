@@ -1,4 +1,4 @@
-import { ClientEvents } from "discord.js";
+import { ClientEvents } from 'discord.js';
 
 export default interface EventHandler {
     on: keyof ClientEvents | any;
