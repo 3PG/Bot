@@ -16,12 +16,14 @@ export const bot = new Client({
 });
 export const emitter = new EventEmitter();
 
-Deps.build(EventService, API);
-
 bot.login(config.bot.token);
+
+Deps.build(API, EventService);
 
 mongoose.connect(config.mongoURL, { 
     useUnifiedTopology: true, 
     useNewUrlParser: true, 
     useFindAndModify: false
-}, (error) => error ? Log.error('Failed to connect to db') : Log.info('Connected to db'));
+}, (error) => error
+    ? Log.error('Failed to connect to db')
+    : Log.info('Connected to db'));

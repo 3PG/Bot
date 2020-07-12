@@ -24,14 +24,14 @@ export default class ReadyHandler implements EventHandler {
         private music = Deps.get<Music>(Music),
         private timers = Deps.get<Timers>(Timers)) {}
 
-    async invoke() {
+    async invoke() {        
         Log.info(`It's live!`, `events`);
 
         if (this.started) return;
         this.started = true;
         
         await this.autoMod.init();
-        // await this.botStats.init();
+        await this.botStats.init();
         await this.commandService.init();
         await this.crates.init();
         this.music.init();
