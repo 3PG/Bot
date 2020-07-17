@@ -1,14 +1,14 @@
-import { Message, GuildMember, User, Guild } from 'discord.js';
+import { Message, GuildMember } from 'discord.js';
 import { GuildDocument } from '../../data/models/guild';
 import Members from '../../data/members';
 import Deps from '../../utils/deps';
 import { MemberDocument } from '../../data/models/member';
-import EventsService from '../../services/events.service';
-import { emitter } from '../../bot';
-import Logs from '../../data/logs';
+import Emit from '../../services/emit';
 
 export default class Leveling {
-    constructor(private members = Deps.get<Members>(Members)) {}
+    constructor(
+        private emit = Deps.get<Emit>(Emit),
+        private members = Deps.get<Members>(Members)) {}
 
     async validateXPMsg(msg: Message, savedGuild: GuildDocument) {
         if (!msg?.member || !savedGuild 
@@ -23,14 +23,8 @@ export default class Leveling {
         savedMember.xp += savedGuild.leveling.xpPerMessage;
         const newLevel = this.getLevel(savedMember.xp);
 
-        if (newLevel > oldLevel) {  
-            emitter.emit('levelUp', {
-                guild: msg.guild,
-                newLevel, 
-                oldLevel, 
-                xp: savedMember.xp,
-                user: msg.member.user
-            } as LevelUpEventArgs);
+        if (newLevel > oldLevel) {
+            this.emit.levelUp({ newLevel, oldLevel }, msg, savedMember);
             this.checkLevelRoles(msg, newLevel, savedGuild);
         }
         await savedMember.save();
@@ -92,12 +86,4 @@ export default class Leveling {
             .sort((a, b) => b.xp - a.xp)
             .findIndex(m => m.id === member.id) + 1;
     }
-}
-
-export interface LevelUpEventArgs {
-    guild: Guild;
-    newLevel: number;
-    oldLevel: number;
-    xp: number;
-    user: User;
 }

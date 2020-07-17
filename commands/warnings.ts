@@ -8,7 +8,7 @@ import { getMemberFromMention } from '../utils/command-utils';
 export default class WarningsCommand implements Command {
     precondition: Permission = 'VIEW_AUDIT_LOG';
     name = 'warnings';
-    usage = 'warnings @User#0001'
+    usage = 'warnings [user]'
     summary = 'Display your warnings, or the warnings of a member.';
     cooldown = 3;
     module = 'Auto-mod';

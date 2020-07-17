@@ -9,10 +9,7 @@ import Log from './utils/log';
 import API from './api/server';
 
 export const bot = new Client({
-    messageCacheLifetime: 60,
-    messageCacheMaxSize: 100,
-    fetchAllMembers: true,
-    partials: ['REACTION', 'MESSAGE', 'GUILD_MEMBER', 'USER', 'CHANNEL']
+    partials: ['GUILD_MEMBER']
 });
 export const emitter = new EventEmitter();
 

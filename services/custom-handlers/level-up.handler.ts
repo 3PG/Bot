@@ -1,7 +1,7 @@
 import AnnounceHandler from '../handlers/announce-handler';
 import { EventType } from '../../data/models/guild';
 import EventVariables from '../../modules/announce/event-variables';
-import { LevelUpEventArgs } from '../../modules/xp/leveling';
+import { LevelUpEventArgs } from '../emit';
 
 export default class LevelUpHandler extends AnnounceHandler {
     on = 'levelUp';

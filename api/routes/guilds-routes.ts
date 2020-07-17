@@ -18,10 +18,12 @@ import Timers from '../../modules/timers/timers';
 import { getUser } from './user-routes';
 import { sendError } from './api-routes';
 import stringify from 'json-stringify-safe';
+import Emit from '../../services/emit';
 
 export const router = Router();
 
-const logs = Deps.get<Logs>(Logs),
+const emit = Deps.get<Emit>(Emit),
+      logs = Deps.get<Logs>(Logs),
       guilds = Deps.get<Guilds>(Guilds),
       members = Deps.get<Members>(Members),
       timers = Deps.get<Timers>(Timers),
@@ -61,7 +63,7 @@ router.put('/:id/:module', async (req, res) => {
 
         await logs.logChanges(change, guild);
 
-        emitConfigSaved(guild, user, change);
+        emit.configSaved(guild, user, change);
 
         res.json(savedGuild);
     } catch (error) { sendError(res, 400, error); }
@@ -70,16 +72,6 @@ async function resetTimers(id: string) {
     await timers.endTimers(id);
     await timers.startTimers(id);
 }
-function emitConfigSaved(guild: Guild, user: User, change: Change) {
-    emitter.emit('configUpdate', {
-        guild,
-        instigator: user,
-        module: change.module,
-        new: change.changes.new,
-        old: change.changes.old
-    } as ConfigUpdateArgs);
-}
-
 router.delete('/:id/config', async(req, res) => {
     try {
         const id = req.params.id;
@@ -207,9 +199,9 @@ router.get('/:guildId/members/:memberId/xp-card', async (req, res) => {
         const savedUser = await users.get(user); 
 
         const guild = bot.guilds.cache.get(guildId);
-        const member = guild?.members.cache.get(memberId);        
+        const member = guild?.members.cache.get(memberId);
         if (!member)
-            throw Error();
+            throw TypeError('No member found');
         
         const savedMember = await members.get(member);        
         const savedMembers = await SavedMember.find({ guildId });
@@ -225,11 +217,11 @@ router.get('/:guildId/members/:memberId/xp-card', async (req, res) => {
 
 export async function validateGuildManager(key: string, guildId: string) {
     if (!key)
-        throw new TypeError();
-    const guilds = await getManagableGuilds(key);        
+        throw new TypeError('No key provided.');
+    const guilds = await getManagableGuilds(key);
         
     if (!guilds.has(guildId))
-        throw TypeError();
+        throw TypeError('Guild not manageable.');
 }
 
 export async function getManagableGuilds(key: string) {
@@ -238,19 +230,11 @@ export async function getManagableGuilds(key: string) {
     for (const id of userGuilds.keys()) {        
         const authGuild = userGuilds.get(id);        
         const hasManager = authGuild._permissions
-            .some(p => p === config.api.managerPermission);
+            .some(p => p === 'MANAGE_GUILD');
 
         if (hasManager)
             manageableGuilds.push(id);
     }
     return bot.guilds.cache
         .filter(g => manageableGuilds.some(id => id === g.id));
-}
-
-export interface ConfigUpdateArgs {
-    guild: Guild;
-    instigator: User;
-    module: string;
-    new: any;
-    old: any;
 }
