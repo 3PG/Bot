@@ -1,9 +1,9 @@
-import AnnounceHandler from '../handlers/announce-handler';
+import LogsHandler from '../handlers/logs-handler';
 import { EventType } from '../../data/models/guild';
 import EventVariables from '../../modules/announce/event-variables';
 import { LevelUpEventArgs } from '../emit';
 
-export default class LevelUpHandler extends AnnounceHandler {
+export default class LevelUpHandler extends LogsHandler {
     on = 'levelUp';
     event = EventType.LevelUp;
 

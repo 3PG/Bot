@@ -1,9 +1,9 @@
-import AnnounceHandler from './announce-handler';
+import LogsHandler from './logs-handler';
 import { Message, ClientEvents } from 'discord.js';
 import { EventType } from '../../data/models/guild';
 import EventVariables from '../../modules/announce/event-variables';
 
-export default class MessageDeleteHandler extends AnnounceHandler {
+export default class MessageDeleteHandler extends LogsHandler {
     on: keyof ClientEvents = 'messageDelete';
     event = EventType.MessageDeleted;
 

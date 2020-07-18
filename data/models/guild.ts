@@ -4,8 +4,8 @@ export class Module {
     enabled = true;
 }
 
-export class AnnounceModule extends Module {
-    events: AnnounceEvent[] = [
+export class LogsModule extends Module {
+    events: LogEvent[] = [
         {
             event: EventType.LevelUp,
             channel: '',
@@ -29,7 +29,7 @@ export enum EventType {
     Warn ='WARN',
 }
 
-export interface AnnounceEvent {
+export interface LogEvent {
     event: EventType;
     channel: string;
     message: string;
@@ -63,7 +63,6 @@ export class GeneralModule extends Module {
     prefix = '.';
     ignoredChannels: string[] = [];
     autoRoles: string[] = [];
-    reactionRoles: ReactionRole[] = [];
 }
 
 export interface ReactionRole {
@@ -98,7 +97,6 @@ export class LevelingModule extends Module {
     xpPerMessage = 50;
     maxMessagesPerMinute = 3;
 }
-
 export interface LevelRole {
     level: number;
     role: string;
@@ -106,6 +104,10 @@ export interface LevelRole {
 
 export class MusicModule extends Module {
     maxTrackLength = 24;
+}
+
+export class ReactionRolesModule extends Module {
+    configs: ReactionRole[] = [];
 }
 
 export interface CommandConfig {
@@ -121,25 +123,27 @@ export class DashboardSettings {
 
 const guildSchema = new Schema({
     _id: String,
-    announce: { type: Object, default: new AnnounceModule() }, 
+    announce: { type: Object, default: new LogsModule() }, 
     autoMod: { type: Object, default: new AutoModModule() }, 
     commands: { type: Object, default: new CommandsModule() },
     general: { type: Object, default: new GeneralModule() },
     leveling: { type: Object, default: new LevelingModule() },
-    music: { type: Object, default: new MusicModule },
+    music: { type: Object, default: new MusicModule() },
+    reactionRoles: { type: Object, default: new ReactionRolesModule() },
     timers: { type: Object, default: new TimersModule() },
     settings: { type: Object, default: new DashboardSettings() }
 });
 
 export interface GuildDocument extends Document {
     _id: string;
-    announce: AnnounceModule;
     autoMod: AutoModModule;
+    commands: CommandsModule;
     general: GeneralModule;
     leveling: LevelingModule;
+    logs: LogsModule;
     music: MusicModule;
+    reactionRoles: ReactionRolesModule;
     timers: TimersModule;
-    commands: CommandsModule;
     settings: DashboardSettings;
 }
 

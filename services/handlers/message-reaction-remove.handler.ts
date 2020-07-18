@@ -18,6 +18,6 @@ export default class MessageReactionRemoveHandler implements EventHandler {
         await reaction.fetch();
 
         const savedGuild = await this.guilds.get(guild);
-        await this.reactionRoles.checkToRemove(reaction, savedGuild);
+        await this.reactionRoles.checkToRemove(user, reaction, savedGuild);
     }
 }

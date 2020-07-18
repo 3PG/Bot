@@ -8,6 +8,7 @@ import Users from '../../data/users';
 import config from '../../config.json';
 import Crates from '../modules/crates/crates';
 import { sendError } from './api-routes';
+import { getUser } from '../modules/api-utils';
 
 export const router = Router();
 
@@ -35,8 +36,8 @@ router.get('/pay', async(req, res) => {
         const user = await getUser(req.query.key);
         
         const session = await stripe.checkout.sessions.create({
-            success_url: `${config.webapp.url}/payment-success`,
-            cancel_url: `${config.webapp.url}/pro`,
+            success_url: `${config.dashboard.url}/payment-success`,
+            cancel_url: `${config.dashboard.url}/pro`,
             payment_method_types: ['card'],
             metadata: { id: user.id },
             line_items: items
@@ -68,7 +69,7 @@ router.get('/xp-card-preview', async (req, res) => {
         const member = new SavedMember();
         member.xp = 1800;
         
-        delete req.query.key;        
+        delete req.query.key;
         const image = await generator.generate(member, { ...savedUser.xpCard, ...req.query });
         
         res.set({'Content-Type': 'image/png'}).send(image);
@@ -102,8 +103,3 @@ router.get('/open-crate', async (req, res) => {
         res.json(result);
     } catch (error) { sendError(res, 400, error); }
 });
-
-export async function getUser(key: string) {   
-    const { id } = await AuthClient.getUser(key);
-    return bot.users.cache.get(id);
-}

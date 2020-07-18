@@ -24,10 +24,10 @@ router.get('/', (req, res) => res.json({ hello: 'earth' }));
 router.get('/commands', async (req, res) => res.json(commands));
 
 router.get('/auth', async (req, res) => {
-    try {
-        const key = await AuthClient.getAccess(req.query.code);
-        res.json(key);
-      } catch (error) { sendError(res, 400, error); }
+  try {
+    const key = await AuthClient.getAccess(req.query.code);
+    res.redirect(`${config.dashboard.url}/auth?key=${key}`);
+  } catch (error) { sendError(res, 400, error); }
 });
 
 router.post('/auth-vote', async(req, res) => {
@@ -102,10 +102,10 @@ async function giveUserPro(id: string) {
 }
 
 router.get('/invite', (req, res) => 
-    res.redirect(`https://discordapp.com/api/oauth2/authorize?client_id=${config.bot.id}&redirect_uri=${config.webapp.url}/dashboard&permissions=8&scope=bot`));
+    res.redirect(`https://discordapp.com/api/oauth2/authorize?client_id=${config.bot.id}&redirect_uri=${config.dashboard.url}/dashboard&permissions=8&scope=bot`));
 
 router.get('/login', (req, res) =>
-    res.redirect(`https://discordapp.com/oauth2/authorize?client_id=${config.bot.id}&redirect_uri=${config.webapp.url}/auth&response_type=code&scope=identify guilds&prompt=none`));
+    res.redirect(`https://discordapp.com/oauth2/authorize?client_id=${config.bot.id}&redirect_uri=${config.api.url}/auth&response_type=code&scope=identify guilds&prompt=none`));
 
 router.use('/guilds', guildsRoutes);
 router.use('/guilds/:id/music', musicRoutes);

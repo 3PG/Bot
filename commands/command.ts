@@ -3,6 +3,7 @@ import { Message, GuildMember, TextChannel, Guild, User, Client, PermissionStrin
 export type Permission = '' | PermissionString;
 
 export interface Command {
+    aliases?: string[];
     name: string;
     summary: string;
     module: string;

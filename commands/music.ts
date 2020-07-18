@@ -9,6 +9,6 @@ export default class MusicCommand implements Command {
     module = 'Music';
     
     execute = async(ctx: CommandContext) => {
-        return ctx.channel.send(`${config.webapp.url}/servers/${ctx.guild.id}/music`);
+        return ctx.channel.send(`${config.dashboard.url}/servers/${ctx.guild.id}/music`);
     }
 }

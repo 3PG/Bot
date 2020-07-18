@@ -69,9 +69,9 @@ export default class CommandService {
             const prefix = savedGuild.general.prefix;
             const slicedContent = msg.content.slice(prefix.length);
 
-            const command = this.findCommand(slicedContent);     
+            const command = this.findCommand(prefix, slicedContent);     
             if (!command || this.cooldowns.active(msg.author, command))
-                return null;       
+                return null;
             if (msg.author.id !== config.bot.ownerId
                 && this.ownerCommands.has(command.name))
                 throw new TypeError('You found an owner command! 🎉');
@@ -92,17 +92,31 @@ export default class CommandService {
 
     async findAndExecute(prefix: string, msg: Message) {
         const slicedContent = msg.content.slice(prefix.length);
-        const command = this.findCommand(slicedContent);        
+        const command = this.findCommand(prefix, slicedContent);        
         
         return command.execute(new CommandContext(msg), 
             ...slicedContent
                 .split(' ')
-                .slice(1));  
+                .slice(prefix.length));  
     }
 
-    private findCommand(slicedContent: string) {        
-        const name = slicedContent.split(' ')[0];
-        return this.commands.get(name)
-            ?? this.ownerCommands.get(name);
+    private findCommand(prefix: string, content: string) {        
+        const name = content
+            .toLowerCase()
+            .split(' ')[0]
+            .slice(prefix.length);
+
+        return this.commands.get(name) ?? this.findByAlias(name);
+    }
+    private findByAlias(name: string) {
+        console.log(Array.from(this.commands.values()));        
+        return Array.from(this.commands.values())
+            .find(c => c.aliases?.some(a => a === name));
+    }
+
+    private getCommandArgs(prefix: string, content: string) {
+        return content
+            .split(' ')
+            .slice(prefix.length); // .ping arg1 arg2 -> ping arg1 arg2
     }
 }

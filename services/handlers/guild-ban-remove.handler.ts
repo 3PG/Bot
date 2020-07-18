@@ -1,9 +1,9 @@
-import AnnounceHandler from './announce-handler';
+import LogsHandler from './logs-handler';
 import { Guild, User, ClientEvents } from 'discord.js';
 import { EventType } from '../../data/models/guild';
 import EventVariables from '../../modules/announce/event-variables';
 
-export default class GuildBanAddHandler extends AnnounceHandler {
+export default class GuildBanAddHandler extends LogsHandler {
     on: keyof ClientEvents = 'guildBanRemove';
     event = EventType.Unban;
 

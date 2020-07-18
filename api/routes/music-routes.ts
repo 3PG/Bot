@@ -1,10 +1,10 @@
 import { Router } from 'express';
 import Music from '../../modules/music/music';
 import Deps from '../../utils/deps';
-import { validateGuildManager } from './guilds-routes';
 import { bot } from '../../bot';
 import { AuthClient } from '../server';
 import Users from '../../data/users';
+import { validateGuildManager } from '../modules/api-utils';
 
 export const router = Router({ mergeParams: true });
 
