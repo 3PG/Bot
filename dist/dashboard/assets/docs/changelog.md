@@ -1,6 +1,6 @@
 # Changelog
 
-*Built on [2PG](https://2pg.xyz)*
+*Built on [3PG](https://3PG.xyz)*
 
 ---
 
@@ -12,15 +12,27 @@
 
 ---
 
-### v2.2.0
-`Upcoming`
+### v2.2.0b
+`18/07/2020`
+
+![v2.2.0b Dashboard](assets/docs/img/dashboard-v2.2.0b.png)
 
 **Add**
+- `/dashboard` -> better Discord-styled layout
+- `/dashboard` -> server -> insufficient permission notification
+- `/commands` -> much easier to use command searching
+- themes -> more themes
+- commands -> command aliases
 
 **Change/Fix**
-- optimized scripts for faster home page load
+- `/dashboard` -> announce -> renamed to logs
+- `/dashboard` -> general -> moved reaction roles to a separate module
+- `/` -> optimized scripts for faster home page load
+- auth -> optimized login process and speed
+- reaction roles -> roles now are given to anyone who reacts
 
 **Remove**
+- stupid lag
 
 ---
 
