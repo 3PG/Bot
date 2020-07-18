@@ -4,7 +4,7 @@ import Music from '../modules/music/music';
 import Guilds from '../data/guilds';
 
 export default class PlayCommand implements Command {
-    alias = ['p'];
+    aliases = ['p'];
     cooldown = 1;
     module = 'Music';
     name = 'play';

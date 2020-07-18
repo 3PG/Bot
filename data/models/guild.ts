@@ -123,13 +123,13 @@ export class DashboardSettings {
 
 const guildSchema = new Schema({
     _id: String,
-    announce: { type: Object, default: new LogsModule() }, 
     autoMod: { type: Object, default: new AutoModModule() }, 
     commands: { type: Object, default: new CommandsModule() },
     general: { type: Object, default: new GeneralModule() },
     leveling: { type: Object, default: new LevelingModule() },
     music: { type: Object, default: new MusicModule() },
     reactionRoles: { type: Object, default: new ReactionRolesModule() },
+    logs: { type: Object, default: new LogsModule() }, 
     timers: { type: Object, default: new TimersModule() },
     settings: { type: Object, default: new DashboardSettings() }
 });

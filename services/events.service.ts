@@ -1,49 +1,43 @@
 import { bot, emitter } from '../bot';
 import Log from '../utils/log';
-
-import MemberJoinHandler from './handlers/member-join.handler';
-import MemberLeaveHandler from './handlers/member-leave.handler';
-import MessageDeleteHandler from './handlers/message-deleted.handler';
+import fs from 'fs';
+import { promisify } from 'util';
 import EventHandler from './handlers/event-handler';
-import ReadyHandler from './handlers/ready.handler';
-import GuildCreateHandler from './handlers/guild-create.handler';
-import MessageHandler from './handlers/message.handler';
-import MessageReactionAddHandler from './handlers/message-reaction-add.handler';
-import MessageReactionRemoveHandler from './handlers/message-reaction-remove.handler';
-import LevelUpHandler from './custom-handlers/level-up.handler';
-import UserWarnHandler from './custom-handlers/user-warn.handler';
-import ConfigUpdateHandler from './custom-handlers/config-update.handler';
-import UserMuteHandler from './custom-handlers/user-mute.handler';
-import UserUnmuteHandler from './custom-handlers/user-unmute.handler';
+
+const readdir = promisify(fs.readdir);
 
 export default class EventsService {
-    // TODO: add auto file loading
-    private readonly handlers: EventHandler[] = [
-        new ReadyHandler(),
-        new GuildCreateHandler(),
-        new MessageHandler(),
-        new MemberJoinHandler(),
-        new MemberLeaveHandler(),
-        new MessageDeleteHandler(),
-        new MessageReactionAddHandler(),
-        new MessageReactionRemoveHandler()
-    ];
+    private readonly handlers: EventHandler[] = [];
+    private readonly customHandlers: EventHandler[] = [];
 
-    private readonly customHandlers: EventHandler[] = [
-        new LevelUpHandler(),
-        new UserWarnHandler(),
-        new ConfigUpdateHandler(),
-        new UserMuteHandler(),
-        new UserUnmuteHandler()
-    ];
-
-    constructor() {
-        for (const handler of this.handlers)
-            bot.on(handler.on, handler.invoke.bind(handler));
+    async init() {
+        const handlerFiles = await readdir(`${__dirname}/handlers`);
+        const customHandlerFiles = await readdir(`${__dirname}/custom-handlers`);
         
+        for (const file of handlerFiles) {            
+            const Handler = await require(`./handlers/${file}`).default;
+            const handler = Handler && new Handler();
+            if (!handler?.on) continue;
+
+            this.handlers.push(new Handler());
+        }        
+        for (const file of customHandlerFiles) {            
+            const Handler = await require(`./custom-handlers/${file}`).default;
+            const handler = Handler && new Handler();
+            if (!handler?.on) continue;
+
+            this.customHandlers.push(new Handler());
+        }
+        this.hookEvents();
+    }
+
+    private hookEvents() {
+        for (const handler of this.handlers)
+            bot.on(handler.on as any, handler.invoke.bind(handler));
+
         for (const handler of this.customHandlers)
             emitter.on(handler.on, handler.invoke.bind(handler));
-            
+
         Log.info(`Loaded: ${this.handlers.length} handlers`, 'events');
         Log.info(`Loaded: ${this.customHandlers.length} custom handlers`, 'events');
     }

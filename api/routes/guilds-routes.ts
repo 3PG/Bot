@@ -39,7 +39,7 @@ router.put('/:id/:module', async (req, res) => {
 
         await validateGuildManager(req.query.key, id);
         
-        const isValidModule = ['announce', 'autoMod', 'commands', 'general', 'leveling', 'music', 'reactionRoles', 'timers', 'settings'];
+        const isValidModule = ['autoMod', 'commands', 'general', 'leveling', 'logs', 'music', 'reactionRoles', 'timers', 'settings'];
         if (!isValidModule)
             throw new TypeError('Module not configured');
 
@@ -209,7 +209,6 @@ router.get('/:id/bot-status', async (req, res) => {
             .get(id)?.members.cache
             .get(bot.user.id);
         
-        const requiredPermission = 'ADMINISTRATOR';
-        res.json({ hasAdmin: botMember.hasPermission(requiredPermission) });
+        res.json({ hasAdmin: botMember.hasPermission('ADMINISTRATOR') });
     } catch (error) { sendError(res, 400, error); }
 });

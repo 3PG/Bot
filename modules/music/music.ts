@@ -12,7 +12,7 @@ export default class Music {
         const nodes = [{
             host: 'localhost',
             port: 2333,
-            password: (config as any).lavalink.password,
+            password: 'youshallnotpass',
         }];
         const music = new ErelaClient(bot, nodes);
 

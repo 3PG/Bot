@@ -32,11 +32,11 @@ export default class API {
         app.use(bodyParser.json());
 
         app.use('/api', apiRoutes);
+                
+        const distPath = join(__dirname, '../dist/dashboard');
+        app.use(express.static(distPath));
         
-        app.use(express.static(join(__dirname, '..', config.dashboard.distPath)));
-        
-        app.all('*', (req, res) => res.status(200).sendFile(
-            join(__dirname, '..', config.dashboard.distPath, '/index.html')));
+        app.all('*', (req, res) => res.status(200).sendFile(`${distPath}/index.html`));
     }
 }
 

@@ -7,6 +7,7 @@ import { EventEmitter } from 'events';
 import EventService from './services/events.service';
 import Log from './utils/log';
 import API from './api/server';
+import EventsService from './services/events.service';
 
 export const bot = new Client({
     messageCacheLifetime: 0,
@@ -17,7 +18,8 @@ export const emitter = new EventEmitter();
 
 bot.login(config.bot.token);
 
-Deps.build(API, EventService);
+Deps.get<EventService>(EventsService).init();
+Deps.build(API);
 
 mongoose.connect(config.mongoURL, { 
     useUnifiedTopology: true, 

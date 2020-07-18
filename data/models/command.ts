@@ -2,6 +2,7 @@ import { model, Schema, Document } from 'mongoose';
 import { PermissionString } from 'discord.js';
 
 const commandSchema = new Schema({
+    aliases: { type: Object, default: [] },
     name: String,
     summary: String,
     module: String,
@@ -10,9 +11,10 @@ const commandSchema = new Schema({
 });
 
 export interface CommandDocument extends Document {
+    aliases: string[];
     name: string;
     summary: string;
-    module;
+    module: string;
     usage: string;
     precondition?: PermissionString;
 }

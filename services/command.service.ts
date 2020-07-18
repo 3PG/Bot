@@ -33,7 +33,7 @@ export default class CommandService {
 
         await this.savedCommands.deleteAll();
         
-        for (const file of files) {            
+        for (const file of files) {
             const Command = require(`../commands/${file}`).default;
             if (!Command) continue;
             
@@ -109,7 +109,6 @@ export default class CommandService {
         return this.commands.get(name) ?? this.findByAlias(name);
     }
     private findByAlias(name: string) {
-        console.log(Array.from(this.commands.values()));        
         return Array.from(this.commands.values())
             .find(c => c.aliases?.some(a => a === name));
     }
