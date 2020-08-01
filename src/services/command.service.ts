@@ -23,18 +23,15 @@ export default class CommandService {
 
     async init() {
         await this.loadCommands();
-        await this.loadOwnerCommands();
     }
 
     private async loadCommands() {
-        const directory = './commands';
-        let files = await readdir(directory);
-        files = files.filter(f => f.endsWith('.ts'));
+        let files = await readdir(`./commands`);
 
         await this.savedCommands.deleteAll();
         
         for (const file of files) {
-            const Command = require(`../commands/${file}`).default;
+            const Command = require(`${__dirname}/commands/${file}`).default;
             if (!Command) continue;
             
             const command = new Command();
@@ -43,19 +40,6 @@ export default class CommandService {
             await this.savedCommands.get(command);
         }
         Log.info(`Loaded: ${this.commands.size} commands`, `cmds`);
-    }
-    private async loadOwnerCommands() {
-        const directory = './commands/owner';
-        const files = await readdir(directory);
-        
-        for (const file of files) {            
-            const Command = require(`../commands/owner/${file}`).default;
-            if (!Command) continue;
-            
-            const command = new Command();
-            this.ownerCommands.set(command.name, command);
-        }
-        Log.info(`Loaded: ${this.ownerCommands.size} owner commands`, `cmds`);
     }
 
     async handle(msg: Message, savedGuild: GuildDocument) {
@@ -69,7 +53,7 @@ export default class CommandService {
             const prefix = savedGuild.general.prefix;
             const slicedContent = msg.content.slice(prefix.length);
 
-            const command = this.findCommand(prefix, slicedContent);     
+            const command = this.findCommand(slicedContent);
             if (!command || this.cooldowns.active(msg.author, command))
                 return null;
             if (msg.author.id !== config.bot.ownerId
@@ -92,7 +76,7 @@ export default class CommandService {
 
     async findAndExecute(prefix: string, msg: Message) {
         const slicedContent = msg.content.slice(prefix.length);
-        const command = this.findCommand(prefix, slicedContent);        
+        const command = this.findCommand(slicedContent);        
         
         return command.execute(new CommandContext(msg), 
             ...slicedContent
@@ -100,11 +84,10 @@ export default class CommandService {
                 .slice(prefix.length));  
     }
 
-    private findCommand(prefix: string, content: string) {        
-        const name = content
+    private findCommand(slicedContent: string) {        
+        const name = slicedContent
             .toLowerCase()
-            .split(' ')[0]
-            .slice(prefix.length);
+            .split(' ')[0];
 
         return this.commands.get(name) ?? this.findByAlias(name);
     }

@@ -1,13 +1,13 @@
 import { expect } from 'chai';
-import NothingReward from '../../../../api/modules/crates/rewards/nothing';
-import SevenDaysPROReward from '../../../../api/modules/crates/rewards/seven-days-pro';
-import ThreeMonthsPROReward from '../../../../api/modules/crates/rewards/three-months-pro';
-import Tier1LegendBadgeReward from '../../../../api/modules/crates/rewards/tier-1-legend-badge';
-import Tier2LegendBadgeReward from '../../../../api/modules/crates/rewards/tier-2-legend-badge';
-import Tier3LegendBadgeReward from '../../../../api/modules/crates/rewards/tier-3-legend-badge';
+import NothingReward from '../../../../src/api/modules/crates/rewards/nothing';
+import SevenDaysPROReward from '../../../../src/api/modules/crates/rewards/seven-days-pro';
+import ThreeMonthsPROReward from '../../../../src/api/modules/crates/rewards/three-months-pro';
+import Tier1LegendBadgeReward from '../../../../src/api/modules/crates/rewards/tier-1-legend-badge';
+import Tier2LegendBadgeReward from '../../../../src/api/modules/crates/rewards/tier-2-legend-badge';
+import Tier3LegendBadgeReward from '../../../../src/api/modules/crates/rewards/tier-3-legend-badge';
 import { BadgeType, SavedUser, UserDocument } from '../../../../data/models/user';
-import OneMonthPROReward from '../../../../api/modules/crates/rewards/one-month-pro';
-import VoteCrateReward from '../../../../api/modules/crates/rewards/vote-crate-reward';
+import OneMonthPROReward from '../../../../src/api/modules/crates/rewards/one-month-pro';
+import VoteCrateReward from '../../../../src/api/modules/crates/rewards/vote-crate-reward';
 
 describe('api/modules/crates', () => {
 

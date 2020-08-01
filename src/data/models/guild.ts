@@ -65,13 +65,6 @@ export class GeneralModule extends Module {
     autoRoles: string[] = [];
 }
 
-export interface ReactionRole {
-    channel: string,
-    messageId: string,
-    emote: string,
-    role: string
-}
-
 export class TimersModule extends Module {
     commandTimers: CommandTimer[] = [];
     messageTimers: MessageTimer[] = [];
@@ -109,6 +102,12 @@ export class MusicModule extends Module {
 export class ReactionRolesModule extends Module {
     configs: ReactionRole[] = [];
 }
+export interface ReactionRole {
+    channel: string,
+    messageId: string,
+    emote: string,
+    role: string
+}
 
 export interface CommandConfig {
     name: string;
@@ -127,10 +126,10 @@ const guildSchema = new Schema({
     commands: { type: Object, default: new CommandsModule() },
     general: { type: Object, default: new GeneralModule() },
     leveling: { type: Object, default: new LevelingModule() },
-    music: { type: Object, default: new MusicModule() },
-    reactionRoles: { type: Object, default: new ReactionRolesModule() },
     logs: { type: Object, default: new LogsModule() }, 
     timers: { type: Object, default: new TimersModule() },
+    music: { type: Object, default: new MusicModule() },
+    reactionRoles: { type: Object, default: new ReactionRolesModule() },
     settings: { type: Object, default: new DashboardSettings() }
 });
 

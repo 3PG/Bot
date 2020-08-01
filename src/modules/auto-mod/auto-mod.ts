@@ -22,17 +22,16 @@ export default class AutoMod {
         private members = Deps.get<Members>(Members)) {}
 
     async init() {
-        const directory = './modules/auto-mod';
-        const words = await readFile(directory + '/explicit-words.txt');        
-        const files = await readdir(directory + '/validators');
+        const words = await readFile(`${__dirname}/explicit-words.txt`);
+        const files = await readdir(`${__dirname}/validators`);
         
         explicitWords = words
             .toString()
             .replace(/\r/g, '')
             .split('\n');
 
-        for (const file of files) {
-            const Validator = require(`./validators/${file}`).default;
+        for (const fileName of files) {            
+            const Validator = require(`${__dirname}/validators/${fileName}`).default;
             if (!Validator) continue;
 
             this.validators.push(new Validator());

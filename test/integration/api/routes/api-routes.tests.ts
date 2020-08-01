@@ -1,5 +1,5 @@
 import request from 'supertest';
-import API, { app } from '../../../../api/server';
+import API, { app } from '../../../../src/api/server';
 import Deps from '../../../../utils/deps';
 
 describe('routes/api', () => {

@@ -1,8 +1,7 @@
-import CommandService from '../../../services/command.service';
-import config from '../../../config.json';
+import CommandService from '../../services/command.service';
 import { SavedGuild, GuildDocument } from '../../../data/models/guild';
-import { expect, use, should, assert } from 'chai';
-import { bot } from '../../../bot';
+import { expect, use, assert } from 'chai';
+import { bot } from '../../../src/bot';
 import { Message } from 'discord.js';
 import chaiAsPromised from 'chai-as-promised';
 

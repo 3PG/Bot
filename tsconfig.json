@@ -1,10 +1,14 @@
 {
+  "compileOnSave": true,
   "compilerOptions": {
     "target": "ES5",
     "module": "CommonJS",
     "strict": false,
     "esModuleInterop": true,
     "resolveJsonModule": true,
-    "downlevelIteration": true
-  }
+    "downlevelIteration": true,
+    "rootDir": "src",
+    "outDir": "lib"
+  },
+  "exclude": ["test"]
 }

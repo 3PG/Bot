@@ -1,5 +1,6 @@
 config.json
 
+lib/
 node_modules/
 
-logs/
+dist/lavalink/logs/
