@@ -25,7 +25,7 @@ export default class Timers {
     }
 
     async endTimers(guildId: string) {
-        const guildTimers = this.getGuildTimers(guildId);        
+        const guildTimers = this.get(guildId);        
         for (const task of guildTimers) {
             task.job?.cancel();
             delete task.job;
@@ -59,7 +59,7 @@ export default class Timers {
         if (from.toString() === 'Invalid Date')
             return status = 'FAILED';
 
-        this.getGuildTimers(savedGuild.id)
+        this.get(savedGuild.id)
             .push({ status, timer, uuid, job, interval: null });        
 
         if (from >= new Date())
@@ -69,9 +69,9 @@ export default class Timers {
 
         this.startedTimers++;
     }
-    getGuildTimers(id: string) {
-        return this.currentTimers.get(id)
-            ?? this.currentTimers.set(id, []).get(id);
+    get(guildId: string) {
+        return this.currentTimers.get(guildId)
+            ?? this.currentTimers.set(guildId, []).get(guildId);
     }
 
     private schedule(uuid: string, savedGuild: GuildDocument, interval: number) {
@@ -84,7 +84,7 @@ export default class Timers {
         
     }
     private findTask(uuid: string, guildId: string) {
-        return this.getGuildTimers(guildId)?.find(t => t.uuid === uuid);        
+        return this.get(guildId)?.find(t => t.uuid === uuid);        
     }
 
     getInterval(interval: string) {

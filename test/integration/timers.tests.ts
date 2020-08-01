@@ -1,6 +1,6 @@
-import Timers from '../../../../modules/timers/timers';
+import Timers from '../../src/modules/timers/timers';
 import { expect } from 'chai';
-import { SavedGuild, GuildDocument } from '../../../../data/models/guild';
+import { SavedGuild, GuildDocument } from '../../src/data/models/guild';
 
 describe('modules/timers', () => {
     let commandsService: any;
@@ -11,22 +11,18 @@ describe('modules/timers', () => {
     beforeEach(() => {
         savedGuild = new SavedGuild();
 
-        commandsService = {
-            
-        };
-        guilds = {
-            get: () => savedGuild
-        };
+        commandsService = {};
+        guilds = { get: () => savedGuild };
 
         timers = new Timers(commandsService, guilds);
     });
 
     it('cancelTimers, removes timers for a guild', () => {
-        timers.currentTimers.set('123', [null]);
+        timers.startTimers('123');
 
         timers.endTimers('123');
 
-        const result = timers.currentTimers.get('123').length;
+        const result = timers.get('123').length;
         expect(result).to.equal(0);
     });
 
@@ -48,7 +44,7 @@ describe('modules/timers', () => {
 
         await timers.startTimers('123');
 
-        const result = timers.currentTimers.get('123').length;
+        const result = timers.get('123').length;
         expect(result).to.equal(2);
     });
 

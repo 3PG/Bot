@@ -1,10 +1,10 @@
-import { SavedGuild, GuildDocument, MessageFilter } from '../../../../data/models/guild';
+import { SavedGuild, GuildDocument, MessageFilter } from '../../src/data/models/guild';
 import { Message } from 'discord.js';
 import { expect } from 'chai';
-import EmojiValidator from '../../../../modules/auto-mod/validators/emoji.validator';
-import MassMentionValidator from '../../../../modules/auto-mod/validators/mass-mention.validator';
-import MassCapsValidator from '../../../../modules/auto-mod/validators/mass-caps.validator';
-import ZalgoValidator from '../../../../modules/auto-mod/validators/zalgo.validator';
+import EmojiValidator from '../../src/modules/auto-mod/validators/emoji.validator';
+import MassMentionValidator from '../../src/modules/auto-mod/validators/mass-mention.validator';
+import MassCapsValidator from '../../src/modules/auto-mod/validators/mass-caps.validator';
+import ZalgoValidator from '../../src/modules/auto-mod/validators/zalgo.validator';
 
 describe('auto-mod/validators', () => {
     let guild: GuildDocument;

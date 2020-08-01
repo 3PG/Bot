@@ -26,12 +26,14 @@ export default class CommandService {
     }
 
     private async loadCommands() {
-        let files = await readdir(`./commands`);
+        let files = await readdir(`./src/commands`);
 
         await this.savedCommands.deleteAll();
         
-        for (const file of files) {
-            const Command = require(`${__dirname}/commands/${file}`).default;
+        for (const fileName of files) {
+            const cleanName = fileName.replace(/(\..*)/, '');
+            
+            const Command = await require(`../commands/${cleanName}`).default;
             if (!Command) continue;
             
             const command = new Command();

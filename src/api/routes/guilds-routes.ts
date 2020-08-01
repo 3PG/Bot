@@ -124,7 +124,7 @@ router.get('/:id/log', async(req, res) => {
 
 router.get('/:id/timers', (req, res) => {
     try {
-        const guildTimers = JSON.parse(stringify(timers.getGuildTimers(req.params.id)));
+        const guildTimers = JSON.parse(stringify(timers.get(req.params.id)));
         res.json(guildTimers);        
     } catch (error) { sendError(res, 400, error); }
 });

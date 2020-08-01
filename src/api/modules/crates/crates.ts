@@ -10,11 +10,12 @@ export default class Crates {
     rewards: Reward[] = [];
 
     async init() {
-        const directory = './api/modules/crates/rewards';
-        const files = await readdir(directory);
+        const files = await readdir('./src/api/modules/crates/rewards');
 
-        for (const file of files) {
-            const Reward = require(`./rewards/${file}`).default;
+        for (const fileName of files) {
+            const cleanName = fileName.replace(/(\..*)/, '');
+            
+            const Reward = require(`./rewards/${cleanName}`).default;
             if (!Reward) continue;
 
             const reward: Reward = new Reward();            

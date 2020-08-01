@@ -1,30 +1,24 @@
-import { expect, use } from 'chai';
-import { GuildDocument, MessageFilter } from '../../../../data/models/guild';
+import { use, should, expect } from 'chai';
+import { GuildDocument, MessageFilter } from '../../src/data/models/guild';
 import { mock } from 'ts-mockito';
-import AutoMod from '../../../../modules/auto-mod/auto-mod';
+import AutoMod from '../../src/modules/auto-mod/auto-mod';
 import { Message } from 'discord.js';
-import { SavedMember } from '../../../../data/models/member';
-import Members from '../../../../data/members';
-import Deps from '../../../../utils/deps';
 import chaiAsPromised from 'chai-as-promised';
-
-use(chaiAsPromised);
+import {  SavedMember } from '../../src/data/models/member';
+import Members from '../../src/data/members';
+import Emit from '../../src/services/emit';
 
 describe('modules/auto-mod', () => {
     let autoMod: AutoMod;
-    let emit: any;
-    let members: any;
 
     beforeEach(() => {
-        Deps.testing = true;
-
-        members = mock<Members>();
+        const members = mock<Members>();
         members.get = (): any => new SavedMember();
         
-        autoMod = new AutoMod(emit, members);
+        autoMod = new AutoMod(mock<Emit>(), members);
     });
     
-    describe('validate', () => {
+    describe('validateMsg', () => {
         it('contains ban word, has filter, error thrown', async() => {            
             const guild = mock<GuildDocument>();
             const msg = mock<Message>();
@@ -35,7 +29,7 @@ describe('modules/auto-mod', () => {
             
             const result = () => autoMod.validate(msg, guild);
 
-            return expect(result()).to.be.rejected;
+            result().should.eventually.throw();
         });
         
         it('contains ban word, has filter, auto deleted, error thrown', async() => {            
@@ -49,7 +43,7 @@ describe('modules/auto-mod', () => {
 
             const result = () => autoMod.validate(msg, guild);
 
-            return expect(result()).to.be.rejected;
+            result().should.eventually.throw('deleted');
         });
 
         it('contains ban word, no filter, ignored', async() => {
@@ -62,7 +56,7 @@ describe('modules/auto-mod', () => {
 
             const result = () => autoMod.validate(msg, guild);
 
-            return expect(result()).to.not.be.rejected;
+            result().should.not.eventually.throw();
         });
         
         it('contains ban link, has filter, error thrown', async() => {            
@@ -75,7 +69,7 @@ describe('modules/auto-mod', () => {
 
             const result = () => autoMod.validate(msg, guild);
 
-            return expect(result()).to.be.rejected;
+            result().should.eventually.throw();
         });
         
         it('contains ban link, no filter, ignored', async() => {            
@@ -88,18 +82,27 @@ describe('modules/auto-mod', () => {
 
             const result = () => autoMod.validate(msg, guild);
 
-            return expect(result()).to.be.fulfilled;
+            result().should.not.eventually.throw();
         });
     });
 
     describe('warnMember', () => {
+        it('warn member, message sent to user', async() => {
+            const member: any = { id: '123', send: () => { throw new TypeError() }, user: { bot: false }};
+            const instigator: any = { id: '321' };
+
+            const result = () => autoMod.warn(member, instigator);
+
+            result().should.eventually.throw();
+        });
+
         it('warn self member, error thrown', async() => {
             const member: any = { id: '123', user: { bot: false } };
             const instigator: any = { id: '123' };
 
             const result = () => autoMod.warn(member, instigator);
 
-            return expect(result()).to.be.rejected;
+            result().should.eventually.throw();
         });
 
         it('warn bot member, error thrown', async() => {
@@ -108,7 +111,7 @@ describe('modules/auto-mod', () => {
 
             const result = () => autoMod.warn(member, instigator);
 
-            return expect(result()).to.be.rejected;
+            result().should.eventually.throw();
         });
     });
 });

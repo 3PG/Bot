@@ -1,7 +1,7 @@
-import { SavedGuild, GuildDocument } from '../../../data/models/guild';
-import Validators from '../../../services/validators';
-import { Command } from '../../../commands/command';
-import PingCommand from '../../../commands/ping';
+import { SavedGuild, GuildDocument } from '../../src/data/models/guild';
+import Validators from '../../src/services/validators';
+import { Command } from '../../src/commands/command';
+import PingCommand from '../../src/commands/ping';
 import { GuildMember, Message } from 'discord.js';
 import { mock } from 'ts-mockito';
 import { expect } from 'chai';
