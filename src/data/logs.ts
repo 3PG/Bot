@@ -33,4 +33,8 @@ export default class Logs extends DBWrapper<Guild, LogDocument> {
         log.messages.push({ at: new Date(), validation });   
         return log.save();
     }
+
+    async getAll() {
+        return await SavedLog.find();
+    }
 }

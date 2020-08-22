@@ -1,10 +1,20 @@
 import { bot } from '../../bot';
 import { AuthClient } from '../server';
 import { User } from 'discord.js';
+import config from '../../../config.json';
 
 export async function getUser(key: any) {    
   const { id } = await AuthClient.getUser(key);
   return bot.users.cache.get(id);
+}
+
+export async function validateBotOwner(key: any) {
+  if (!key)
+    throw new TypeError('No key provided.');
+  const { id } = await getUser(key);
+      
+  if (id !== config.bot.ownerId)
+    throw TypeError('Unauthorized.');
 }
 
 export async function validateGuildManager(key: any, guildId: string) {
@@ -39,4 +49,8 @@ export function leaderboardMember(user: User, xpInfo: any) {
         displayAvatarURL: user.displayAvatarURL({ dynamic: true }),
         ...xpInfo
     };
+}
+
+export function sendError(res: any, code: number, error: Error) {
+  return res.status(code).json({ code, message: error?.message })
 }

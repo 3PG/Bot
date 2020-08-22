@@ -5,7 +5,7 @@ import Music from '../../modules/music/music';
 import { bot } from '../../bot';
 import Timers from '../../modules/timers/timers';
 import CommandService from '../command.service';
-import config from '../../config.json';
+import config from '../../../config.json';
 import AutoMod from '../../modules/auto-mod/auto-mod';
 import Crates from '../../api/modules/crates/crates';
 import { ClientEvents } from 'discord.js';

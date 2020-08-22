@@ -1,5 +1,5 @@
 import { Command, CommandContext, Permission } from './command';
-import config from '../config.json';
+import config from '../../config.json';
 
 export default class MusicCommand implements Command {
     precondition: Permission = 'MANAGE_GUILD';
@@ -9,6 +9,6 @@ export default class MusicCommand implements Command {
     module = 'Music';
     
     execute = async(ctx: CommandContext) => {
-        return ctx.channel.send(`${config.dashboard.url}/servers/${ctx.guild.id}/music`);
+        return ctx.channel.send(`${config.dashboardURL}/servers/${ctx.guild.id}/music`);
     }
 }

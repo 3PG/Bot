@@ -1,4 +1,3 @@
-import config from '../../config.json';
 import { ErelaClient, Player, Track } from 'erela.js';
 import { bot } from '../../bot';
 import Log from '../../utils/log';

@@ -1,5 +1,5 @@
 import { Command, CommandContext, Permission } from './command';
-import config from '../config.json';
+import config from '../../config.json';
 
 export default class HelpCommand implements Command {
     precondition: Permission = '';
@@ -9,6 +9,6 @@ export default class HelpCommand implements Command {
     module = 'General';
     
     execute = async(ctx: CommandContext) => {
-        ctx.channel.send(`${config.dashboard.url}/commands`);
+        ctx.channel.send(`${config.dashboardURL}/commands`);
     }
 }

@@ -1,20 +1,18 @@
-import { Router } from 'express';
-import { SavedCommand, CommandDocument } from '../../data/models/command';
-import { AuthClient } from '../server';
-import * as config from '../../config.json';
-import { SavedUser, BadgeType } from '../../data/models/user';
-
-import { router as guildsRoutes } from './guilds-routes';
-import { router as userRoutes } from './user-routes';
-import { router as musicRoutes } from './music-routes';
-import Deps from '../../utils/deps';
-import Users from '../../data/users';
-import { bot } from '../../bot';
 import { MessageEmbed } from 'discord.js';
+import { Router } from 'express';
+import config from '../../../config.json';
+import { bot } from '../../bot';
+import { CommandDocument, SavedCommand } from '../../data/models/command';
+import Deps from '../../utils/deps';
+import { validateBotOwner, sendError } from '../modules/api-utils';
+import Stats from '../modules/stats';
+import { AuthClient } from '../server';
+import Users from '../../data/users';
 
 export const router = Router();
 
-const users = Deps.get<Users>(Users);
+const stats = Deps.get<Stats>(Stats),
+      users = Deps.get<Users>(Users);
 
 let commands: CommandDocument[] = [];
 SavedCommand.find().then(cmds => commands = cmds);
@@ -24,9 +22,37 @@ router.get('/', (req, res) => res.json({ hello: 'earth' }));
 router.get('/commands', async (req, res) => res.json(commands));
 
 router.get('/auth', async (req, res) => {
-  try {
+  try {    
     const key = await AuthClient.getAccess(req.query.code);
-    res.redirect(`${config.dashboard.url}/auth?key=${key}`);
+    res.redirect(`${config.dashboardURL}/auth?key=${key}`);
+  } catch (error) { sendError(res, 400, error); }
+});
+
+router.post('/error', async(req, res) => {
+  try {
+    const key = req.query.key;
+    let { id } = await AuthClient.getUser(key);
+    
+    await bot.users.cache
+      .get(config.bot.ownerId)
+      ?.send(new MessageEmbed({
+        title: 'Dashboard Error',
+        description: `**Message**: ${req.body.message}`,
+        footer: { text: `User ID: ${id ?? 'N/A'}` }
+    }));
+  } catch (error) { sendError(res, 400, error); }
+});
+
+router.get('/stats', async (req, res) => {
+  try {
+    await validateBotOwner(req.query.key);
+  
+    res.json({
+      general: stats.general,
+      commands: stats.commands,
+      inputs: stats.inputs,
+      modules: stats.modules
+    });
   } catch (error) { sendError(res, 400, error); }
 });
 
@@ -53,66 +79,8 @@ router.post('/auth-vote', async(req, res) => {
   } catch (error) { sendError(res, 400, error); }
 });
 
-router.post('/stripe-webhook', async(req, res) => {
-  try {
-    // TODO: add better validation
-    if (!req.headers['stripe-signature']) return;
-    
-    const id = req.body.data.object.metadata.id;
-    if (req.body.type === 'checkout.session.completed') {
-      await giveUserPro(id);
-      return res.json({ success: true });
-    }
-    res.json({ received: true });
-  } catch (error) { sendError(res, 400, error); }
-});
-
-router.post('/error', async(req, res) => {
-  try {
-    const { message } = req.body;
-
-    const key = req.query.key;
-    let user = { id: 'N/A' };
-    if (key)
-      user = AuthClient.getUser(key);
-    
-    await bot.users.cache
-      .get(config.bot.ownerId)
-      .send(new MessageEmbed({
-        title: 'Dashboard Error',
-        description: `**Message**: ${message}`,
-        footer: { text: `User ID: ${user.id}` }
-      }));
-    } catch (error) { sendError(res, 400, error); }
-});
-
-async function giveUserPro(id: string) {  
-  const user = bot.users.cache.get(id);
-  const savedUser = await users.get(user);
-
-  savedUser.premium = true;
-  savedUser.premiumExpiration = new Date(new Date().setDate(new Date().getDate() + 30));
-
-  bot.guilds.cache
-    .get('598565371162656788')?.members.cache
-    .get(id)?.roles
-    .add('599596068145201152');
-
-  await savedUser.save();
-}
-
 router.get('/invite', (req, res) => 
-    res.redirect(`https://discordapp.com/api/oauth2/authorize?client_id=${config.bot.id}&redirect_uri=${config.dashboard.url}/dashboard&permissions=8&scope=bot`));
+  res.redirect(`https://discord.com/api/oauth2/authorize?client_id=${config.bot.id}&redirect_uri=${config.dashboardURL}/dashboard&response_type=code&permissions=8&scope=bot`));
 
 router.get('/login', (req, res) =>
-    res.redirect(`https://discordapp.com/oauth2/authorize?client_id=${config.bot.id}&redirect_uri=${config.api.url}/auth&response_type=code&scope=identify guilds&prompt=none`));
-
-router.use('/guilds', guildsRoutes);
-router.use('/guilds/:id/music', musicRoutes);
-router.use('/user', userRoutes);
-
-router.get('*', (req, res) => res.status(404).json({ code: 404 }));
-
-export function sendError(res: any, code: number, error: Error) {
-  return res.status(code).json({ code, message: error?.message })
-}
+  res.redirect(`https://discord.com/oauth2/authorize?client_id=${config.bot.id}&redirect_uri=${config.api.url}/auth&response_type=code&scope=identify guilds&prompt=none`));

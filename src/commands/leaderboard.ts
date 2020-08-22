@@ -1,5 +1,5 @@
 import { Command, CommandContext, Permission } from './command';
-import config from '../config.json';
+import config from '../../config.json';
 
 export default class LeaderboardCommand implements Command {
     precondition: Permission = '';
@@ -9,6 +9,6 @@ export default class LeaderboardCommand implements Command {
     module = 'Leveling';
     
     execute = async(ctx: CommandContext) => {
-        ctx.channel.send(`${config.dashboard.url}/leaderboard/${ctx.guild.id}`);
+        ctx.channel.send(`${config.dashboardURL}/leaderboard/${ctx.guild.id}`);
     }
 }

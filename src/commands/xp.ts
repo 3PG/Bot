@@ -1,6 +1,6 @@
 import { Command, CommandContext, Permission } from './command';
 import { getMemberFromMention } from '../utils/command-utils';
-import config from '../config.json';
+import config from '../../config.json';
 
 export default class XPCommand implements Command {
     precondition: Permission = '';
@@ -19,10 +19,7 @@ export default class XPCommand implements Command {
             
         const xpCardURL = `${config.api.url}/guilds/${ctx.guild.id}/members/${target.id}/xp-card`;
         return ctx.channel.send({
-            files: [{
-                attachment: xpCardURL,
-                name: 'xp-card.png'
-            }]
+            files: [{ attachment: xpCardURL, name: 'xp-card.png' }]
         });
     };
 }

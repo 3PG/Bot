@@ -1,5 +1,5 @@
 import { bot } from '../bot';
-import config from '../config.json';
+import config from '../../config.json';
 import fetch from 'node-fetch';
 import Log from '../utils/log';
 import TopGG from 'dblapi.js';

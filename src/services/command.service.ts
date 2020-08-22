@@ -8,7 +8,7 @@ import { GuildDocument } from '../data/models/guild';
 import Cooldowns from './cooldowns';
 import Validators from './validators';
 import { promisify } from 'util';
-import config from '../config.json';
+import config from '../../config.json';
 
 const readdir = promisify(fs.readdir);
 

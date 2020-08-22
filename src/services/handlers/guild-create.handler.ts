@@ -1,4 +1,4 @@
-import config from '../../config.json';
+import config from '../../../config.json';
 import EventHandler from './event-handler';
 import { Guild, TextChannel, ClientEvents } from 'discord.js';
 import Deps from '../../utils/deps';
@@ -15,7 +15,7 @@ export default class GuildCreateHandler implements EventHandler {
     }
 
     private sendWelcomeMessage(channel: TextChannel | null) {
-        const url = `${config.dashboard.url}/servers/${channel.guild.id}`;
+        const url = `${config.dashboardURL}/servers/${channel.guild.id}`;
         channel?.send(`Hey, I'm 3PG! Customize me at ${url}`);
     }    
 }

@@ -1,6 +1,6 @@
 import { Command, CommandContext, Permission } from './command';
 import { MessageEmbed } from 'discord.js';
-import config from '../config.json';
+import config from '../../config.json';
 
 export default class InfoCommand implements Command {
     precondition: Permission = '';
