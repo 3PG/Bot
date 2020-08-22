@@ -5,7 +5,11 @@ import { Command } from '../commands/command';
 
 export default class Logs extends DBWrapper<Guild, LogDocument> {
     protected async getOrCreate(guild: Guild) {
-        return await SavedLog.findById(guild.id) ?? this.create(guild);
+        const log = await SavedLog.findById(guild.id) ?? await this.create(guild);
+
+        log.changes = log.changes.slice(log.changes.length - 10);
+
+        return log;
     }
 
     protected async create(guild: Guild) {

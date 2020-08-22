@@ -36,8 +36,6 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
     try {
         const id = req.params.id;
-        await validateGuildManager(req.query.key, id);
-
         const guild = bot.guilds.cache.get(id);
 
         res.json({
