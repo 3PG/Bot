@@ -71,7 +71,6 @@ router.post('/auth-vote', async(req, res) => {
     const savedUser = await users.get(user);
         
     savedUser.votes++;
-    savedUser.crates += 3;
   
     await savedUser.save();
     
