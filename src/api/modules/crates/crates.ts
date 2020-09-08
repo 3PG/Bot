@@ -26,8 +26,6 @@ export default class Crates {
     }
 
     open(savedUser: UserDocument) {
-        savedUser.crates--;
-
         const reward = this.roll();
         const given = reward.give(savedUser);
         return {
