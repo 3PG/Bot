@@ -7,7 +7,6 @@ import Timers from '../../modules/timers/timers';
 import CommandService from '../command.service';
 import config from '../../../config.json';
 import AutoMod from '../../modules/auto-mod/auto-mod';
-import Crates from '../../api/modules/crates/crates';
 import { ClientEvents } from 'discord.js';
 import BotStatsService from '../bot-stats.service';
 
@@ -20,7 +19,6 @@ export default class ReadyHandler implements EventHandler {
         private autoMod = Deps.get<AutoMod>(AutoMod),
         private botStats = Deps.get<BotStatsService>(BotStatsService),
         private commandService = Deps.get<CommandService>(CommandService),
-        private crates = Deps.get<Crates>(Crates),
         private music = Deps.get<Music>(Music),
         private timers = Deps.get<Timers>(Timers)) {}
 
@@ -33,7 +31,6 @@ export default class ReadyHandler implements EventHandler {
         await this.autoMod.init();
         await this.botStats.init();
         await this.commandService.init();
-        await this.crates.init();
         this.music.init();
         await this.timers.init();
 
