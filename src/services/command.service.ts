@@ -28,9 +28,11 @@ export default class CommandService {
     private async loadCommands() {        
         let files = await readdir(`./src/commands`);
 
-        await this.savedCommands.deleteAll();
+        // await this.savedCommands.deleteAll();
         
         for (const fileName of files) {
+            console.log(fileName);
+            
             const cleanName = fileName.replace(/(\..*)/, '');
             
             const Command = await require(`../commands/${cleanName}`).default;
@@ -39,7 +41,7 @@ export default class CommandService {
             const command = new Command();
             this.commands.set(command.name, command);
             
-            await this.savedCommands.get(command);
+            // await this.savedCommands.get(command);
         }
         Log.info(`Loaded: ${this.commands.size} commands`, `cmds`);
     }
