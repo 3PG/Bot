@@ -25,7 +25,7 @@ export default class CommandService {
         await this.loadCommands();
     }
 
-    private async loadCommands() {
+    private async loadCommands() {        
         let files = await readdir(`./src/commands`);
 
         await this.savedCommands.deleteAll();

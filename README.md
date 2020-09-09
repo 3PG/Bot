@@ -38,7 +38,8 @@ Please follow the [2PG Setup](https://github.com/theADAMJR/2PG) to use the bot.
     "api": {
         "port": "3000",
         "url": "http://localhost:3000/api",
-        "stripeSecretKey": ""
+        "stripeSecretKey": "",
+        "stripeWebhookSecret": ""
     },
     "dashboardURL": "http://localhost:4200",
     "mongoURL": "mongodb://localhost/3PG"

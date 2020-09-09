@@ -26,5 +26,5 @@ mongoose.connect(config.mongoURL, {
     useNewUrlParser: true, 
     useFindAndModify: false
 }, (error) => error
-    ? Log.error('Failed to connect to db')
-    : Log.info('Connected to db'));
+    ? Log.error(error.message, 'data')
+    : Log.info('Connected to db', 'data'));
