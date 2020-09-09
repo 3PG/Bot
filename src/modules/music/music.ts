@@ -1,11 +1,13 @@
 import { ErelaClient, Player, Track } from 'erela.js';
-import { bot } from '../../bot';
 import Log from '../../utils/log';
-import { GuildMember, TextChannel } from 'discord.js';
+import { GuildMember, TextChannel, Client } from 'discord.js';
+import Deps from '../../utils/deps';
 
 export default class Music {
     private _client = {} as ErelaClient;
     get client() { return this._client; }
+
+    constructor(private bot = Deps.get<Client>(Client)) {}
 
     init() {
         const nodes = [{
@@ -13,7 +15,7 @@ export default class Music {
             port: 2333,
             password: 'youshallnotpass',
         }];
-        const music = new ErelaClient(bot, nodes);
+        const music = new ErelaClient(this.bot, nodes);
 
         this.hookEvents(music);
 

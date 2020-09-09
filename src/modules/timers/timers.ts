@@ -1,8 +1,7 @@
 import { Timer, GuildDocument } from '../../data/models/guild';
 import Deps from '../../utils/deps';
 import Guilds from '../../data/guilds';
-import { bot } from '../../bot';
-import { TextChannel } from 'discord.js';
+import { TextChannel, Client } from 'discord.js';
 import CommandService from '../../services/command.service';
 import Log from '../../utils/log';
 import { scheduleJob, Job } from 'node-schedule';
@@ -15,11 +14,12 @@ export default class Timers {
     private startedTimers = 0;
 
     constructor(
+        private bot = Deps.get<Client>(Client),
         private commandService = Deps.get<CommandService>(CommandService),
         private guilds = Deps.get<Guilds>(Guilds)) {}
 
     async init() {
-        for (const id of bot.guilds.cache.keys())
+        for (const id of this.bot.guilds.cache.keys())
             await this.startTimers(id);
         Log.info(`Started ${this.startedTimers} timers`, 'timers');        
     }
@@ -37,7 +37,7 @@ export default class Timers {
     }
 
     async startTimers(guildId: string) {
-        const guild = bot.guilds.cache.get(guildId);
+        const guild = this.bot.guilds.cache.get(guildId);
         const savedGuild = await this.guilds.get(guild);
 
         for (const timer of savedGuild.timers.commandTimers)
@@ -107,20 +107,20 @@ export default class Timers {
     }
 
     private async sendCommandTimer(savedGuild: GuildDocument, timer: any) {
-        const guild = bot.guilds.cache.get(savedGuild.id);
-        const member = guild.members.cache.get(bot.user.id);
+        const guild = this.bot.guilds.cache.get(savedGuild.id);
+        const member = guild.members.cache.get(this.bot.user.id);
         const channel = guild.channels.cache.get(timer.channel);
 
         await this.commandService.findAndExecute(savedGuild.general.prefix, {
             channel,
-            client: bot,
+            client: this.bot,
             content: timer.command ?? '',
             guild: member.guild,
             member
         } as any);
     }
     private async sendMessageTimer(timer: any) {
-        const channel = bot.channels.cache.get(timer.channel) as TextChannel;
+        const channel = this.bot.channels.cache.get(timer.channel) as TextChannel;
         await channel.send(timer.message);
     }
 }

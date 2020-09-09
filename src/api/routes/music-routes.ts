@@ -1,14 +1,15 @@
 import { Router } from 'express';
 import Music from '../../modules/music/music';
 import Deps from '../../utils/deps';
-import { bot } from '../../bot';
 import { AuthClient } from '../server';
 import Users from '../../data/users';
 import { validateGuildManager } from '../modules/api-utils';
+import { Client } from 'discord.js';
 
 export const router = Router({ mergeParams: true });
 
-const music = Deps.get<Music>(Music),
+const bot = Deps.get<Client>(Client),
+      music = Deps.get<Music>(Music),
       users = Deps.get<Users>(Users);
 
 router.get('/pause', async (req, res) => {

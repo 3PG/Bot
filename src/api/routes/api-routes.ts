@@ -1,7 +1,6 @@
-import { MessageEmbed } from 'discord.js';
+import { MessageEmbed, Client } from 'discord.js';
 import { Router } from 'express';
 import config from '../../../config.json';
-import { bot } from '../../bot';
 import { CommandDocument, SavedCommand } from '../../data/models/command';
 import Deps from '../../utils/deps';
 import { validateBotOwner, sendError } from '../modules/api-utils';
@@ -11,7 +10,8 @@ import Users from '../../data/users';
 
 export const router = Router();
 
-const stats = Deps.get<Stats>(Stats),
+const bot = Deps.get<Client>(Client),
+      stats = Deps.get<Stats>(Stats),
       users = Deps.get<Users>(Users);
 
 let commands: CommandDocument[] = [];

@@ -1,7 +1,9 @@
-import { bot } from '../../bot';
 import { AuthClient } from '../server';
-import { User } from 'discord.js';
+import { User, Client } from 'discord.js';
 import config from '../../../config.json';
+import Deps from '../../utils/deps';
+
+const bot = Deps.get<Client>(Client);
 
 export async function getUser(key: any) {    
   const { id } = await AuthClient.getUser(key);

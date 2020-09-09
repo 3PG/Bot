@@ -2,19 +2,16 @@ import { Client } from 'discord.js';
 import config from '../config.json';
 import mongoose from 'mongoose';
 import Deps from './utils/deps';
-import { EventEmitter } from 'events';
 
 import EventService from './services/events.service';
 import Log from './utils/log';
 import API from './api/server';
 import EventsService from './services/events.service';
 
-export const bot = new Client({
-    messageCacheLifetime: 0,
-    messageCacheMaxSize: 16,
-    partials: ['GUILD_MEMBER', 'MESSAGE', 'REACTION']
-});
-export const emitter = new EventEmitter();
+const bot = Deps.get<Client>(Client);
+bot.options.messageCacheLifetime = 0;
+bot.options.messageCacheMaxSize = 16;
+bot.options.partials = ['GUILD_MEMBER', 'MESSAGE', 'REACTION'];
 
 bot.login(config.bot.token);
 

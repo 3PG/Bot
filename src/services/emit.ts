@@ -1,13 +1,16 @@
-import { emitter } from '../bot';
 import { Guild, User, GuildMember, Message } from 'discord.js';
 import { PunishmentArgs } from '../modules/auto-mod/auto-mod';
 import { MemberDocument } from '../data/models/member';
 import { Change } from '../data/models/log';
+import Deps from '../utils/deps';
+import { EventEmitter } from 'events';
 
 /**
  * Used for emitting custom events.
  */
 export default class Emit {
+    constructor(private emitter = Deps.get<EventEmitter>(EventEmitter)) {}
+
     configSaved(guild: Guild, user: User, change: Change) {
         const eventArgs: ConfigUpdateArgs = {
             guild,
@@ -16,7 +19,7 @@ export default class Emit {
             new: change.changes.new,
             old: change.changes.old
         };
-        emitter.emit('configUpdate', eventArgs);
+        this.emitter.emit('configUpdate', eventArgs);
     }
 
     levelUp(args: { newLevel: number, oldLevel: number }, msg: Message, savedMember: MemberDocument) {
@@ -26,7 +29,7 @@ export default class Emit {
             xp: savedMember.xp,
             user: msg.member.user
         };        
-        emitter.emit('levelUp', eventArgs);
+        this.emitter.emit('levelUp', eventArgs);
     }
 
     mute(args: PunishmentArgs, target: GuildMember, savedMember: MemberDocument) {
@@ -36,7 +39,7 @@ export default class Emit {
             user: target.user,
             warnings: savedMember.warnings.length
         };
-        emitter.emit('userMute', eventArgs);
+        this.emitter.emit('userMute', eventArgs);
     }
 
     unmute(args: PunishmentArgs, target: GuildMember, savedMember: MemberDocument) {
@@ -47,7 +50,7 @@ export default class Emit {
             reason: args.reason,
             warnings: savedMember.warnings.length
         };
-        emitter.emit('userUnmute', eventArgs);    
+        this.emitter.emit('userUnmute', eventArgs);    
     }
 
     warning(args: PunishmentArgs, target: GuildMember, savedMember: MemberDocument) {
@@ -58,7 +61,7 @@ export default class Emit {
             user: target.user,
             warnings: savedMember.warnings.length
         }
-        emitter.emit('userWarn', eventArgs);
+        this.emitter.emit('userWarn', eventArgs);
     }
 }
 

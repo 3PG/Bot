@@ -31,8 +31,6 @@ export default class CommandService {
         // await this.savedCommands.deleteAll();
         
         for (const fileName of files) {
-            console.log(fileName);
-            
             const cleanName = fileName.replace(/(\..*)/, '');
             
             const Command = await require(`../commands/${cleanName}`).default;

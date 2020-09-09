@@ -2,12 +2,11 @@ import Log from '../../utils/log';
 import EventHandler from './event-handler';
 import Deps from '../../utils/deps';
 import Music from '../../modules/music/music';
-import { bot } from '../../bot';
 import Timers from '../../modules/timers/timers';
 import CommandService from '../command.service';
 import config from '../../../config.json';
 import AutoMod from '../../modules/auto-mod/auto-mod';
-import { ClientEvents } from 'discord.js';
+import { ClientEvents, Client } from 'discord.js';
 import BotStatsService from '../bot-stats.service';
 
 export default class ReadyHandler implements EventHandler {
@@ -17,6 +16,7 @@ export default class ReadyHandler implements EventHandler {
     
     constructor(
         private autoMod = Deps.get<AutoMod>(AutoMod),
+        private bot = Deps.get<Client>(Client),
         private botStats = Deps.get<BotStatsService>(BotStatsService),
         private commandService = Deps.get<CommandService>(CommandService),
         private music = Deps.get<Music>(Music),
@@ -34,6 +34,6 @@ export default class ReadyHandler implements EventHandler {
         this.music.init();
         await this.timers.init();
 
-        bot.user?.setActivity(config.bot.activity);
+        this.bot.user?.setActivity(config.bot.activity);
     }
 }

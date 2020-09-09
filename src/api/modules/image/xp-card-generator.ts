@@ -1,10 +1,10 @@
-import { bot } from '../../../bot';
 import ImageGenerator from './image-generator';
 import { Canvas, createCanvas } from 'canvas';
-import { User } from 'discord.js';
+import { User, Client } from 'discord.js';
 import { MemberDocument } from '../../../data/models/member';
 import { UserDocument, XPCard } from '../../../data/models/user';
 import Leveling from '../../../modules/xp/leveling';
+import Deps from '../../../utils/deps';
 
 export class XPCardGenerator extends ImageGenerator {
     colors = {
@@ -17,7 +17,8 @@ export class XPCardGenerator extends ImageGenerator {
 
     constructor(
         private user: UserDocument,
-        private rank: number) {
+        private rank: number,
+        bot = Deps.get<Client>(Client)) {
         super();
 
         this.discordUser = bot.users.cache.get(user.id);

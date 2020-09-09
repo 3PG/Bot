@@ -1,13 +1,16 @@
-import { bot } from '../bot';
 import config from '../../config.json';
 import fetch from 'node-fetch';
 import Log from '../utils/log';
 import TopGG from 'dblapi.js';
 import { setIntervalAsync } from 'set-interval-async/dynamic';
+import Deps from '../utils/deps';
+import { Client } from 'discord.js';
 
 export default class BotStatsService {
+    constructor(private bot = Deps.get<Client>(Client)) {}
+
     async init() {
-        if (bot.user.id !== '525935335918665760') return;
+        if (this.bot.user.id !== '525935335918665760') return;
 
         await this.sendTopGGStats();
 
@@ -20,7 +23,7 @@ export default class BotStatsService {
     }
 
     async sendTopGGStats() {
-        const dbl = new TopGG(config.bot.botLists.topGG.token, bot);
+        const dbl = new TopGG(config.bot.botLists.topGG.token, this.bot);
 
         dbl.on('posted', () => Log.info('Sent stats to top.gg'));
         dbl.on('error', (error) => Log.error(error, 'botstats'));
@@ -35,10 +38,10 @@ export default class BotStatsService {
                 Accept: 'application/json'
             },
             body: JSON.stringify({
-                shard_id: (bot.shard) ? bot.shard.count : 0,
-                voice_connections: (bot.voice) ? bot.voice.connections.size : 0,
-                guilds: bot.guilds.cache.size,
-                users: bot.guilds.cache.reduce((prev, now) => prev + now.memberCount, 0)
+                shard_id: (this.bot.shard) ? this.bot.shard.count : 0,
+                voice_connections: (this.bot.voice) ? this.bot.voice.connections.size : 0,
+                guilds: this.bot.guilds.cache.size,
+                users: this.bot.guilds.cache.reduce((prev, now) => prev + now.memberCount, 0)
             })
         });
         (res.status === 200)
