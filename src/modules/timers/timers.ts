@@ -65,7 +65,7 @@ export default class Timers {
         if (from >= new Date())
             job = scheduleJob(from, () => this.schedule(uuid, savedGuild, interval));
         else
-            this.schedule(uuid, savedGuild, interval);
+            await this.schedule(uuid, savedGuild, interval);
 
         this.startedTimers++;
     }
@@ -74,11 +74,13 @@ export default class Timers {
             ?? this.currentTimers.set(guildId, []).get(guildId);
     }
 
-    private schedule(uuid: string, savedGuild: GuildDocument, interval: number) {
+    private async schedule(uuid: string, savedGuild: GuildDocument, interval: number) {
         const task = this.findTask(uuid, savedGuild.id);
         if (!task.timer) return;
 
         task.status = 'ACTIVE';
+
+        await this.sendTimer(task, savedGuild);
         task.interval = setIntervalAsync(
             () => this.sendTimer(task, savedGuild), interval);
         
@@ -102,6 +104,7 @@ export default class Timers {
             if ('message' in timer)
                 this.sendMessageTimer(timer);
         } catch (error) {
+            console.log(error.message);            
             task.status = 'FAILED';
         }
     }
@@ -111,7 +114,8 @@ export default class Timers {
         const member = guild.members.cache.get(this.bot.user.id);
         const channel = guild.channels.cache.get(timer.channel);
 
-        await this.commandService.handle({
+        await this.commandService.handleCommand({
+            author: this.bot.user,
             channel,
             client: this.bot,
             content: `${savedGuild.general.prefix}${timer.command ?? ''}`,

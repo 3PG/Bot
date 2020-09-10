@@ -42,7 +42,7 @@ export default class AutoMod {
     async validate(msg: Message, guild: GuildDocument) {
         const activeFilters = guild.autoMod.filters;
         for (const filter of activeFilters)
-            try {                
+            try {
                 const validator = this.validators.find(v => v.filter === filter);
                 await validator?.validate(msg.content, guild);
             } catch (validation) {

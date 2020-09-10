@@ -52,6 +52,10 @@ export default class Users extends DBWrapper<SnowflakeEntity, UserDocument> {
     protected async create({ id }: SnowflakeEntity) {
         return new SavedUser({ _id: id }).save();
     }
+
+    getAll() {
+        return SavedUser.find();
+    }
 }
 
 export enum Plan { One, Three, Forever }

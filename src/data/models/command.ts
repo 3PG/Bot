@@ -1,15 +1,6 @@
 import { model, Schema, Document } from 'mongoose';
 import { PermissionString } from 'discord.js';
 
-const commandSchema = new Schema({
-    aliases: { type: Object, default: [] },
-    name: String,
-    summary: String,
-    module: String,
-    usage: String,
-    precondition: String
-});
-
 export interface CommandDocument extends Document {
     aliases: string[];
     name: string;
@@ -19,4 +10,11 @@ export interface CommandDocument extends Document {
     precondition?: PermissionString;
 }
 
-export const SavedCommand = model<CommandDocument>('command', commandSchema);
+export const SavedCommand = model<CommandDocument>('command', new Schema({
+    aliases: { type: Object, default: [] },
+    name: String,
+    summary: String,
+    module: String,
+    usage: String,
+    precondition: String
+}));

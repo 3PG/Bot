@@ -26,14 +26,14 @@ export default class CommandService {
     }
 
     private async loadCommands() {        
-        let files = await readdir(`./src/commands`);
+        let files = await readdir(`./src/commands`);        
 
         await this.savedCommands.deleteAll();
         
-        for (const fileName of files) {
+        for (const fileName of files) {            
             const cleanName = fileName.replace(/(\..*)/, '');
             
-            const Command = await require(`../commands/${cleanName}`).default;
+            const Command = require(`../commands/${cleanName}`).default;
             if (!Command) continue;
             
             const command = new Command();
@@ -48,7 +48,7 @@ export default class CommandService {
         return (msg.member && msg.content && msg.guild && !msg.author.bot)
             ? this.handleCommand(msg, savedGuild) : null;
     }
-    private async handleCommand(msg: Message, savedGuild: GuildDocument) {
+    async handleCommand(msg: Message, savedGuild: GuildDocument) {
         try {
             const prefix = savedGuild.general.prefix;
             const slicedContent = msg.content.slice(prefix.length);

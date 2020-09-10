@@ -4,13 +4,19 @@ import { SavedCommand, CommandDocument } from '../data/models/command';
 
 export default class Commands extends DBWrapper<Command, CommandDocument> {
     protected async getOrCreate(command: Command) {
-        return this.create(command);
+        return await SavedCommand.findOne({ name: command.name })
+            ?? await this.create(command);
     }
 
     protected async create(command: Command) {        
-        return SavedCommand.updateOne({ name: command.name },
-            { ...command, usage: command.usage ?? this.getCommandUsage(command) },
-            { upsert: true });
+        return SavedCommand.create({
+            aliases: command.aliases,
+            summary: command.summary,
+            module: command.module,
+            name: command.name,
+            precondition: command.precondition,
+            usage: command.usage// ?? this.getCommandUsage(command)
+        });
     }
 
     async deleteAll() {

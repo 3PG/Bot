@@ -28,6 +28,9 @@ router.get('/auth', async (req, res) => {
   } catch (error) { sendError(res, 400, error); }
 });
 
+router.get('/auth', (req, res) => res
+  .redirect(`https://discord.com/oauth2/authorize?client_id=${config.bot.id}&redirect_uri=${config.dashboardURL}/dashboard&response_type=code&permissions=8&scope=bot`));
+
 router.post('/error', async(req, res) => {
   try {
     const key = req.query.key;

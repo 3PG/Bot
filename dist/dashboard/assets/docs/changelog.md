@@ -12,16 +12,20 @@
 
 ---
 
-### v2.2.1b
+### v2.3.0b
+`10/09/2020`
 
 **Add**
+- `/servers/:id/commands` -> custom commands
+- `/dashboard` -> experimental referral system
 
 **Change/Fix**
-- 
+- `/` -> update images
+- `/servers/:id/timers` -> timers now send from the 'from' date
 
 **Remove**
-- dashboard -> badges
-- dashboard -> crates (may be temporary)
+- `/dashboard` -> badges
+- `/dashboard` -> crates (may be temporary)
 
 ---
 
