@@ -47,6 +47,18 @@ export class AutoModModule extends Module {
 
 export class CommandsModule extends Module {
     configs: CommandConfig[] = [];
+    custom: CustomCommand[] = [];
+}
+export interface CommandConfig {
+    name: string;
+    roles: string[];
+    channels: string[];
+    enabled: boolean;
+}
+export interface CustomCommand {
+    alias: string;
+    anywhere: boolean;
+    command: string;
 }
 
 export enum MessageFilter {
@@ -109,29 +121,9 @@ export interface ReactionRole {
     role: string
 }
 
-export interface CommandConfig {
-    name: string;
-    roles: string[];
-    channels: string[];
-    enabled: boolean;
-}
-
 export class DashboardSettings {
     privateLeaderboard = false;
 }
-
-const guildSchema = new Schema({
-    _id: String,
-    autoMod: { type: Object, default: new AutoModModule() }, 
-    commands: { type: Object, default: new CommandsModule() },
-    general: { type: Object, default: new GeneralModule() },
-    leveling: { type: Object, default: new LevelingModule() },
-    logs: { type: Object, default: new LogsModule() }, 
-    timers: { type: Object, default: new TimersModule() },
-    music: { type: Object, default: new MusicModule() },
-    reactionRoles: { type: Object, default: new ReactionRolesModule() },
-    settings: { type: Object, default: new DashboardSettings() }
-});
 
 export interface GuildDocument extends Document {
     _id: string;
@@ -146,4 +138,15 @@ export interface GuildDocument extends Document {
     settings: DashboardSettings;
 }
 
-export const SavedGuild = model<GuildDocument>('guild', guildSchema);
+export const SavedGuild = model<GuildDocument>('guild', new Schema({
+    _id: String,
+    autoMod: { type: Object, default: new AutoModModule() }, 
+    commands: { type: Object, default: new CommandsModule() },
+    general: { type: Object, default: new GeneralModule() },
+    leveling: { type: Object, default: new LevelingModule() },
+    logs: { type: Object, default: new LogsModule() }, 
+    timers: { type: Object, default: new TimersModule() },
+    music: { type: Object, default: new MusicModule() },
+    reactionRoles: { type: Object, default: new ReactionRolesModule() },
+    settings: { type: Object, default: new DashboardSettings() }
+}));

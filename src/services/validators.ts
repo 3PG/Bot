@@ -1,6 +1,6 @@
 import { Command } from '../commands/command';
 import { GuildMember, TextChannel, Message } from 'discord.js';
-import { GuildDocument } from '../data/models/guild';
+import { GuildDocument, CustomCommand } from '../data/models/guild';
 
 export default class Validators {
     checkCommand(command: Command, guild: GuildDocument, msg: Message) {
@@ -14,7 +14,8 @@ export default class Validators {
         if (config.roles?.length > 0 && !hasWhitelistedRole)
             throw new TypeError(`You don't have the role to execute this command.`);
 
-        const inWhitelistedChannel = config.channels?.some(id => msg.channel.id === id);
+        const inWhitelistedChannel = config.channels
+            ?.some(id => msg.channel.id === id);
         if (config.channels.length > 0 && !inWhitelistedChannel)
             throw new TypeError(`Command cannot be executed in this channel.`);
     }
@@ -24,10 +25,13 @@ export default class Validators {
             throw new TypeError(`**Required Permission**: \`${command.precondition}\``);
     }
 
-    checkChannel(channel: TextChannel, savedGuild: GuildDocument) {
+    checkChannel(channel: TextChannel, savedGuild: GuildDocument, customCommand?: CustomCommand) {
         const isIgnored = savedGuild.general.ignoredChannels
             .some(id => id === channel.id);
-        if (isIgnored)
+
+        if (isIgnored && !customCommand)
             throw new TypeError('Commands cannot be executed in this channel.');
+        else if (isIgnored && !customCommand.anywhere)
+            throw new TypeError('This custom command cannot be executed in this channel.');
     }
 }

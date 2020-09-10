@@ -1,4 +1,4 @@
-import { Timer, GuildDocument } from '../../data/models/guild';
+import { Timer, GuildDocument, MessageTimer, CommandTimer } from '../../data/models/guild';
 import Deps from '../../utils/deps';
 import Guilds from '../../data/guilds';
 import { TextChannel, Client } from 'discord.js';
@@ -106,18 +106,18 @@ export default class Timers {
         }
     }
 
-    private async sendCommandTimer(savedGuild: GuildDocument, timer: any) {
+    private async sendCommandTimer(savedGuild: GuildDocument, timer: CommandTimer) {
         const guild = this.bot.guilds.cache.get(savedGuild.id);
         const member = guild.members.cache.get(this.bot.user.id);
         const channel = guild.channels.cache.get(timer.channel);
 
-        await this.commandService.findAndExecute(savedGuild.general.prefix, {
+        await this.commandService.handle({
             channel,
             client: this.bot,
-            content: timer.command ?? '',
+            content: `${savedGuild.general.prefix}${timer.command ?? ''}`,
             guild: member.guild,
             member
-        } as any);
+        } as any, savedGuild);
     }
     private async sendMessageTimer(timer: any) {
         const channel = this.bot.channels.cache.get(timer.channel) as TextChannel;
