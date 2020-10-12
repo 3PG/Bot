@@ -9,6 +9,7 @@ export class XPCard {
 
 export interface UserDocument extends Document {
     _id: string;
+    guildPositions: string[];
     premium: boolean;
     premiumExpiration: Date,
     xpCard: XPCard;
@@ -18,6 +19,7 @@ export interface UserDocument extends Document {
 
 export const SavedUser = model<UserDocument>('user', new Schema({
     _id: String,
+    guildPositions: { type: Array, default: [] },
     premium: { type: Boolean, default: false },
     premiumExpiration: { type: Date, default: null },
     votes: { type: Number, default: 0 },

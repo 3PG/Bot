@@ -9,6 +9,8 @@ import Log from '../utils/log';
 import Stats from './modules/stats';
 import Deps from '../utils/deps';
 
+import { WebSocket } from './websocket';
+
 import { router as apiRoutes } from './routes/api-routes';
 import { router as guildsRoutes } from './routes/guilds-routes';
 import { router as musicRoutes } from './routes/music-routes';
@@ -21,7 +23,9 @@ export const app = express(),
                 { apiVersion: '2020-03-02' });
 
 export default class API {
-    constructor(private stats = Deps.get<Stats>(Stats)) {
+    constructor(
+        private stats = Deps.get<Stats>(Stats),
+        private ws = Deps.get<WebSocket>(WebSocket)) {
         AuthClient.setRedirect(`${config.api.url}/auth`);
         AuthClient.setScopes('identify', 'guilds');
 
@@ -43,9 +47,10 @@ export default class API {
         
         app.all('*', (req, res) => res.status(200).sendFile(`${distPath}/index.html`));
 
+        const port = config.api.port || 3000;
+        const server = app.listen(port, () => Log.info(`API is live on port ${port}`));
+
+        this.ws.init(server);
         this.stats.init();
     }
 }
-
-const port = config.api.port || 3000;
-app.listen(port, () => Log.info(`API is live on port ${port}`));

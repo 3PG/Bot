@@ -22,7 +22,7 @@ export default class AutoMod {
         private members = Deps.get<Members>(Members)) {}
 
     async init() {
-        const words = await readFile(`${__dirname}/explicit-words.txt`);
+        const words = await readFile(`assets/explicit-words.txt`);
         const files = await readdir(`${__dirname}/validators`);
         
         explicitWords = words
