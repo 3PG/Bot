@@ -7,7 +7,7 @@ export default class Logs extends DBWrapper<Guild, LogDocument> {
     protected async getOrCreate(guild: Guild) {
         const log = await SavedLog.findById(guild.id) ?? await this.create(guild);
 
-        log.changes = log.changes.slice(log.changes.length - 10);
+        log.changes = log.changes.slice(log.changes.length - 100);
 
         return log;
     }
@@ -24,6 +24,8 @@ export default class Logs extends DBWrapper<Guild, LogDocument> {
     
     async logCommand(msg: Message, command: Command) {
         const log = await this.get(msg.guild);
+        if (log.__v > 1000) return;
+        
         log.commands.push({
             at: new Date(),
             by: msg.author.id,
@@ -34,6 +36,7 @@ export default class Logs extends DBWrapper<Guild, LogDocument> {
 
     async logMessage(msg: Message, validation: MessageValidationMetadata) {
         const log = await this.get(msg.guild);
+
         log.messages.push({ at: new Date(), validation });   
         return log.save();
     }

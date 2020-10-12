@@ -40,7 +40,9 @@ export default class API {
         app.use('/api/user', userRoutes);
         app.use('/api', apiRoutes);
 
-        app.get('/api/*', (req, res) => res.status(404).json({ code: 404 }));
+        app.get('/api/*', (req, res) => res
+            .status(404)
+            .json({ code: 404 }));
         
         const distPath = join(process.cwd(), '/dist/dashboard');
         app.use(express.static(distPath));

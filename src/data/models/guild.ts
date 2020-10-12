@@ -7,6 +7,7 @@ export class Module {
 export class LogsModule extends Module {
     events: LogEvent[] = [
         {
+            enabled: true,
             event: EventType.LevelUp,
             channel: '',
             message: `**Level UP** :sparkles:
@@ -30,6 +31,7 @@ export enum EventType {
 }
 
 export interface LogEvent {
+    enabled: boolean;
     event: EventType;
     channel: string;
     message: string;

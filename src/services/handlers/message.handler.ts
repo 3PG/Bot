@@ -25,7 +25,7 @@ export default class MessageHandler implements EventHandler {
         const isCommand = msg.content.startsWith(savedGuild.general.prefix);
         if (isCommand) {
             const command = await this.commands.handle(msg, savedGuild);
-            return command && this.logs.logCommand(msg, command);
+            return command;// && this.logs.logCommand(msg, command);
         }       
 
         let filter = undefined;
@@ -40,7 +40,7 @@ export default class MessageHandler implements EventHandler {
         } catch (validation) {
             filter = validation.filter;
         } finally {         
-            await this.logs.logMessage(msg, { earnedXP, filter });
+            // await this.logs.logMessage(msg, { earnedXP, filter });
         }
     }
 }
