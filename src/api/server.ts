@@ -44,10 +44,12 @@ export default class API {
             .status(404)
             .json({ code: 404 }));
         
-        const distPath = join(process.cwd(), '/dist/dashboard');
+        const distPath = join(process.cwd(), '/dist/twopg-dashboard/browser');
         app.use(express.static(distPath));
         
-        app.all('*', (req, res) => res.status(200).sendFile(`${distPath}/index.html`));
+        app.all('*', (req, res) => res
+            .status(200)
+            .sendFile(`${distPath}/index.html`));
 
         const port = config.api.port || 3000;
         const server = app.listen(port, () => Log.info(`API is live on port ${port}`));
