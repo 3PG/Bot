@@ -5,19 +5,19 @@ import ReactionRoles from '../../modules/general/reaction-roles';
 import Guilds from '../../data/guilds';
 
 export default class MessageReactionAddHandler implements EventHandler {
-    on: keyof ClientEvents = 'messageReactionAdd';
+  on: keyof ClientEvents = 'messageReactionAdd';
 
-    constructor(
-        private guilds = Deps.get<Guilds>(Guilds),
-        private reactionRoles = Deps.get<ReactionRoles>(ReactionRoles)) {}
+  constructor(
+    private guilds = Deps.get<Guilds>(Guilds),
+    private reactionRoles = Deps.get<ReactionRoles>(ReactionRoles)) {}
 
-    async invoke(reaction: MessageReaction, user: User) {        
-        await reaction.fetch();       
+  async invoke(reaction: MessageReaction, user: User) {    
+    await reaction.fetch();     
 
-        const guild = reaction.message.guild;
-        if (!guild) return;
+    const guild = reaction.message.guild;
+    if (!guild) return;
 
-        const savedGuild = await this.guilds.get(guild);
-        await this.reactionRoles.checkToAdd(user, reaction, savedGuild);
-    }
+    const savedGuild = await this.guilds.get(guild);
+    await this.reactionRoles.checkToAdd(user, reaction, savedGuild);
+  }
 }

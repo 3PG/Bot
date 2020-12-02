@@ -1,6 +1,6 @@
-config.json
+.env
 
 lib/
 node_modules/
 
-dist/lavalink/logs/
+logs/*/*

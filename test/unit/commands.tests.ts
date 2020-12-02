@@ -11,53 +11,53 @@ import WarningsCommand from '../../src/commands/warnings';
 
 
 describe('commands/play', () => {
-    it('null query, throws error', () => {
-        const ctx = mock<CommandContext>();
-        ctx.member = { voice: { channel: null }} as any;
-        
-        const result = () => new PlayCommand().execute(ctx);
-
-        result().should.eventually.throw();
-    });
+  it('null query, throws error', () => {
+    const ctx = mock<CommandContext>();
+    ctx.member = { voice: { channel: null }} as any;
     
-    it('null channel, throws error', () => {
-        const ctx = mock<CommandContext>();
-        ctx.member = { voice: { channel: null }} as any;
-        
-        const result = () => new PlayCommand().execute(ctx, 'a');
+    const result = () => new PlayCommand().execute(ctx);
 
-        result().should.eventually.throw();
-    });
+    result().should.eventually.throw();
+  });
+  
+  it('null channel, throws error', () => {
+    const ctx = mock<CommandContext>();
+    ctx.member = { voice: { channel: null }} as any;
+    
+    const result = () => new PlayCommand().execute(ctx, 'a');
+
+    result().should.eventually.throw();
+  });
 });
 
 describe('commands/warnings', () => {
-    it('null channel, throws error', () =>
-    {
-        const ctx = mock<CommandContext>();
-        
-        const result = () => new WarningsCommand().execute(ctx, '1');
+  it('null channel, throws error', () =>
+  {
+    const ctx = mock<CommandContext>();
+    
+    const result = () => new WarningsCommand().execute(ctx, '1');
 
-        result().should.eventually.throw();
-    });
+    result().should.eventually.throw();
+  });
 });
 
 describe('commands/xp', () => {
-    let command: XPCommand;
+  let command: XPCommand;
 
-    beforeEach(() => command = new XPCommand());
-    
-    it('mentioned user not found, error thrown', () => {
-        const result = () => command.execute({} as any, '<@!>');
+  beforeEach(() => command = new XPCommand());
+  
+  it('mentioned user not found, error thrown', () => {
+    const result = () => command.execute({} as any, '<@!>');
 
-        expect(result).to.throw();
-    });
+    expect(result).to.throw();
+  });
 
-    it('xp bot user, error thrown', () => {
-        const ctx = { member: { user: { bot: true }}} as any;
+  it('xp bot user, error thrown', () => {
+    const ctx = { member: { user: { bot: true }}} as any;
 
-        const result = () => command.execute(ctx, '');
+    const result = () => command.execute(ctx, '');
 
-        expect(result).to.throw();
-    });
+    expect(result).to.throw();
+  });
 });
 

@@ -5,39 +5,39 @@ import { Command } from '../../src/commands/command';
 import { expect } from 'chai';
 
 describe('services/cooldowns', () => {
-    let cooldowns: Cooldowns;
-    let user: User;
-    let command: Command;
+  let cooldowns: Cooldowns;
+  let user: User;
+  let command: Command;
 
-    beforeEach(() => {
-        cooldowns = new Cooldowns();
-        user = mock(User);
-        command = mock(command);
+  beforeEach(() => {
+    cooldowns = new Cooldowns();
+    user = mock(User);
+    command = mock(command);
 
-        user.id = '123';
-        command.name = 'ping';
-    });
+    user.id = '123';
+    command.name = 'ping';
+  });
 
-    it('no cooldowns, active', () => {
-        const result = cooldowns.active(user, command);
+  it('no cooldowns, active', () => {
+    const result = cooldowns.active(user, command);
 
-        expect(result).to.be.false;
-    });
+    expect(result).to.be.false;
+  });
 
-    it('user in cooldown, inactive', () => {
-        cooldowns.add(user, command);
+  it('user in cooldown, inactive', () => {
+    cooldowns.add(user, command);
 
-        const result = cooldowns.active(user, command);
+    const result = cooldowns.active(user, command);
 
-        expect(result).to.be.true;
-    });
+    expect(result).to.be.true;
+  });
 
-    it('user cooldown removed, inactive', () => {
-        cooldowns.add(user, command);
-        cooldowns.remove(user, command);
+  it('user cooldown removed, inactive', () => {
+    cooldowns.add(user, command);
+    cooldowns.remove(user, command);
 
-        const result = cooldowns.active(user, command);
+    const result = cooldowns.active(user, command);
 
-        expect(result).to.be.false;
-    });
+    expect(result).to.be.false;
+  });
 });

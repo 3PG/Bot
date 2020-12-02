@@ -4,30 +4,30 @@ import { CommandContext } from '../src/commands/command';
 
 export class Mock {
   static guild() {
-    const guild = mock<Guild>();
+  const guild = mock<Guild>();
 
-    guild.id = '533947001578979322';
-    guild.name = 'Test Server';
+  guild.id = '533947001578979322';
+  guild.name = 'Test Server';
 
-    return guild;
+  return guild;
   }
 
   static member() {
-    const member = mock<GuildMember>();
-    
-    member.guild = Mock.guild();
-    member.user = Mock.user();
+  const member = mock<GuildMember>();
+  
+  member.guild = Mock.guild();
+  member.user = Mock.user();
 
-    return member;
+  return member;
   }
 
   static user() {
-    const user = mock<User>();
+  const user = mock<User>();
 
-    user.username = 'User';
-    user.discriminator = '0001';
-    user.id = '533947001578979328';
+  user.username = 'User';
+  user.discriminator = '0001';
+  user.id = '533947001578979328';
 
-    return user;
+  return user;
   }
 }

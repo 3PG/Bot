@@ -1,140 +1,130 @@
 import { Router } from 'express';
 import Music from '../../modules/music/music';
 import Deps from '../../utils/deps';
-import { AuthClient } from '../server';
+import { bot } from '../../bot';
+import { auth } from '../server';
 import Users from '../../data/users';
 import { validateGuildManager } from '../modules/api-utils';
-import { Client } from 'discord.js';
 
 export const router = Router({ mergeParams: true });
 
-const bot = Deps.get<Client>(Client),
-      music = Deps.get<Music>(Music),
-      users = Deps.get<Users>(Users);
+const music = Deps.get<Music>(Music),
+    users = Deps.get<Users>(Users);
 
 router.get('/pause', async (req, res) => {
-    try {
-        const { player } = await getMusic(req.params.id, req.query.key);
-        player.pause(true);
+  try {
+    const { player } = await getMusic(req.params.id, req.query.key);
+    player.pause();
 
-        res.status(200).send({ success: true });
-    } catch (error) { res.status(400).send(error?.message); }
+    res.status(200).send({ success: true });
+  } catch (error) { res.status(400).send(error?.message); }
 });
 
 router.get('/resume', async (req, res) => {
-    try {
-        const { player } = await getMusic(req.params.id, req.query.key);
-        player.pause(false);
+  try {
+    const { player } = await getMusic(req.params.id, req.query.key);
+    player.resume();
 
-        res.status(200).send({ success: true });
-    } catch (error) { res.status(400).send(error?.message); }
+    res.status(200).send({ success: true });
+  } catch (error) { res.status(400).send(error?.message); }
 });
 
 router.get('/list', async (req, res) => {
-    try {
-        const { player } = await getMusic(req.params.id, req.query.key);
+  try {
+    const { player } = await getMusic(req.params.id, req.query.key);
 
-        for (const track of player.queue) {
-            const durationInSeconds = track.duration / 1000;  
-            track.durationString = `${Math.floor(durationInSeconds / 60)}:${Math.floor(durationInSeconds % 60)
-                .toString().padStart(2, '0')}`;
-        }
+    for (const track of player.q.items)
+      track['durationString'] = `${track.duration}`;
 
-        res.status(200).json(player.queue);
-    } catch (error) { res.status(400).send(error?.message); }
+    res.status(200).json(player.q.items);
+  } catch (error) { res.status(400).send(error?.message); }
 });
 
 router.get('/skip', async (req, res) => {
-    try {
-        const { player } = await getMusic(req.params.id, req.query.key);
-        
-        music.skip(player);
+  try {
+    const { player } = await getMusic(req.params.id, req.query.key);
+    await player.skip();
 
-        res.status(200).send({ success: true });
-    } catch (error) { res.status(400).send(error?.message); }
+    res.status(200).send({ success: true });
+  } catch (error) { res.status(400).send(error?.message); }
 });
 
-router.get('/seek/:position', async (req, res) => {
-    try {
-        const { player } = await getMusic(req.params.id, req.query.key);
+// FIXME: make work
+// router.get('/seek/:position', async (req, res) => {
+//   try {
+//     const { player } = await getMusic(req.params.id, req.query.key);
 
-        player.seek(req.params.position * 1000);
+//     player.seek(+req.params.position * 1000);
 
-        res.status(200).send({ success: true });
-    } catch (error) { res.status(400).send(error?.message); }
-});
-
+//     res.status(200).send({ success: true });
+//   } catch (error) { res.status(400).send(error?.message); }
+// });
 
 router.get('/remove/:number', async (req, res) => {
-    try {
-        const { player } = await getMusic(req.params.id, req.query.key);
-        
-        const track = player.queue.remove(Number(req.params.number));
+  try {
+    const { player } = await getMusic(req.params.id, req.query.key);
+    
+    const track = player.q.items.splice(+req.params.number - 1);
 
-        res.status(200).json(track);
-    } catch (error) { res.status(400).send(error?.message); }
+    res.status(200).json(track);
+  } catch (error) { res.status(400).send(error?.message); }
 });
 
 router.get('/play', async (req, res) => {
-    try {
-        const { player, requestor, hasPremium } = await getMusic(req.params.id, req.query.key);
-        const track = await music.findTrack(
-            req.query.query, requestor, req.query.maxTrackLength ?? 2);
-        
-        const maxSize = (hasPremium) ? 10 : 5;
-        if (player.queue.size >= maxSize)
-            throw new Error('Queue limit reached.');
+  try {
+    const { player, hasPremium } = await getMusic(req.params.id, req.query.key);
+    const track = await player.play(req.query.query?.toString());
+    
+    const maxSize = (hasPremium) ? 10 : 5;
+    if (player.q.length >= maxSize)
+      throw new TypeError('Queue limit reached.');
 
-        player.queue.add(track);
-        if (!player.playing)
-            player.play();
-
-        res.status(200).json(track);
-    } catch (error) { res.status(400).send(error?.message); }
+    res.status(200).json(track);
+  } catch (error) { res.status(400).send(error?.message); }
 });
 
 router.get('/set-volume/:value', async (req, res) => {
-    try {
-        const { player } = await getMusic(req.params.id, req.query.key);
+  try {
+    const { player } = await getMusic(req.params.id, req.query.key);
 
-        player.setVolume(Number(req.params.value));
+    await player.setVolume(+req.params.value / 100);
 
-        res.status(200).send({ success: true });
-    } catch (error) { res.status(400).send(error?.message); }    
+    res.status(200).send({ success: true });
+  } catch (error) { res.status(400).send(error?.message); }  
 });
 
 router.get('/shuffle', async (req, res) => {
-    try {
-        const { player } = await getMusic(req.params.id, req.query.key);
+  try {
+    const { player } = await getMusic(req.params.id, req.query.key);
 
-        player.queue.shuffle();
+    player.q.shuffle();
 
-        res.status(200).send({ success: true });
-    } catch (error) { res.status(400).send(error?.message); }    
+    res.status(200).send({ success: true });
+  } catch (error) { res.status(400).send(error?.message); }  
 });
 
 router.get('/stop', async (req, res) => {
-    try {
-        await validateGuildManager(req.query.key, req.params.id);
+  try {
+    await validateGuildManager(req.query.key, req.params.id);
 
-        music.client.players.destroy(req.params.id);
+    const { player } = await getMusic(req.params.id, req.query.key);
+    await player.stop();
 
-        res.status(200).send({ success: true });
-    } catch (error) { res.status(400).send(error?.message); }
+    res.status(200).send({ success: true });
+  } catch (error) { res.status(400).send(error?.message); }
 });
 
-async function getMusic(guildId: string, key: string) {
-    const { id } = await AuthClient.getUser(key);
+async function getMusic(guildId: string, key: any) {
+  const { id } = await auth.getUser(key);
 
-    const user = bot.users.cache.get(id);
-    const guild = bot.guilds.cache.get(guildId);
-    const member = guild.members.cache.get(id);
+  const user = bot.users.cache.get(id);
+  const guild = bot.guilds.cache.get(guildId);
+  const member = guild.members.cache.get(id);
 
-    const savedUser = await users.get(user);
+  const savedUser = await users.get(user);
 
-    return {
-        player: music.joinAndGetPlayer(member, null),
-        requestor: member,
-        hasPremium: savedUser.premium
-    };
+  return {
+    player: music.joinAndGetPlayer(member.voice.channel),
+    hasPremium: savedUser.premium
+  };
 }

@@ -1,6 +1,5 @@
 import { stripe } from '../server';
 import { Stripe } from 'stripe';
-import config from '../../../config.json';
 import { Router } from 'express';
 import { getUser, sendError } from '../modules/api-utils';
 import Deps from '../../utils/deps';
@@ -9,25 +8,25 @@ import bodyParser from 'body-parser';
 
 const items: Stripe.Checkout.SessionCreateParams.LineItem[] = [
   {
-    name: '3PG PRO [1 Month]',
-    description: 'Support 3PG, and unlock exclusive features!',
-    amount: 500,
-    currency: 'usd',
-    quantity: 1
+  name: '3PG PRO [1 Month]',
+  description: 'Support 3PG, and unlock exclusive features!',
+  amount: 500,
+  currency: 'usd',
+  quantity: 1
   },
   {
-    name: '3PG PRO [3 Months]',
-    description: 'Support 3PG, and unlock exclusive features!',
-    amount: 1000,
-    currency: 'usd',
-    quantity: 1
+  name: '3PG PRO [3 Months]',
+  description: 'Support 3PG, and unlock exclusive features!',
+  amount: 1000,
+  currency: 'usd',
+  quantity: 1
   },
   {
-    name: '3PG PRO [Forever]',
-    description: 'Support 3PG, and unlock exclusive features!',
-    amount: 2500,
-    currency: 'usd',
-    quantity: 1
+  name: '3PG PRO [Forever]',
+  description: 'Support 3PG, and unlock exclusive features!',
+  amount: 2500,
+  currency: 'usd',
+  quantity: 1
   }
 ];
 
@@ -41,8 +40,8 @@ router.get('/user/pay', async(req, res) => {
     const { id } = await getUser(key);
 
     const session = await stripe.checkout.sessions.create({
-      success_url: `${config.dashboardURL}/payment-success`,
-      cancel_url: `${config.dashboardURL}/plus`,
+      success_url: `${process.env.DASHBOARD_URL}/payment-success`,
+      cancel_url: `${process.env.DASHBOARD_URL}/plus`,
       payment_method_types: ['card'],
       metadata: { id, plan },
       line_items: [ items[+plan] ]
@@ -53,15 +52,15 @@ router.get('/user/pay', async(req, res) => {
 
 router.post('/stripe-webhook', bodyParser.raw({ type: 'application/json' }), async(req, res) => {
   try {
-    let event = stripe.webhooks.constructEvent(
-      req.body, req.headers['stripe-signature'], config.api.stripeWebhookSecret);
-    
-    if (event.type === 'checkout.session.completed') {
-      const { id, plan } = (event.data.object as any).metadata;
-      await users.givePro(id, +plan);
+  let event = stripe.webhooks.constructEvent(
+    req.body, req.headers['stripe-signature'], process.env.STRIPE_WEBHOOK_SECRET);
+  
+  if (event.type === 'checkout.session.completed') {
+    const { id, plan } = (event.data.object as any).metadata;
+    await users.givePro(id, +plan);
 
-      return res.json({ success: true });
-    }
-    res.json({ received: true });
+    return res.json({ success: true });
+  }
+  res.json({ received: true });
   } catch (error) { sendError(res, 400, error); }
 });

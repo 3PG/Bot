@@ -7,40 +7,17 @@ The all-in-one, highly customizable Discord bot.
 Please follow the [2PG Setup](https://github.com/theADAMJR/2PG) to use the bot.
 
 `config.json`
-```json
-{
-    "bot": {
-        "token": "",
-        "secret": "",
-        "id": "533947001578979328",
-        "ownerId": "218459216145285121",
-        "activity": "3PG.xyz",
-        "voteURLs": [
-            "https://dbots.co/bots/525935335918665760/vote",
-            "https://top.gg/bot/525935335918665760/vote",
-            "https://discordbotlist.com/bots/525935335918665760/upvote"
-        ],
-        "botLists": {
-            "dbl": {
-                "token": "",
-                "webhookSecret": ""
-            },
-            "topGG": {
-                "token": "",
-                "webhookSecret": ""
-            }
-        }
-    },
-    "guild": {
-        "id": "599596068145201152",
-        "premiumRoleId": "598565371162656788"
-    },
-    "api": {
-        "port": "3000",
-        "url": "http://localhost:3000/api",
-        "stripeSecretKey": "",
-        "stripeWebhookSecret": ""
-    },
-    "dashboardURL": "http://localhost:4200",
-    "mongoURL": "mongodb://localhost/3PG"
-}```
+```env
+API_URL="http://localhost:3000/api"
+BOT_ID="533947001578979328"
+BOT_TOKEN="NTI1OTM1MzM1OTE4NjY1NzYw.XB3lcw.z1_F0px-RxqnnJ2ni3Bgn9Fo9aw"
+CLIENT_SECRET="FqRcAkRTJVXM6sdFdJ_EhqNE1sBStKjJ"
+DASHBOARD_URL="http://localhost:4200"
+GUILD_ID="599596068145201152"
+PORT=3000
+PREMIUM_ROLE_ID="598565371162656788"
+OWNER_ID="218459216145285121"
+MONGO_URI="mongodb://localhost/3PG"
+STRIPE_SECRET_KEY="sk_test_yUSJD1JOVcg7WHJmIZjtfLwG00RbMMuCpS"
+STRIPE_WEBHOOK_SECRET=""
+```

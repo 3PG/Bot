@@ -1,7 +1,6 @@
 import Deps from '../../utils/deps';
 import Logs from '../../data/logs';
 import { LogDocument } from '../../data/models/log';
-import config from '../../../config.json';
 
 const distinct = (v, i, a) => a.indexOf(v) === i;
 
@@ -20,7 +19,7 @@ export default class Stats {
     
     const names = this.savedLogs
       .flatMap(l => l.commands
-        .flatMap(c => c.name));
+      .flatMap(c => c.name));
     
     return names
       .filter(distinct)
@@ -36,64 +35,64 @@ export default class Stats {
       .reduce((a, b) => a + b.commands.length, 0);
     
     return {
-      commandsExecuted,
-      inputsChanged: this.inputs
+        commandsExecuted,
+        inputsChanged: this.inputs
         .reduce((a, b) => a + b.count, 0),
-      inputsCount: this.inputs
+        inputsCount: this.inputs
         .map(c => c.path)
         .filter(distinct).length,
-      iq: 10
+        iq: 10
+      }
     }
-  }
 
   get inputs(): InputStats[] {
     if (this.initialized)
       return this._inputs;
-    
-    const paths = this.savedLogs
-      .flatMap(l => l.changes
-        .flatMap(c => Object.keys(c.changes.new)
-          .flatMap(key => `${c.module}.${key}`)));
-    
-    return paths
-      .filter(distinct)
-      .map(path => ({ path, count: paths.filter(p => p === path).length }))
-      .sort((a, b) => b.count - a.count);
+  
+  const paths = this.savedLogs
+    .flatMap(l => l.changes
+    .flatMap(c => Object.keys(c.changes.new)
+      .flatMap(key => `${c.module}.${key}`)));
+  
+  return paths
+    .filter(distinct)
+    .map(path => ({ path, count: paths.filter(p => p === path).length }))
+    .sort((a, b) => b.count - a.count);
   }
 
   get modules(): ModuleStats[] {
-    if (this.initialized)
-      return this._modules;
+  if (this.initialized)
+    return this._modules;
 
-    const moduleNames = this.savedLogs
-      .flatMap(l => l.changes.map(c => c.module));
+  const moduleNames = this.savedLogs
+    .flatMap(l => l.changes.map(c => c.module));
 
-    return moduleNames
-      .filter(distinct)
-      .map(name => ({ name, count: moduleNames.filter(m => m === name).length }))
-      .sort((a, b) => b.count - a.count);
+  return moduleNames
+    .filter(distinct)
+    .map(name => ({ name, count: moduleNames.filter(m => m === name).length }))
+    .sort((a, b) => b.count - a.count);
   }
 
   constructor(private logs = Deps.get<Logs>(Logs)) {}
 
   async init() {
-    await this.updateValues();
+  await this.updateValues();
 
-    const interval = 30 * 60 * 1000;
-    setInterval(() => this.updateValues(), interval);
+  const interval = 30 * 60 * 1000;
+  setInterval(() => this.updateValues(), interval);
   }
 
   async updateValues() {
-    this.savedLogs = await this.logs.getAll();
+  this.savedLogs = await this.logs.getAll();
 
-    this.initialized = false;
+  this.initialized = false;
 
-    this._commands = this.commands;
-    this._general = this.general;
-    this._inputs = this.inputs;
-    this._modules = this.modules;
+  this._commands = this.commands;
+  this._general = this.general;
+  this._inputs = this.inputs;
+  this._modules = this.modules;
 
-    this.initialized = true;
+  this.initialized = true;
   }
 }
 

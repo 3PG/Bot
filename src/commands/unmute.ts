@@ -5,22 +5,22 @@ import { getMemberFromMention } from '../utils/command-utils';
 import Guilds from '../data/guilds';
 
 export default class UnmuteCommand implements Command {
-    precondition: Permission = 'MUTE_MEMBERS';
-    name = 'unmute';
-    usage = 'unmute target_id/mention';
-    summary = 'Allow a user to send messages.';
-    cooldown = 3;
-    module = 'Auto-mod';
+  precondition: Permission = 'MUTE_MEMBERS';
+  name = 'unmute';
+  usage = 'unmute target_id/mention';
+  summary = 'Allow a user to send messages.';
+  cooldown = 3;
+  module = 'Auto-mod';
+  
+  constructor(
+    private autoMod = Deps.get<AutoMod>(AutoMod)) {}
+  
+  execute = async(ctx: CommandContext, targetMention: string, ...args: string[]) => {
+    const target = getMemberFromMention(targetMention, ctx.guild);
     
-    constructor(
-        private autoMod = Deps.get<AutoMod>(AutoMod)) {}
-    
-    execute = async(ctx: CommandContext, targetMention: string, ...args: string[]) => {
-        const target = getMemberFromMention(targetMention, ctx.guild);
-        
-        const reason = args?.join(' ') || 'Unspecified';
-        await this.autoMod.unmute(target, { instigator: ctx.user, reason });
+    const reason = args?.join(' ') || 'Unspecified';
+    await this.autoMod.unmute(target, { instigator: ctx.user, reason });
 
-        await ctx.channel.send(`<@!${target.id}> was unmuted for \`${reason}\``);
-    };
+    await ctx.channel.send(`<@!${target.id}> was unmuted for \`${reason}\``);
+  };
 }

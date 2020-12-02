@@ -10,8 +10,8 @@ export default class implements WSEvent {
   constructor(private users = Deps.get<Users>(Users)) {}
 
   async invoke(ws: WebSocket, client: Socket, { userId, guildPositions }: any) {
-    const savedUser = await this.users.get({ id: userId });
-    savedUser.guildPositions = guildPositions;
-    await savedUser.save();
+  const savedUser = await this.users.get({ id: userId });
+  savedUser.guildPositions = guildPositions;
+  await savedUser.save();
   }
 }
