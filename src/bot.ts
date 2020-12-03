@@ -27,3 +27,5 @@ mongoose.connect(process.env.MONGO_URI, {
 }, (error) => error
   ? Log.error(error.message, 'data')
   : Log.info('Connected to db', 'data'));
+
+import 'keep-alive';
