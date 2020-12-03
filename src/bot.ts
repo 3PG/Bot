@@ -1,4 +1,3 @@
-import '@tensorflow/tfjs-node';
 import { config } from 'dotenv';
 config();
 

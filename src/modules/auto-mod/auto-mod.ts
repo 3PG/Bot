@@ -1,4 +1,3 @@
-import toxicity from '@tensorflow-models/toxicity';
 import { Message, GuildMember, User, Guild, TextChannel } from 'discord.js';
 import { GuildDocument, MessageFilter } from '../../data/models/guild';
 import Deps from '../../utils/deps';
@@ -23,11 +22,6 @@ export default class AutoMod {
 
   async init() {      
     const files = await readdir(`${__dirname}/validators`);
-    
-    console.time('load model');
-    const model = await toxicity.load(0.9, ['insult']);
-    console.timeEnd('load model');
-
     for (const fileName of files) {    
       const Validator = require(`${__dirname}/validators/${fileName}`).default;
       if (!Validator) continue;
