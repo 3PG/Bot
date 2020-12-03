@@ -7,7 +7,7 @@ The all-in-one, highly customizable Discord bot.
 
 ![Dashboard Preview](https://3pg.xyz/assets/docs/img/dashboard-v2.2.0b.png)
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/theADAMJR/1PG/tree/heroku)
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/3PG/Bot/tree/stable)
 
 # Non Heroku Setup
 1) Make a .env file in the root project directory.
