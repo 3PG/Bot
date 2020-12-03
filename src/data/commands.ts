@@ -14,7 +14,7 @@ export default class Commands extends DBWrapper<Command, CommandDocument> {
       summary: command.summary,
       module: command.module,
       name: command.name,
-      precondition: command.precondition,
+      precondition: command.precondition as any,
       usage: command.usage// ?? this.getCommandUsage(command)
     });
   }
