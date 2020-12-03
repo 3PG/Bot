@@ -8,6 +8,10 @@
   ],
   "repository": "https://github.com/theADAMJR/6PG",
   "env": {
+    "API_URL": {
+      "description": "The API URL [https://<heroku_app_name>.herokuapp.com/api]",    
+      "value": "https://<heroku_app_name>.herokuapp.com/api"
+    },    
     "BOT_ID": {
       "description": "Client ID from https://discord.com/developers.",    
       "value": ""
