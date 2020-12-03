@@ -85,7 +85,7 @@ router.get('/:id', (req, res) => {
   } catch (error) { sendError(res, 400, error); } 
 });
 
-async function validateReferral(tag: string, user: User, savedUser: UserDocument) {
+async function validateReferral(tag: string, user: User | any, savedUser: UserDocument) {
   const isValidUserTag = /^.+#\d{4}/.test(tag);
   if (!isValidUserTag)
     throw new TypeError('Target user tag is invalid.');

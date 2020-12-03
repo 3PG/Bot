@@ -5,16 +5,8 @@ import Deps from '../utils/deps';
 import { Client } from 'discord.js';
 
 export default class Users extends DBWrapper<SnowflakeEntity, UserDocument> {
-  constructor(private bot = Deps.get<Client>(Client)) {
-    super();
-  }
-
-  protected async getOrCreate({ id }: SnowflakeEntity) {
-    const user = this.bot.users.cache.get(id);
-    if (user?.bot)
-      throw new TypeError(`Bots don't have accounts`);
-    
-    const savedUser = await SavedUser.findById(user.id);
+  protected async getOrCreate({ id }: SnowflakeEntity) {    
+    const savedUser = await SavedUser.findById(id);
     if (savedUser
       && savedUser.premiumExpiration
       && savedUser.premiumExpiration <= new Date())

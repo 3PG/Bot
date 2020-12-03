@@ -5,8 +5,7 @@ import Deps from '../../utils/deps';
 const bot = Deps.get<Client>(Client);
 
 export async function getUser(key: any) {  
-  const { id } = await auth.getUser(key);
-  return bot.users.cache.get(id);
+  return await auth.getUser(key);
 }
 
 export async function validateBotOwner(key: any) {

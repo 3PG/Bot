@@ -1,5 +1,6 @@
+import '@tensorflow/tfjs-node';
 import { config } from 'dotenv';
-config({ path: '../.env' });
+config();
 
 import { Client } from 'discord.js';
 import mongoose from 'mongoose';

@@ -11,7 +11,7 @@ import { EventEmitter } from 'events';
 export default class Emit {
   constructor(private emitter = Deps.get<EventEmitter>(EventEmitter)) {}
 
-  configSaved(guild: Guild, user: User, change: Change) {
+  configSaved(guild: Guild, user: User | any, change: Change) {
     const eventArgs: ConfigUpdateArgs = {
       guild,
       instigator: user,

@@ -1,3 +1,4 @@
+import toxicity from '@tensorflow-models/toxicity';
 import { Message, GuildMember, User, Guild, TextChannel } from 'discord.js';
 import { GuildDocument, MessageFilter } from '../../data/models/guild';
 import Deps from '../../utils/deps';
@@ -10,7 +11,6 @@ import Log from '../../utils/log';
 import Emit from '../../services/emit';
 
 const readdir = promisify(fs.readdir);
-const readFile = promisify(fs.readFile);
 
 export let explicitWords: string[] = [];
 
@@ -21,14 +21,12 @@ export default class AutoMod {
     private emit = Deps.get<Emit>(Emit),
     private members = Deps.get<Members>(Members)) {}
 
-    async init() {
-    const words = await readFile(`assets/explicit-words.txt`);
+  async init() {      
     const files = await readdir(`${__dirname}/validators`);
     
-    explicitWords = words
-      .toString()
-      .replace(/\r/g, '')
-      .split('\n');
+    console.time('load model');
+    const model = await toxicity.load(0.9, ['insult']);
+    console.timeEnd('load model');
 
     for (const fileName of files) {    
       const Validator = require(`${__dirname}/validators/${fileName}`).default;
@@ -46,14 +44,14 @@ export default class AutoMod {
         const validator = this.validators.find(v => v.filter === filter);
         await validator?.validate(msg.content, guild);
       } catch (validation) {
-      if (guild.autoMod.autoDeleteMessages)
-        await msg.delete({ reason: validation.message });
-      if (guild.autoMod.autoWarnUsers && msg.member)
-        await this.warn(msg.member, msg.channel as TextChannel, {
-          instigator: msg.client.user,
-          reason: validation.message
-        });
-      throw validation;
+        if (guild.autoMod.autoDeleteMessages)
+          await msg.delete({ reason: validation.message });
+        if (guild.autoMod.autoWarnUsers && msg.member)
+          await this.warn(msg.member, msg.channel as TextChannel, {
+            instigator: msg.client.user,
+            reason: validation.message
+          });
+        throw validation;
     }
   }
 

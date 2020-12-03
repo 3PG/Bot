@@ -1,0 +1,10 @@
+DASHBOARD_PATH="$(realpath ../../Dashboard)"
+echo -e "\e[36mUsing $DASHBOARD_PATH to build dashboard."
+
+cd $DASHBOARD_PATH
+
+ng build --prod
+
+cp -rf "$DASHBOARD_PATH/dist/twopg-dashboard/browser" "$(pwd)/dist/twopg-dashboard/browser"
+
+echo -e "\e[32Updated Dashboard"
