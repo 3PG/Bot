@@ -1,10 +1,11 @@
 {
-  "name": "6PG - Discord Bot Maker",
+  "name": "3PG - Highly Customizable Discord Bot",
   "description": "Host a bot without code, with one simple step.",
   "keywords": [
-    "bot maker",
-    "discord bot maker",
-    "6pg"
+    "bot",
+    "discord bot",
+    "customizable discord bot",
+    "3pg"
   ],
   "repository": "https://github.com/theADAMJR/6PG",
   "env": {
