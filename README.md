@@ -1,12 +1,19 @@
 # 3PG
 The all-in-one, highly customizable Discord bot.
 
+![Discord](https://img.shields.io/discord/685862664223850497?color=482f5d&amp;label=Support&amp;style=for-the-badge)
+![Lines of Code](https://img.shields.io/tokei/lines/github/3PG/Bot?color=482f5d&style=for-the-badge)
+![Repo Stars](https://img.shields.io/github/stars/3PG/Bot?color=482f5d&style=for-the-badge)
+
 ![Dashboard Preview](https://3pg.xyz/assets/docs/img/dashboard-v2.2.0b.png)
 
-# Setup
-Please follow the [2PG Setup](https://github.com/theADAMJR/2PG) to use the bot.
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/theADAMJR/1PG/tree/heroku)
 
-`config.json`
+# Non Heroku Setup
+1) Make a .env file in the root project directory.
+2) Fill in the .env
+
+`.env`
 ```env
 API_URL="http://localhost:3000/api"
 BOT_ID="533947001578979328"

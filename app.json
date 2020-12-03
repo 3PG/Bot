@@ -1,0 +1,66 @@
+{
+  "name": "6PG - Discord Bot Maker",
+  "description": "Host a bot without code, with one simple step.",
+  "keywords": [
+    "bot maker",
+    "discord bot maker",
+    "6pg"
+  ],
+  "repository": "https://github.com/theADAMJR/6PG",
+  "env": {
+    "BOT_ID": {
+      "description": "Client ID from https://discord.com/developers.",    
+      "value": ""
+    },
+    "BOT_TOKEN": {
+      "description": "Bot Token from https://discord.com/developers.",    
+      "value": ""
+    },
+    "CLIENT_SECRET": {
+      "description": "Client Secret from https://discord.com/developers.",    
+      "value": ""
+    },
+    "DASHBOARD_URL": {
+      "description": "The Website URL [https://<heroku_app_name>.herokuapp.com]",    
+      "value": "https://<heroku_app_name>.herokuapp.com"
+    },
+    "GUILD_ID": {
+      "description": "Guild ID with the premium role in (optional).",    
+      "value": "https://<heroku_app_name>.herokuapp.com",
+      "required": false
+    },
+    "MONGO_URI": {
+      "description": "The MongoDB URI to your database [i.e. from MongoDB Atlas].",
+      "value": ""
+    },
+    "OWNER_ID": {
+      "description": "Discord bot owner ID.",    
+      "value": "",
+      "required": false
+    },
+    "PORT": {
+      "description": "Port for Heroku to use (default: 3000).",
+      "value": "3000"
+    },
+    "PREMIUM_ROLE_ID": {
+      "description": "Premium role ID in the GUILD_ID guild.",
+      "value": "",
+      "required": false
+    },
+    "STRIPE_SECRET_KEY": {
+      "description": "Secret key used for payments (optional).",
+      "value": "",
+      "required": false
+    }, 
+    "STRIPE_WEBHOOK_SECRET": {
+      "description": "Stripe webhook secret [whsec...] (optional).",
+      "value": "",
+      "required": false
+    }
+  },
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    }
+  ]
+}
