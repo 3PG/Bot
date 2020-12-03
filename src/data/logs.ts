@@ -17,13 +17,13 @@ export default class Logs extends DBWrapper<Guild, LogDocument> {
   }
 
   async logChanges(change: Change, guild: Guild) {
-    const log = await this.get(guild);
+    const log = await this.get(guild) as any;
     log.changes.push(change);
     return log.save();
   }
   
   async logCommand(msg: Message, command: Command) {
-    const log = await this.get(msg.guild);
+    const log = await this.get(msg.guild) as any;
     if (log.__v > 1000) return;
     
     log.commands.push({
@@ -35,7 +35,7 @@ export default class Logs extends DBWrapper<Guild, LogDocument> {
   }
 
   async logMessage(msg: Message, validation: MessageValidationMetadata) {
-    const log = await this.get(msg.guild);
+    const log = await this.get(msg.guild) as any;
 
     log.messages.push({ at: new Date(), validation });   
     return log.save();
