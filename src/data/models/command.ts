@@ -7,7 +7,7 @@ export interface CommandDocument extends Document {
   summary: string;
   module: string;
   usage: string;
-  precondition?: PermissionString;
+  precondition?: string;
 }
 
 export const SavedCommand = model<CommandDocument>('command', new Schema({

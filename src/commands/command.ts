@@ -7,7 +7,7 @@ export interface Command {
   name: string;
   summary: string;
   module: string;
-  precondition: Permission;
+  precondition: string;
   usage?: string;
   cooldown?: number;
   

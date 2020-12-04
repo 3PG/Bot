@@ -1,4 +1,4 @@
-import { Command } from '../commands/command';
+import { Command, Permission } from '../commands/command';
 import { GuildMember, TextChannel, Message } from 'discord.js';
 import { GuildDocument, CustomCommand } from '../data/models/guild';
 
@@ -21,7 +21,7 @@ export default class Validators {
   }
 
   checkPreconditions(command: Command, executor: GuildMember) {
-    if (command.precondition && !executor.hasPermission(command.precondition))
+    if (command.precondition && !executor.hasPermission(command.precondition as any))
       throw new TypeError(`**Required Permission**: \`${command.precondition}\``);
   }
 
