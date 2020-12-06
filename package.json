@@ -35,7 +35,7 @@
     "rate-limit-mongo": "^2.3.0",
     "set-interval-async": "^1.0.33",
     "socket.io": "^2.3.0",
-    "stripe": "^8.119.0",
+    "stripe": "^8.127.0",
     "ts-node": "^8.10.1",
     "typescript": "^3.8.3"
   },
